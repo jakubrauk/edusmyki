@@ -1,0 +1,41 @@
+version: "3.8"
+
+# Docker Compose dla lokalnego development z PostgreSQL
+# Domyślnie Strapi używa SQLite - ten plik jest opcjonalny
+# Użyj: docker-compose up -d postgres
+
+services:
+  # PostgreSQL - do testowania konfiguracji produkcyjnej lokalnie
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: strapi_db
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: strapi_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Strapi CMS (opcjonalne - można uruchomić bez Dockera)
+  # strapi:
+  #   build:
+  #     context: ./apps/cms
+  #   environment:
+  #     DATABASE_CLIENT: postgres
+  #     DATABASE_URL: postgresql://strapi:strapi_local@postgres:5432/strapi_db
+  #     APP_KEYS: "key1,key2,key3,key4"
+  #     JWT_SECRET: "local-jwt-secret"
+  #     ADMIN_JWT_SECRET: "local-admin-jwt-secret"
+  #     API_TOKEN_SALT: "local-api-token-salt"
+  #   ports:
+  #     - "1337:1337"
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - strapi_uploads:/opt/app/public/uploads
+
+volumes:
+  postgres_data:
+  # strapi_uploads:

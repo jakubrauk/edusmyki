@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+apps/cms/node_modules/
+apps/web/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+apps/web/.env.local
+apps/cms/.env
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Strapi
+apps/cms/.tmp/
+apps/cms/public/uploads/
+apps/cms/build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.claude/
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+coverage/
+
+# Misc
+.vercel
+.railway

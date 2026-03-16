@@ -1,0 +1,24 @@
+{
+  "name": "edusmyki-web",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,cms -c blue,yellow \"npm run dev -w apps/web\" \"npm run dev -w apps/cms\"",
+    "build": "npm run build -w apps/cms && npm run build -w apps/web",
+    "build:web": "npm run build -w apps/web",
+    "build:cms": "npm run build -w apps/cms",
+    "dev:web": "npm run dev -w apps/web",
+    "dev:cms": "npm run dev -w apps/cms",
+    "types:generate": "npm run types:generate -w apps/cms"
+  },
+  "dependencies": {
+    "date-fns": "2.30.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
