@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_order_invoice_data",
+  "info": {
+    "displayName": "Invoice Data",
+    "icon": "file-invoice"
+  },
+  "options": {},
+  "attributes": {
+    "companyName": {
+      "type": "string"
+    },
+    "nip": {
+      "type": "string",
+      "maxLength": 10
+    },
+    "address": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "postalCode": {
+      "type": "string",
+      "maxLength": 6
+    },
+    "country": {
+      "type": "string",
+      "default": "PL",
+      "maxLength": 2
+    }
+  }
+}

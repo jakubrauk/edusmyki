@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_order_order_items",
+  "info": {
+    "displayName": "Order Item",
+    "icon": "shopping-cart"
+  },
+  "options": {},
+  "attributes": {
+    "ebook": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ebook.ebook"
+    },
+    "ebookTitle": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    }
+  }
+}

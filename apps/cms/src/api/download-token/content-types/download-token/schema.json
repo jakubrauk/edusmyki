@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "download_tokens",
+  "info": {
+    "singularName": "download-token",
+    "pluralName": "download-tokens",
+    "displayName": "Token pobrania",
+    "description": "Jednorazowe tokeny do pobierania ebooków"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "token": {
+      "type": "uid",
+      "required": true,
+      "unique": true
+    },
+    "order": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order.order"
+    },
+    "ebook": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ebook.ebook"
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "expiresAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "downloadCount": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "maxDownloads": {
+      "type": "integer",
+      "default": 5,
+      "min": 1
+    },
+    "lastDownloadedAt": {
+      "type": "datetime"
+    },
+    "ipAddress": {
+      "type": "string"
+    }
+  }
+}
