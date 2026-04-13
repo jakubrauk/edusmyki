@@ -5,7 +5,7 @@ import { EbookCard } from "@/components/catalog/EbookCard";
 import { Button } from "@/components/ui/button";
 import { HeroDecorations } from "@/components/HeroDecorations";
 import {
-  ArrowRight, BookOpen, ShieldCheck, Download, Star,
+  ArrowRight, BookOpen, Download, Star,
   CheckCircle2, Clock, Users, Sparkles, FileText,
   GraduationCap, Heart, Zap, Trophy,
 } from "lucide-react";
@@ -26,7 +26,7 @@ export default async function HomePage() {
     <>
       {/* ─── HERO ─── */}
       <section
-        className="relative min-h-[calc(100vh-64px)] overflow-hidden"
+        className="relative min-h-[calc(100vh-80px)] overflow-hidden"
         style={{
           backgroundColor: "#FDF5EC",
           backgroundImage:
@@ -34,7 +34,7 @@ export default async function HomePage() {
         }}
       >
         <HeroDecorations />
-        <div className="container mx-auto flex min-h-[calc(100vh-64px)] flex-col items-center gap-12 px-4 py-16 md:flex-row md:gap-8 md:py-0">
+        <div className="container mx-auto flex min-h-[calc(100vh-80px)] flex-col items-center gap-12 px-4 py-16 md:flex-row md:gap-8 md:py-0">
 
           {/* ── Left: text content ── */}
           <div className="relative z-10 flex flex-1 flex-col items-start justify-center">
@@ -52,21 +52,30 @@ export default async function HomePage() {
               className="animate-slide-up mb-5 text-4xl font-bold leading-tight tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
               style={{ animationDelay: "0.1s" }}
             >
-              Profesjonalne ebooki{" "}
+              Materiały dla{" "}
               <span className="relative inline-block whitespace-nowrap" style={{ color: "#F5A623" }}>
-                dla żłobków
+                żłobków i przedszkoli
                 <svg className="absolute -bottom-1 left-0 w-full" height="5" viewBox="0 0 300 5" fill="none">
                   <path d="M0 2.5 Q75 0 150 2.5 Q225 5 300 2.5" stroke="#F5A623" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.6"/>
                 </svg>
               </span>
+              {" "}– dokumentacja, scenariusze i pomoce dydaktyczne
             </h1>
 
             <p
-              className="animate-slide-up mb-8 max-w-lg text-lg text-gray-600 leading-relaxed"
+              className="animate-slide-up mb-2 max-w-lg text-xl font-semibold text-gray-700 leading-snug"
+              style={{ animationDelay: "0.15s" }}
+            >
+              Gotowe materiały dla dyrektorów, nauczycieli i opiekunów dzieci
+            </p>
+
+            <p
+              className="animate-slide-up mb-8 max-w-lg text-base text-gray-600 leading-relaxed"
               style={{ animationDelay: "0.2s" }}
             >
-              Gotowe procedury, regulaminy i dokumenty dla opiekunów małych dzieci —
-              stworzone przez ekspertów. Pobierz, wydrukuj, wdróż — już dziś.
+              Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy,
+              scenariusze zajęć oraz dokumentację dla opiekunów i nauczycieli.
+              Pobierz gotowe materiały, wydrukuj i wykorzystaj od razu w swojej placówce.
             </p>
 
             <div
@@ -101,7 +110,7 @@ export default async function HomePage() {
               style={{ animationDelay: "0.5s" }}
             >
               {[
-                { icon: Users,        text: "500+ właścicieli żłobków" },
+                { icon: Users,        text: "500+ dyrektorów i właścicieli" },
                 { icon: CheckCircle2, text: "Zgodne z przepisami" },
                 { icon: Zap,          text: "Dostęp w kilka sekund" },
               ].map(({ icon: Icon, text }) => (
@@ -132,7 +141,7 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {[
-              { value: "500+", label: "właścicieli żłobków",    icon: Users },
+              { value: "500+", label: "dyrektorów i właścicieli",    icon: Users },
               { value: "50+",  label: "dostępnych ebooków",     icon: BookOpen },
               { value: "30",   label: "dni dostępu po zakupie", icon: Clock },
               { value: "100%", label: "zgodność z przepisami",  icon: Trophy },
@@ -166,8 +175,8 @@ export default async function HomePage() {
             {[
               {
                 step: "01", icon: BookOpen,
-                title: "Wybierz ebooka",
-                desc: "Przeglądaj katalog i znajdź dokumenty dopasowane do Twojego żłobka — procedury, regulaminy, umowy.",
+                title: "Wybierz materiały",
+                desc: "Przeglądaj katalog i znajdź dokumenty dopasowane do Twojej placówki — procedury, regulaminy, scenariusze zajęć.",
                 bg: "linear-gradient(135deg, #FFF3DC, #FFE4A0)",
                 color: "#F5A623", border: "#FFD875",
               },
@@ -181,7 +190,7 @@ export default async function HomePage() {
               {
                 step: "03", icon: Download,
                 title: "Pobierz i wdróż",
-                desc: "Link do PDF trafia na e-mail w kilka sekund. Uzupełnij dane żłobka i gotowe.",
+                desc: "Link do PDF trafia na e-mail w kilka sekund. Uzupełnij dane placówki i gotowe.",
                 bg: "linear-gradient(135deg, #EDF9E8, #C8F0BC)",
                 color: "#7BC44C", border: "#A5D99B",
               },
@@ -282,46 +291,70 @@ export default async function HomePage() {
             >
               Dlaczego my?
             </span>
-            <h2 className="text-4xl font-bold text-gray-900">Twój czas jest cenny</h2>
+            <h2 className="text-4xl font-bold text-gray-900">Materiały do żłobka i przedszkola – gotowe rozwiązania</h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 icon: BookOpen, color: "#F5A623", bg: "#FFF3DC",
-                title: "Ekspercka wiedza",
-                desc: "Każdy ebook tworzony jest przez praktyków z wieloletnim doświadczeniem w prowadzeniu żłobków. Żadnej teorii — tylko gotowe rozwiązania.",
+                title: "Materiały dla żłobków",
+                desc: "Procedury, regulaminy i dokumentacja dostosowana do specyfiki żłobka — gotowe do uzupełnienia i druku.",
+                tag: "Żłobki",
               },
               {
-                icon: ShieldCheck, color: "#7BC44C", bg: "#EDF9E8",
-                title: "Zawsze zgodne z prawem",
-                desc: "Regularnie aktualizujemy dokumenty zgodnie z Ustawą o opiece nad dziećmi do lat 3 i przepisami sanitarnymi.",
+                icon: GraduationCap, color: "#4BBFCA", bg: "#E2F7FA",
+                title: "Materiały dla przedszkoli",
+                desc: "Scenariusze zajęć, pomoce dydaktyczne i dokumentacja dla nauczycieli wychowania przedszkolnego.",
+                tag: "Przedszkola",
               },
               {
-                icon: Zap, color: "#4BBFCA", bg: "#E2F7FA",
-                title: "Natychmiastowy dostęp",
-                desc: "Po zakupie link do PDF trafia na e-mail w kilka sekund. Bez oczekiwania, bez rejestracji.",
+                icon: FileText, color: "#7BC44C", bg: "#EDF9E8",
+                title: "Dokumentacja placówki",
+                desc: "Gotowe wzory dokumentów dla żłobków i przedszkoli — procedury, regulaminy i formularze w jednym miejscu.",
+                tag: "Dokumentacja",
               },
               {
-                icon: CheckCircle2, color: "#F5A623", bg: "#FFF3DC",
+                icon: Users, color: "#F5A623", bg: "#FFF3DC",
+                title: "Dla każdej roli",
+                desc: "Scenariusze zajęć dla najmłodszych, dokumentacja dla opiekunek oraz gotowe procedury dla dyrektorów placówek.",
+                tag: "Dla zespołu",
+              },
+              {
+                icon: Heart, color: "#4BBFCA", bg: "#E2F7FA",
+                title: "Codzienna praca",
+                desc: "Nasze materiały pomagają w codziennej pracy, oszczędzają czas i pozwalają skupić się na tym, co ważne — dzieciach.",
+                tag: "Praktyczne",
+              },
+              {
+                icon: Download, color: "#7BC44C", bg: "#EDF9E8",
                 title: "Gotowe do wdrożenia",
-                desc: "Wystarczy uzupełnić dane żłobka. Oszczędzasz godziny pracy i koszty konsultacji prawnych.",
+                desc: "Materiały w PDF do pobrania i druku — możesz wdrożyć je od razu w swojej placówce bez dodatkowego przygotowania.",
+                tag: "PDF",
               },
-            ].map(({ icon: Icon, color, bg, title, desc }) => (
+            ].map(({ icon: Icon, color, bg, title, desc, tag }) => (
               <div
                 key={title}
-                className="flex gap-5 rounded-3xl p-7 transition-all hover:-translate-y-1 hover:shadow-md"
+                className="flex flex-col gap-4 rounded-3xl p-7 transition-all hover:-translate-y-1 hover:shadow-md"
                 style={{ backgroundColor: bg }}
               >
-                <div
-                  className="mt-0.5 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl text-white shadow-sm"
-                  style={{ backgroundColor: color }}
-                >
-                  <Icon className="h-6 w-6" />
+                <div className="flex items-start justify-between">
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm"
+                    style={{ backgroundColor: color }}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <span
+                    className="rounded-full px-3 py-1 text-xs font-semibold text-white"
+                    style={{ backgroundColor: color }}
+                  >
+                    {tag}
+                  </span>
                 </div>
                 <div>
                   <h3 className="mb-1.5 text-lg font-bold text-gray-900">{title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{desc}</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
@@ -339,7 +372,7 @@ export default async function HomePage() {
             >
               ❤️ Opinie
             </span>
-            <h2 className="text-4xl font-bold text-gray-900">Co mówią właściciele żłobków?</h2>
+            <h2 className="text-4xl font-bold text-gray-900">Co mówią dyrektorzy i właściciele placówek?</h2>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
@@ -401,10 +434,10 @@ export default async function HomePage() {
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
           <h2 className="mx-auto mb-4 max-w-2xl text-4xl font-bold text-white leading-tight md:text-5xl">
-            Profesjonalne zarządzanie żłobkiem w zasięgu ręki
+            Nasze materiały wspierają pracę żłobków i przedszkoli
           </h2>
           <p className="mb-10 text-lg text-white/80">
-            Dołącz do setek właścicieli żłobków, którzy już korzystają z naszych materiałów.
+            Scenariusze zajęć, dokumentacja dla opiekunek i gotowe procedury dla dyrektorów — przygotowane w PDF do pobrania i druku.
           </p>
           <Button
             asChild
@@ -417,6 +450,22 @@ export default async function HomePage() {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
+        </div>
+      </section>
+
+      {/* ─── SEO TEXT ─── */}
+      <section className="py-12 bg-white border-t" style={{ borderColor: "#F0E8DC" }}>
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center text-sm text-gray-400 leading-relaxed space-y-2">
+            <p>
+              <strong className="text-gray-500">Materiały dla żłobków i przedszkoli</strong> — gotowe procedury, regulaminy,
+              scenariusze zajęć i dokumentacja w formacie PDF. Pobierz, wydrukuj i wdróż od razu w swojej placówce.
+            </p>
+            <p>
+              Nasze materiały wspierają dyrektorów, właścicieli i opiekunów w codziennej pracy —
+              zgodne z aktualnymi przepisami, tworzone przez praktyków.
+            </p>
+          </div>
         </div>
       </section>
     </>

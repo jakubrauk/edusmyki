@@ -4,6 +4,7 @@ const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 const strapiHost = new URL(strapiUrl).hostname;
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["bubbling-conical-charcoal.ngrok-free.dev"],
   images: {
     // In dev Strapi runs on localhost (private IP) which Next.js blocks by default.
     // Disabling optimization locally avoids the private-IP fetch entirely.

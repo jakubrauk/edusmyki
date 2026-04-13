@@ -6,13 +6,14 @@ const P24_BASE_URL =
     ? "https://sandbox.przelewy24.pl"
     : "https://secure.przelewy24.pl";
 
-const MERCHANT_ID = Number(process.env.P24_MERCHANT_ID);
-const POS_ID = Number(process.env.P24_POS_ID) || MERCHANT_ID;
+const MERCHANT_ID = parseInt(process.env.P24_MERCHANT_ID!, 10);
+const POS_ID = parseInt(process.env.P24_POS_ID || process.env.P24_MERCHANT_ID!, 10);
 const API_KEY = process.env.P24_API_KEY!;
 const CRC_KEY = process.env.P24_CRC_KEY!;
 
 function generateSign(data: Record<string, string | number>): string {
   const json = JSON.stringify(data);
+  console.log("[P24] sign input:", json);
   return crypto.createHash("sha384").update(json).digest("hex");
 }
 
@@ -22,10 +23,9 @@ export async function registerTransaction(params: {
   amount: number; // in grosze (PLN * 100)
   description: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  client: string; // full name: "firstName lastName"
   urlReturn: string;
-  urlStatus: string;
+  urlStatus?: string;
 }): Promise<string> {
   const sign = generateSign({
     sessionId: params.sessionId,
@@ -35,7 +35,7 @@ export async function registerTransaction(params: {
     crc: CRC_KEY,
   });
 
-  const body = {
+  const body: Record<string, unknown> = {
     merchantId: MERCHANT_ID,
     posId: POS_ID,
     sessionId: params.sessionId,
@@ -43,16 +43,20 @@ export async function registerTransaction(params: {
     currency: "PLN",
     description: params.description,
     email: params.email,
-    firstName: params.firstName,
-    lastName: params.lastName,
+    client: params.client,
     country: "PL",
     language: "pl",
     urlReturn: params.urlReturn,
-    urlStatus: params.urlStatus,
     sign,
   };
 
+  if (params.urlStatus) {
+    body.urlStatus = params.urlStatus;
+  }
+
   const credentials = Buffer.from(`${POS_ID}:${API_KEY}`).toString("base64");
+
+  console.log("[P24] register body:", JSON.stringify(body, null, 2));
 
   const res = await fetch(`${P24_BASE_URL}/api/v1/transaction/register`, {
     method: "POST",

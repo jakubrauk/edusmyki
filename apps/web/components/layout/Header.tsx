@@ -19,20 +19,17 @@ export function Header() {
   useEffect(() => { setMounted(true); }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur-sm shadow-sm">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur-sm shadow-sm overflow-visible">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/logo.jpeg"
+            src="/logo_noback.png"
             alt="EduSmyk logo"
-            width={48}
-            height={48}
-            className="rounded-full object-cover"
+            width={110}
+            height={110}
+            className="object-contain relative z-10"
           />
-          <span className="font-bold text-xl hidden sm:block" style={{ color: "#F5A623" }}>
-            edusmyki.pl
-          </span>
         </Link>
 
         {/* Desktop nav */}
@@ -81,7 +78,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent>
               <div className="flex items-center gap-2 mb-8">
-                <Image src="/logo.jpeg" alt="EduSmyk" width={40} height={40} className="rounded-full" />
+                <Image src="/logo_noback.png" alt="EduSmyk" width={110} height={110} className="object-contain" />
                 <span className="font-bold text-lg" style={{ color: "#F5A623" }}>edusmyki.pl</span>
               </div>
               <nav className="flex flex-col gap-4">

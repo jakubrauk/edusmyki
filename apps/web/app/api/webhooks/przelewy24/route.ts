@@ -71,22 +71,22 @@ export async function POST(req: NextRequest) {
     }
 
     // Update order status in Strapi
-    const updatedOrder = await updateOrderStatus(
+    await updateOrderStatus(
       order.documentId,
       "paid",
       String(payload.orderId)
     );
 
     // Generate download tokens (one per ebook in the order)
-    await generateDownloadTokensForOrder(updatedOrder);
+    await generateDownloadTokensForOrder(order);
 
     // Send confirmation email with download links
-    const tokens = await getDownloadTokensByEmail(updatedOrder.guestEmail!);
+    const tokens = await getDownloadTokensByEmail(order.guestEmail!);
     const newTokens = tokens.filter((t) =>
-      updatedOrder.items.some((i) => i.ebook.id === t.ebook.id)
+      order.items.some((i) => i.ebook.id === t.ebook.id)
     );
 
-    await sendOrderConfirmationEmail(updatedOrder, newTokens);
+    await sendOrderConfirmationEmail(order, newTokens);
 
     return NextResponse.json({ status: "ok" });
   } catch (error) {
