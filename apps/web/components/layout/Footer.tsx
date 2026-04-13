@@ -8,11 +8,11 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           <div>
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/logo.jpeg" alt="EduSmyk" width={40} height={40} className="rounded-full" />
+              <Image src="/logo_noback.png" alt="EduSmyk" width={110} height={110} className="object-contain" />
               <span className="font-bold text-lg" style={{ color: "#F5A623" }}>edusmyki.pl</span>
             </Link>
             <p className="mt-3 text-sm text-gray-500">
-              Profesjonalne ebooki dla dyrektorów i właścicieli przedszkoli i żłobków.
+              Praktyczne materiały dla żłobków i przedszkoli — dokumentacja, scenariusze zajęć i pomoce dydaktyczne.
             </p>
           </div>
           <div>

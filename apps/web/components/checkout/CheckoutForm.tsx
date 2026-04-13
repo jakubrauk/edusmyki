@@ -121,6 +121,16 @@ export function CheckoutForm() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-lg font-medium">Przekierowywanie do płatności...</p>
+        <p className="text-sm text-gray-500">Za chwilę zostaniesz przeniesiony na stronę Przelewy24.</p>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-8 lg:grid-cols-3">

@@ -72,9 +72,8 @@ export async function POST(req: NextRequest) {
       amount: amountInGrosze,
       description: `Zamówienie ${orderNumber} - edusmyki.pl`,
       email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      urlReturn: `${APP_URL}/checkout/sukces?sessionId=${sessionId}`,
+      client: `${data.firstName} ${data.lastName}`,
+      urlReturn: `${APP_URL}/checkout/sukces`,
       urlStatus: `${APP_URL}/api/webhooks/przelewy24`,
     });
 

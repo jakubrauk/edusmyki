@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "https://edusmyki.pl"
   ),
+  icons: {
+    icon: "/logo_noback.png",
+    apple: "/logo_noback.png",
+  },
   openGraph: {
     siteName: "edusmyki.pl",
     locale: "pl_PL",
