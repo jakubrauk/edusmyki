@@ -300,7 +300,12 @@ export function CheckoutForm() {
               <Separator />
               <div className="flex justify-between font-bold">
                 <span>Łącznie:</span>
-                <span className="text-blue-600">{totalPrice().toFixed(2)} zł</span>
+                <span
+                  className="font-extrabold"
+                  style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}
+                >
+                  {totalPrice().toFixed(2)} zł
+                </span>
               </div>
               <p className="text-xs text-gray-500">
                 Płatność obsługiwana przez Przelewy24 (BLIK, karta, przelew)

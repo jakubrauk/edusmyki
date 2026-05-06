@@ -12,13 +12,13 @@ export default function KontoLayout({ children }: { children: React.ReactNode })
       <main className="flex-1">
         <div className="container mx-auto px-4 py-10">
           <nav className="mb-8 flex gap-4 border-b pb-4 text-sm">
-            <Link href="/konto" className="font-medium hover:text-blue-600">
+            <Link href="/konto" className="font-medium hover:text-[#4BBFCA]">
               Pulpit
             </Link>
-            <Link href="/konto/zamowienia" className="hover:text-blue-600">
+            <Link href="/konto/zamowienia" className="hover:text-[#4BBFCA]">
               Zamówienia
             </Link>
-            <Link href="/konto/ebooki" className="hover:text-blue-600">
+            <Link href="/konto/ebooki" className="hover:text-[#4BBFCA]">
               Moje ebooki
             </Link>
           </nav>

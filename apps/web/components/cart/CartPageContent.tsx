@@ -54,7 +54,7 @@ export function CartPageContent() {
                 </div>
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
-                    <Link href={`/katalog/${item.slug}`} className="font-semibold hover:text-blue-600">
+                    <Link href={`/katalog/${item.slug}`} className="font-semibold hover:text-[#F5A623]">
                       {item.title}
                     </Link>
                     <p className="mt-1 text-sm text-gray-500 line-clamp-1">
@@ -62,7 +62,10 @@ export function CartPageContent() {
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-blue-600">
+                    <span
+                      className="font-extrabold"
+                      style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}
+                    >
                       {item.price.toFixed(2)} zł
                     </span>
                     <Button
@@ -93,7 +96,12 @@ export function CartPageContent() {
             <Separator />
             <div className="flex justify-between font-bold text-lg">
               <span>Łącznie:</span>
-              <span className="text-blue-600">{totalPrice().toFixed(2)} zł</span>
+              <span
+                className="font-extrabold"
+                style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}
+              >
+                {totalPrice().toFixed(2)} zł
+              </span>
             </div>
             <p className="text-xs text-gray-500">Ceny zawierają VAT</p>
             <Button asChild className="w-full" size="lg">
