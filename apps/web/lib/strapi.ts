@@ -1,6 +1,8 @@
 import type { Ebook, Category, Order, DownloadToken, StrapiResponse } from "@/types";
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+// STRAPI_URL (no prefix) is read at runtime server-side; NEXT_PUBLIC_STRAPI_URL is the
+// build-time fallback used in client bundles for image URL construction.
+const STRAPI_URL = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 
 async function strapiRequest<T>(
