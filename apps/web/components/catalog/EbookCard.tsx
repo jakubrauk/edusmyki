@@ -57,7 +57,7 @@ export function EbookCard({ ebook }: EbookCardProps) {
       </CardContent>
 
       <CardFooter className="flex items-center justify-between border-t pt-4" style={{ borderTopColor: "#F0E8DC" }}>
-        <span className="text-xl font-extrabold" style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}>
+        <span className="font-extrabold font-display" style={{ color: "#F5A623" }}>
           {ebook.price.toFixed(2)} zł
         </span>
         <Button asChild size="sm" className="text-white border-0 rounded-full" style={{ backgroundColor: "#4BBFCA" }}>
