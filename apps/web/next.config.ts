@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
-const strapiUrl = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-const strapiHost = new URL(strapiUrl).hostname;
+const strapiInternalUrl = process.env.STRAPI_URL || "http://localhost:1337";
+const strapiPublicUrl = process.env.NEXT_PUBLIC_STRAPI_URL || strapiInternalUrl;
+const strapiInternalHost = new URL(strapiInternalUrl).hostname;
+const strapiPublicHost = new URL(strapiPublicUrl).hostname;
+
+const uniqueHosts = [...new Set([strapiInternalHost, strapiPublicHost])];
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["bubbling-conical-charcoal.ngrok-free.dev"],
@@ -10,16 +14,10 @@ const nextConfig: NextConfig = {
     // Disabling optimization locally avoids the private-IP fetch entirely.
     unoptimized: process.env.NODE_ENV === "development",
     remotePatterns: [
-      {
-        protocol: "http",
-        hostname: strapiHost,
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: strapiHost,
-        pathname: "/uploads/**",
-      },
+      ...uniqueHosts.flatMap((host) => [
+        { protocol: "http" as const, hostname: host, pathname: "/uploads/**" },
+        { protocol: "https" as const, hostname: host, pathname: "/uploads/**" },
+      ]),
       // Cloudflare R2
       {
         protocol: "https",
