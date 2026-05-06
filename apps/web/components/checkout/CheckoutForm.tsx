@@ -138,7 +138,7 @@ export function CheckoutForm() {
           {/* Contact data */}
           <Card>
             <CardHeader>
-              <CardTitle>Dane kontaktowe</CardTitle>
+              <CardTitle>👤 Dane kontaktowe</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -175,7 +175,7 @@ export function CheckoutForm() {
           {/* Invoice */}
           <Card>
             <CardHeader>
-              <CardTitle>Faktura VAT</CardTitle>
+              <CardTitle>🧾 Faktura VAT</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-2">
@@ -228,7 +228,7 @@ export function CheckoutForm() {
           {/* Consents */}
           <Card>
             <CardHeader>
-              <CardTitle>Zgody</CardTitle>
+              <CardTitle>📋 Zgody</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-start gap-2">
@@ -288,7 +288,7 @@ export function CheckoutForm() {
 
         {/* Order summary */}
         <div>
-          <Card>
+          <Card style={{ background: "#FFFBF5", borderColor: "#FFE4A0" }}>
             <CardContent className="pt-6 space-y-4">
               <h2 className="text-lg font-semibold">Twoje zamówienie</h2>
               {items.map((item) => (
@@ -310,7 +310,7 @@ export function CheckoutForm() {
               <p className="text-xs text-gray-500">
                 Płatność obsługiwana przez Przelewy24 (BLIK, karta, przelew)
               </p>
-              <Button type="submit" className="w-full" size="lg" disabled={loading}>
+              <Button type="submit" className="w-full rounded-full bg-[#F5A623] hover:bg-[#e09410]" size="lg" disabled={loading}>
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

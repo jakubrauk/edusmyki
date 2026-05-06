@@ -1,4 +1,5 @@
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export const metadata = {
   title: "Zamówienie",
@@ -7,7 +8,12 @@ export const metadata = {
 export default function CheckoutPage() {
   return (
     <div className="container mx-auto px-4 py-10">
-      <h1 className="mb-8 text-3xl font-bold">Realizacja zamówienia</h1>
+      <PageHeader
+        pill="💳 Zamówienie"
+        pillColor="#7BC44C"
+        title="Realizacja zamówienia"
+        description="Podaj dane, opłać i pobierz od razu"
+      />
       <CheckoutForm />
     </div>
   );
