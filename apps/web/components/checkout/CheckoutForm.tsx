@@ -240,11 +240,11 @@ export function CheckoutForm() {
                 />
                 <Label htmlFor="termsAccepted" className="cursor-pointer text-sm leading-relaxed">
                   Akceptuję{" "}
-                  <Link href="/regulamin" className="text-blue-600 underline" target="_blank">
+                  <Link href="/regulamin" className="text-[#4BBFCA] underline" target="_blank">
                     regulamin
                   </Link>{" "}
                   i{" "}
-                  <Link href="/polityka-prywatnosci" className="text-blue-600 underline" target="_blank">
+                  <Link href="/polityka-prywatnosci" className="text-[#4BBFCA] underline" target="_blank">
                     politykę prywatności
                   </Link>{" "}
                   *
