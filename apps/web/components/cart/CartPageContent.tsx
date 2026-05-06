@@ -15,7 +15,7 @@ export function CartPageContent() {
   if (items.length === 0) {
     return (
       <div className="py-20 text-center">
-        <ShoppingBag className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+        <ShoppingBag className="mx-auto mb-4 h-16 w-16" style={{ color: "#F5A623" }} />
         <h2 className="mb-2 text-xl font-semibold text-gray-600">
           Twój koszyk jest pusty
         </h2>
@@ -72,7 +72,7 @@ export function CartPageContent() {
                       variant="ghost"
                       size="sm"
                       onClick={() => removeItem(item.ebookId)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-gray-400 hover:text-red-500"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -86,7 +86,7 @@ export function CartPageContent() {
 
       {/* Summary */}
       <div>
-        <Card>
+        <Card className="bg-[#FFFBF5] border border-[#FFE4A0]">
           <CardContent className="pt-6 space-y-4">
             <h2 className="text-lg font-semibold">Podsumowanie</h2>
             <div className="flex justify-between text-sm">
@@ -104,7 +104,7 @@ export function CartPageContent() {
               </span>
             </div>
             <p className="text-xs text-gray-500">Ceny zawierają VAT</p>
-            <Button asChild className="w-full" size="lg">
+            <Button asChild className="w-full rounded-full" size="lg">
               <Link href="/checkout">Przejdź do kasy</Link>
             </Button>
             <Button asChild variant="outline" className="w-full">
