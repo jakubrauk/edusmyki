@@ -1,0 +1,287 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; font-size:13px; color:#1f2937; }
+  h3 { font-family:'Baloo 2',cursive; font-weight:700; font-size:16px; color:#111827; margin-bottom:12px; }
+  .section { margin-bottom:36px; }
+  .side-by-side { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+  @media(max-width:650px){ .side-by-side{grid-template-columns:1fr;} }
+  .box-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:#9ca3af; margin-bottom:10px; }
+  .box-label.ok { color:#4BBFCA; }
+  code { background:#f3f4f6; padding:1px 5px; border-radius:4px; font-size:11px; }
+
+  /* Shared mockup wrapper */
+  .mockup-wrap { border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+  .mockup-wrap.ok { border-color:#4BBFCA; }
+  .page-header { background:linear-gradient(135deg,#FFF3DC 0%,#FFF8F0 60%,#E2F7FA 100%); border-bottom:1px solid #FFE4A0; padding:18px 20px 16px; }
+  .ph-pill { display:inline-block; color:white; font-size:10px; font-weight:700; padding:2px 9px; border-radius:999px; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.4px; }
+  .ph-h1 { font-family:'Baloo 2',cursive; font-size:20px; font-weight:800; color:#111827; margin-bottom:2px; }
+  .ph-desc { font-size:12px; color:#6b7280; }
+  .bare-h { padding:16px 20px; background:white; border-bottom:1px solid #e5e7eb; }
+  .bare-h h1 { font-family:'Baloo 2',cursive; font-size:20px; font-weight:700; color:#111827; }
+  .content-area { padding:16px 20px; background:#fafafa; }
+
+  /* Cart items */
+  .cart-item { background:white; border:1.5px solid #e5e7eb; border-radius:10px; padding:10px 12px; display:flex; gap:10px; align-items:center; margin-bottom:8px; }
+  .cart-cover { width:40px; height:50px; background:linear-gradient(135deg,#FFF3DC,#FFE4A0); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+  .cart-info { flex:1; }
+  .cart-title { font-weight:600; font-size:12px; color:#111827; margin-bottom:2px; }
+  .cart-desc { font-size:10px; color:#9ca3af; }
+  .cart-price-before { font-size:13px; font-weight:700; color:#2563eb; }
+  .cart-price-after { font-family:'Baloo 2',cursive; font-size:14px; font-weight:800; color:#F5A623; }
+  .cart-del-before { font-size:11px; color:#ef4444; border:1px solid #fecaca; border-radius:6px; padding:2px 6px; }
+  .cart-del-after { font-size:11px; color:#9ca3af; }
+
+  /* Summary box */
+  .summary-box { background:white; border:1.5px solid #e5e7eb; border-radius:10px; padding:14px; }
+  .summary-box.ok { border-color:#FFE4A0; background:#FFFBF5; }
+  .sum-row { display:flex; justify-content:space-between; font-size:12px; color:#6b7280; margin-bottom:6px; }
+  .sum-total-before { display:flex; justify-content:space-between; font-weight:700; font-size:14px; padding-top:8px; border-top:1px solid #f3f4f6; }
+  .sum-total-after { display:flex; justify-content:space-between; font-weight:700; font-size:14px; padding-top:8px; border-top:1px solid #FFE4A0; }
+  .price-blue { color:#2563eb; }
+  .price-orange { font-family:'Baloo 2',cursive; color:#F5A623; font-size:16px; font-weight:800; }
+  .btn-cta-before { width:100%; background:#111827; color:white; border:none; border-radius:8px; padding:10px; font-size:13px; font-weight:600; margin-top:10px; text-align:center; }
+  .btn-cta-after { width:100%; background:#F5A623; color:white; border:none; border-radius:999px; padding:10px; font-size:13px; font-weight:700; margin-top:10px; text-align:center; box-shadow:0 4px 12px rgba(245,166,35,0.3); }
+
+  /* Checkout form */
+  .form-section { background:white; border:1.5px solid #e5e7eb; border-radius:10px; padding:14px; margin-bottom:8px; }
+  .form-section.ok { border-color:#e5e7eb; }
+  .form-title-before { font-size:14px; font-weight:600; color:#111827; margin-bottom:10px; }
+  .form-title-after { font-family:'Baloo 2',cursive; font-size:15px; font-weight:700; color:#111827; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .form-field { margin-bottom:8px; }
+  .form-label { font-size:11px; font-weight:600; color:#374151; margin-bottom:4px; display:block; }
+  .form-input-before { width:100%; border:1px solid #d1d5db; border-radius:6px; padding:7px 10px; font-size:12px; color:#9ca3af; background:white; }
+  .form-input-after { width:100%; border:1.5px solid #e5e7eb; border-radius:8px; padding:8px 12px; font-size:12px; color:#9ca3af; background:white; transition:border-color 0.2s; }
+  .form-input-after:focus { border-color:#4BBFCA; outline:none; }
+
+  /* Custom checkbox before */
+  .cb-before { display:flex; gap:6px; align-items:flex-start; margin-bottom:6px; }
+  .cb-before input { width:14px; height:14px; margin-top:1px; flex-shrink:0; }
+  .cb-before label { font-size:11px; color:#374151; line-height:1.5; }
+
+  /* Custom checkbox after */
+  .cb-after { display:flex; gap:8px; align-items:flex-start; margin-bottom:8px; }
+  .cb-box { width:16px; height:16px; border:2px solid #d1d5db; border-radius:4px; flex-shrink:0; margin-top:1px; }
+  .cb-box.checked { background:#F5A623; border-color:#F5A623; display:flex; align-items:center; justify-content:center; }
+  .cb-box.checked::after { content:'✓'; color:white; font-size:10px; font-weight:700; }
+  .cb-after label { font-size:11px; color:#374151; line-height:1.5; }
+
+  /* Phone frames */
+  .phone-frame { width:100%; max-width:220px; margin:0 auto; background:#1a1a1a; border-radius:30px; padding:7px; box-shadow:0 16px 40px rgba(0,0,0,0.2); }
+  .phone-screen { background:white; border-radius:24px; overflow:hidden; }
+  .phone-notch { height:14px; display:flex; align-items:center; justify-content:center; }
+  .phone-notch::after { content:''; width:40px; height:4px; background:#1a1a1a; border-radius:999px; }
+  .mob-header { padding:8px 12px; display:flex; justify-content:space-between; border-bottom:1px solid #f3f4f6; }
+  .mob-logo { font-family:'Baloo 2',cursive; font-weight:800; font-size:12px; color:#F5A623; }
+
+  /* Success / Error pages */
+  .status-page { padding:28px 20px; text-align:center; }
+  .status-icon-before { font-size:40px; margin-bottom:12px; }
+  .status-icon-after { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:28px; }
+  .status-h1 { font-family:'Baloo 2',cursive; font-size:20px; font-weight:800; color:#111827; margin-bottom:8px; }
+  .status-p { font-size:12px; color:#6b7280; line-height:1.6; max-width:240px; margin:0 auto 14px; }
+  .status-info { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#9ca3af; margin-bottom:14px; }
+  .btn-primary { background:#F5A623; color:white; border-radius:999px; padding:8px 18px; font-size:12px; font-weight:700; display:inline-block; margin:4px; }
+  .btn-outline { border:1.5px solid #e5e7eb; color:#374151; border-radius:999px; padding:8px 18px; font-size:12px; font-weight:600; display:inline-block; margin:4px; }
+  .btn-outline.teal { border-color:#4BBFCA; color:#4BBFCA; }
+</style>
+
+<h2>Sekcja 3 — Koszyk, Checkout, Sukces/Błąd</h2>
+<p class="subtitle">Naprawa kolorów, cieplejsze karty, lepsze checkboxy, spójne strony statusu.</p>
+
+<!-- CART -->
+<div class="section">
+  <h3>Koszyk</h3>
+  <div class="side-by-side">
+    <div>
+      <div class="box-label">❌ Przed</div>
+      <div class="mockup-wrap">
+        <div class="bare-h"><h1>Koszyk</h1></div>
+        <div class="content-area">
+          <div class="cart-item">
+            <div class="cart-cover">📋</div>
+            <div class="cart-info">
+              <div class="cart-title">Procedury dla żłobka</div>
+              <div class="cart-desc">Gotowe wzory dokumentów...</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="cart-price-before">49,00 zł</div>
+              <div class="cart-del-before">🗑 Usuń</div>
+            </div>
+          </div>
+          <div style="height:8px;"></div>
+          <div class="summary-box">
+            <div class="sum-row"><span>Liczba ebooków:</span><span>2</span></div>
+            <div class="sum-total-before"><span>Łącznie:</span><span class="price-blue">88,00 zł</span></div>
+            <div class="btn-cta-before">Przejdź do kasy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="box-label ok">✅ Po</div>
+      <div class="mockup-wrap ok">
+        <div class="page-header">
+          <div class="ph-pill" style="background:#4BBFCA;">🛒 Koszyk</div>
+          <div class="ph-h1">Twój koszyk</div>
+          <div class="ph-desc">2 produkty gotowe do zakupu</div>
+        </div>
+        <div class="content-area">
+          <div class="cart-item">
+            <div class="cart-cover">📋</div>
+            <div class="cart-info">
+              <div class="cart-title">Procedury dla żłobka</div>
+              <div class="cart-desc">Gotowe wzory dokumentów...</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="cart-price-after">49,00 zł</div>
+              <div class="cart-del-after">✕ usuń</div>
+            </div>
+          </div>
+          <div style="height:8px;"></div>
+          <div class="summary-box ok">
+            <div class="sum-row"><span>Liczba ebooków:</span><span>2</span></div>
+            <div class="sum-total-after"><span>Łącznie:</span><span class="price-orange">88,00 zł</span></div>
+            <div class="btn-cta-after">Przejdź do kasy →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT FORM -->
+<div class="section">
+  <h3>Formularz Checkout</h3>
+  <div class="side-by-side">
+    <div>
+      <div class="box-label">❌ Przed — generyczny styl shadcn</div>
+      <div class="mockup-wrap">
+        <div class="bare-h"><h1>Realizacja zamówienia</h1></div>
+        <div class="content-area">
+          <div class="form-section">
+            <div class="form-title-before">Dane kontaktowe</div>
+            <div class="form-field"><div class="form-label">Email *</div><input class="form-input-before" placeholder="twoj@email.pl" readonly></div>
+            <div class="form-row">
+              <div class="form-field"><div class="form-label">Imię *</div><input class="form-input-before" placeholder="Jan" readonly></div>
+              <div class="form-field"><div class="form-label">Nazwisko *</div><input class="form-input-before" placeholder="Kowalski" readonly></div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-title-before">Zgody</div>
+            <div class="cb-before"><input type="checkbox"><label>Akceptuję regulamin i politykę prywatności *</label></div>
+            <div class="cb-before"><input type="checkbox"><label>Zgoda na dostarczenie treści cyfrowej *</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="box-label ok">✅ Po — spójny z marką</div>
+      <div class="mockup-wrap ok">
+        <div class="page-header">
+          <div class="ph-pill" style="background:#7BC44C;">💳 Zamówienie</div>
+          <div class="ph-h1">Realizacja zamówienia</div>
+          <div class="ph-desc">Podaj dane, opłać i pobierz od razu</div>
+        </div>
+        <div class="content-area">
+          <div class="form-section ok">
+            <div class="form-title-after">👤 Dane kontaktowe</div>
+            <div class="form-field"><div class="form-label">Email *</div><input class="form-input-after" placeholder="twoj@email.pl" readonly></div>
+            <div class="form-row">
+              <div class="form-field"><div class="form-label">Imię *</div><input class="form-input-after" placeholder="Jan" readonly></div>
+              <div class="form-field"><div class="form-label">Nazwisko *</div><input class="form-input-after" placeholder="Kowalski" readonly></div>
+            </div>
+          </div>
+          <div class="form-section ok">
+            <div class="form-title-after">📋 Zgody</div>
+            <div class="cb-after"><div class="cb-box checked"></div><label>Akceptuję regulamin i politykę prywatności *</label></div>
+            <div class="cb-after"><div class="cb-box"></div><label>Zgoda na dostarczenie treści cyfrowej *</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS / ERROR -->
+<div class="section">
+  <h3>Strony Sukces i Błąd</h3>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; align-items:start;">
+
+    <div>
+      <div class="box-label" style="text-align:center;">❌ Sukces — przed</div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="mob-header"><div class="mob-logo">🐻 edusmyki</div></div>
+          <div class="status-page">
+            <div class="status-icon-before">✅</div>
+            <div class="status-h1">Dziękujemy za zakup!</div>
+            <div class="status-p">Za chwilę otrzymasz email z linkami do pobrania.</div>
+            <div class="status-info">✉️ Sprawdź skrzynkę email</div>
+            <div><div class="btn-primary" style="font-size:11px;padding:7px 14px;">Moje ebooki</div></div>
+            <div><div class="btn-outline" style="font-size:11px;padding:7px 14px;">Katalog</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="box-label ok" style="text-align:center;">✅ Sukces — po</div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="mob-header"><div class="mob-logo">🐻 edusmyki</div></div>
+          <div class="status-page" style="background:linear-gradient(180deg,#EDF9E8 0%,white 50%);">
+            <div class="status-icon-after" style="background:#EDF9E8; box-shadow:0 4px 20px rgba(123,196,76,0.25);">🎉</div>
+            <div class="status-h1">Dziękujemy za zakup!</div>
+            <div class="status-p">Twoje ebooki są gotowe! Za chwilę link trafi na Twój email.</div>
+            <div class="status-info" style="background:#EDF9E8; border-radius:999px; padding:5px 12px; color:#7BC44C;">✉️ Sprawdź skrzynkę email</div>
+            <div style="margin-top:10px;"><div class="btn-primary" style="font-size:11px;padding:7px 14px;">Moje ebooki →</div></div>
+            <div><div class="btn-outline teal" style="font-size:11px;padding:7px 14px;">Katalog</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="box-label" style="text-align:center;">❌ Błąd — przed</div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="mob-header"><div class="mob-logo">🐻 edusmyki</div></div>
+          <div class="status-page">
+            <div class="status-icon-before">❌</div>
+            <div class="status-h1">Płatność nie powiodła się</div>
+            <div class="status-p">Wystąpił problem. Spróbuj ponownie lub skontaktuj się z nami.</div>
+            <div><div class="btn-primary" style="font-size:11px;padding:7px 14px;">Wróć do koszyka</div></div>
+            <div><div class="btn-outline" style="font-size:11px;padding:7px 14px;">Kontakt</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="box-label ok" style="text-align:center;">✅ Błąd — po</div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="mob-header"><div class="mob-logo">🐻 edusmyki</div></div>
+          <div class="status-page" style="background:linear-gradient(180deg,#FEF2F2 0%,white 50%);">
+            <div class="status-icon-after" style="background:#FEF2F2; box-shadow:0 4px 20px rgba(239,68,68,0.15);">😕</div>
+            <div class="status-h1">Płatność nie powiodła się</div>
+            <div class="status-p">Twoje zamówienie nie zostało zrealizowane. Koszyk jest nadal zapisany.</div>
+            <div style="background:#FEF2F2; border-radius:8px; padding:8px 10px; font-size:10px; color:#6b7280; margin-bottom:10px;">💡 Spróbuj ponownie lub wybierz inną metodę płatności</div>
+            <div><div class="btn-primary" style="font-size:11px;padding:7px 14px;">Wróć do koszyka</div></div>
+            <div><div class="btn-outline teal" style="font-size:11px;padding:7px 14px;">✉️ Kontakt</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:12px;color:#9ca3af;margin-top:8px;">Sekcja 3 OK? Napisz "OK" — to ostatnia sekcja, potem piszę spec i plan implementacji.</p>

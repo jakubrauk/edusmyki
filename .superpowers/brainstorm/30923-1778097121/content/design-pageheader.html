@@ -1,0 +1,202 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; }
+  .section { margin-bottom: 32px; }
+  .tag { display:inline-block; background:#F5A623; color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:999px; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+  .box { background:white; border:1.5px solid #e5e7eb; border-radius:12px; padding:20px; }
+  .box-label { font-size:11px; color:#9ca3af; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px; }
+  .side-by-side { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:650px){ .side-by-side{grid-template-columns:1fr;} }
+  code { background:#f3f4f6; padding:1px 5px; border-radius:4px; font-size:11px; color:#374151; }
+
+  /* PageHeader component */
+  .page-header {
+    background: linear-gradient(135deg, #FFF3DC 0%, #FFF8F0 60%, #E2F7FA 100%);
+    border-bottom: 1px solid #FFE4A0;
+    padding: 28px 24px 24px;
+  }
+  .ph-pill {
+    display: inline-block;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .ph-h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 28px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .ph-desc { font-size: 14px; color: #6b7280; margin: 0; }
+
+  /* Bare before */
+  .bare-page { padding: 24px; background: white; border-bottom: 1px solid #e5e7eb; }
+  .bare-h1 { font-family:'Baloo 2',cursive; font-size:26px; font-weight:700; color:#111827; }
+
+  /* Catalog content */
+  .catalog-content { padding: 16px 20px; background: #fafafa; }
+
+  /* Desktop filter row */
+  .filter-row-desktop { display:flex; gap:8px; margin-bottom:16px; }
+  .mock-input { flex:1; border:1.5px solid #e5e7eb; border-radius:8px; padding:9px 14px; font-size:13px; color:#9ca3af; background:white; }
+  .mock-select { border:1.5px solid #e5e7eb; border-radius:8px; padding:9px 14px; font-size:13px; color:#6b7280; background:white; width:160px; }
+
+  /* Mobile chip filter */
+  .chips-scroll { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none; }
+  .chips-scroll::-webkit-scrollbar { display:none; }
+  .chip { flex-shrink:0; font-size:12px; padding:5px 14px; border-radius:999px; border:1.5px solid #e5e7eb; color:#6b7280; background:white; white-space:nowrap; font-weight:500; }
+  .chip.active { border-color:#4BBFCA; color:#4BBFCA; background:#E2F7FA; font-weight:600; }
+
+  /* Ebook grid */
+  .ebook-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .ebook-card { background:white; border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .ebook-cover { background:linear-gradient(135deg,#FFF3DC,#FFE4A0); height:80px; display:flex; align-items:center; justify-content:center; font-size:28px; }
+  .ebook-body { padding:10px; }
+  .ebook-cat { font-size:9px; color:#4BBFCA; border:1px solid #4BBFCA; border-radius:999px; padding:1px 7px; display:inline-block; margin-bottom:4px; }
+  .ebook-title { font-weight:600; font-size:12px; color:#111827; line-height:1.3; margin-bottom:2px; }
+  .ebook-desc { font-size:10px; color:#9ca3af; line-height:1.4; }
+  .ebook-footer { padding:8px 10px; border-top:1px solid #f3f4f6; display:flex; align-items:center; justify-content:space-between; }
+  .ebook-price { font-family:'Baloo 2',cursive; font-size:14px; font-weight:800; color:#F5A623; }
+  .ebook-btn { background:#4BBFCA; color:white; font-size:10px; font-weight:600; padding:4px 10px; border-radius:999px; }
+
+  /* Mobile list */
+  .mob-list-card { background:white; border:1.5px solid #e5e7eb; border-radius:10px; display:flex; gap:10px; padding:10px; margin-bottom:8px; }
+  .mob-cover { width:48px; height:60px; background:linear-gradient(135deg,#FFF3DC,#FFE4A0); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+  .mob-info { flex:1; min-width:0; }
+  .mob-title { font-weight:600; font-size:12px; color:#111827; line-height:1.3; margin-bottom:3px; }
+  .mob-price { font-family:'Baloo 2',cursive; font-size:13px; font-weight:700; color:#F5A623; }
+  .mob-btn { font-size:10px; font-weight:600; color:#4BBFCA; }
+
+  /* Phone frame */
+  .phone-frame { width:100%; max-width:260px; margin:0 auto; background:#1a1a1a; border-radius:32px; padding:8px; box-shadow:0 16px 48px rgba(0,0,0,0.2); }
+  .phone-screen { background:white; border-radius:26px; overflow:hidden; font-size:12px; }
+  .phone-notch { background:white; height:16px; display:flex; align-items:center; justify-content:center; }
+  .phone-notch::after { content:''; width:50px; height:4px; background:#1a1a1a; border-radius:999px; }
+  .mob-header { padding:8px 12px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f3f4f6; }
+  .mob-logo { font-family:'Baloo 2',cursive; font-weight:800; font-size:13px; color:#F5A623; }
+  .mob-page-header { background:linear-gradient(135deg,#FFF3DC 0%,#FFF8F0 60%,#E2F7FA 100%); border-bottom:1px solid #FFE4A0; padding:12px; }
+  .mob-ph-pill { display:inline-block; background:#F5A623; color:white; font-size:9px; font-weight:700; padding:2px 7px; border-radius:999px; margin-bottom:5px; text-transform:uppercase; }
+  .mob-ph-h1 { font-family:'Baloo 2',cursive; font-size:16px; font-weight:800; color:#111827; }
+  .mob-ph-desc { font-size:10px; color:#6b7280; }
+  .mob-content-area { padding:10px 12px; background:#fafafa; }
+  .mob-search { border:1.5px solid #e5e7eb; border-radius:7px; padding:6px 10px; font-size:11px; color:#9ca3af; width:100%; background:white; margin-bottom:7px; }
+  .mob-chips-scroll { display:flex; gap:5px; overflow-x:auto; padding-bottom:2px; margin-bottom:10px; scrollbar-width:none; }
+  .mob-chips-scroll::-webkit-scrollbar { display:none; }
+  .mob-chip { flex-shrink:0; font-size:10px; padding:4px 10px; border-radius:999px; border:1.5px solid #e5e7eb; color:#6b7280; background:white; white-space:nowrap; }
+  .mob-chip.active { border-color:#4BBFCA; color:#4BBFCA; background:#E2F7FA; font-weight:600; }
+</style>
+
+<h2>Sekcja 2 — PageHeader + Katalog</h2>
+<p class="subtitle">Nowy komponent PageHeader na wszystkich stronach wewnętrznych + ulepszenia katalogu na mobile.</p>
+
+<!-- PageHeader -->
+<div class="section">
+  <h3 style="margin-bottom:14px;">Nowy komponent <code>PageHeader</code></h3>
+  <div class="side-by-side">
+    <div>
+      <div class="box-label" style="margin-bottom:8px;">❌ Przed — gołe h1</div>
+      <div style="border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden;">
+        <div class="bare-page">
+          <div class="bare-h1">Katalog ebooków</div>
+        </div>
+        <div class="catalog-content">
+          <div class="filter-row-desktop">
+            <div class="mock-input">🔍 Szukaj...</div>
+            <div class="mock-select">Kategoria ▾</div>
+          </div>
+          <div class="ebook-grid">
+            <div class="ebook-card"><div class="ebook-cover">📋</div><div class="ebook-body"><div class="ebook-cat">Procedury</div><div class="ebook-title">Procedury dla żłobka</div></div><div class="ebook-footer"><span class="ebook-price">49 zł</span><span class="ebook-btn">Szczegóły</span></div></div>
+            <div class="ebook-card"><div class="ebook-cover">📖</div><div class="ebook-body"><div class="ebook-cat">Scenariusze</div><div class="ebook-title">Scenariusze zajęć</div></div><div class="ebook-footer"><span class="ebook-price">39 zł</span><span class="ebook-btn">Szczegóły</span></div></div>
+            <div class="ebook-card"><div class="ebook-cover">📝</div><div class="ebook-body"><div class="ebook-cat">Regulaminy</div><div class="ebook-title">Regulamin żłobka</div></div><div class="ebook-footer"><span class="ebook-price">29 zł</span><span class="ebook-btn">Szczegóły</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="box-label" style="margin-bottom:8px; color:#4BBFCA;">✅ Po — z PageHeader</div>
+      <div style="border:1.5px solid #4BBFCA; border-radius:12px; overflow:hidden;">
+        <div class="page-header">
+          <div class="ph-pill" style="background:#F5A623;">📚 Katalog</div>
+          <div class="ph-h1">Katalog materiałów</div>
+          <p class="ph-desc">50+ ebooków i dokumentów dla żłobków i przedszkoli</p>
+        </div>
+        <div class="catalog-content">
+          <div class="filter-row-desktop">
+            <div class="mock-input">🔍 Szukaj materiałów...</div>
+            <div class="mock-select">Kategoria ▾</div>
+          </div>
+          <div class="ebook-grid">
+            <div class="ebook-card"><div class="ebook-cover">📋</div><div class="ebook-body"><div class="ebook-cat">Procedury</div><div class="ebook-title">Procedury dla żłobka</div></div><div class="ebook-footer"><span class="ebook-price">49 zł</span><span class="ebook-btn">Szczegóły</span></div></div>
+            <div class="ebook-card"><div class="ebook-cover">📖</div><div class="ebook-body"><div class="ebook-cat">Scenariusze</div><div class="ebook-title">Scenariusze zajęć</div></div><div class="ebook-footer"><span class="ebook-price">39 zł</span><span class="ebook-btn">Szczegóły</span></div></div>
+            <div class="ebook-card"><div class="ebook-cover">📝</div><div class="ebook-body"><div class="ebook-cat">Regulaminy</div><div class="ebook-title">Regulamin żłobka</div></div><div class="ebook-footer"><span class="ebook-price">29 zł</span><span class="ebook-btn">Szczegóły</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#6b7280;margin-top:10px;">PageHeader jest reusable — dostaje <code>pill</code>, <code>pillColor</code>, <code>title</code>, <code>description</code> jako props. Używany na: Katalog, Koszyk, Checkout, Sukces, Błąd, Konto.</p>
+</div>
+
+<!-- Mobile catalog -->
+<div class="section">
+  <h3 style="margin-bottom:14px;">Katalog na mobile — chipy zamiast dropdown</h3>
+  <div style="display:flex; gap:24px; align-items:start; justify-content:center; flex-wrap:wrap;">
+    <div>
+      <div class="box-label" style="text-align:center; margin-bottom:10px;">❌ Przed</div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="mob-header"><div class="mob-logo">🐻 edusmyki.pl</div><div>☰ 🛒</div></div>
+          <div style="padding:16px 14px; border-bottom:1px solid #e5e7eb; background:white;">
+            <div style="font-family:'Baloo 2',cursive; font-size:18px; font-weight:800; color:#111827; margin-bottom:4px;">Katalog ebooków</div>
+          </div>
+          <div style="padding:12px 14px; background:#fafafa;">
+            <div class="mob-search">🔍 Szukaj...</div>
+            <div style="border:1.5px solid #e5e7eb; border-radius:8px; padding:7px 12px; font-size:12px; color:#6b7280; background:white; margin-bottom:12px;">Wszystkie kategorie ▾</div>
+            <div class="mob-list-card"><div class="mob-cover">📋</div><div class="mob-info"><div class="mob-title">Procedury dla żłobka</div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="mob-price">49 zł</span><span class="mob-btn">Szczegóły →</span></div></div></div>
+            <div class="mob-list-card"><div class="mob-cover">📖</div><div class="mob-info"><div class="mob-title">Scenariusze zajęć</div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="mob-price">39 zł</span><span class="mob-btn">Szczegóły →</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="box-label" style="text-align:center; margin-bottom:10px; color:#4BBFCA;">✅ Po</div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="mob-header"><div class="mob-logo">🐻 edusmyki.pl</div><div>☰ 🛒</div></div>
+          <div class="mob-page-header">
+            <div class="mob-ph-pill">📚 Katalog</div>
+            <div class="mob-ph-h1">Katalog materiałów</div>
+            <div class="mob-ph-desc">50+ ebooków dla żłobków i przedszkoli</div>
+          </div>
+          <div class="mob-content-area">
+            <div class="mob-search">🔍 Szukaj materiałów...</div>
+            <div class="mob-chips-scroll">
+              <div class="mob-chip active">Wszystkie</div>
+              <div class="mob-chip">Procedury</div>
+              <div class="mob-chip">Scenariusze</div>
+              <div class="mob-chip">Regulaminy</div>
+              <div class="mob-chip">Dokumenty</div>
+            </div>
+            <div class="mob-list-card"><div class="mob-cover">📋</div><div class="mob-info"><div class="mob-title">Procedury dla żłobka</div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="mob-price">49 zł</span><span class="mob-btn">Szczegóły →</span></div></div></div>
+            <div class="mob-list-card"><div class="mob-cover">📖</div><div class="mob-info"><div class="mob-title">Scenariusze zajęć</div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="mob-price">39 zł</span><span class="mob-btn">Szczegóły →</span></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#6b7280;margin-top:14px;text-align:center;">Na mobile: dropdown kategorii → poziomy scroll z chipami (bez JS, tylko CSS <code>overflow-x: auto</code>). Na desktop: dropdown zostaje.</p>
+</div>
+
+<p style="text-align:center;font-size:12px;color:#9ca3af;margin-top:8px;">Sekcja 2 OK? Napisz "OK" żeby przejść do Sekcji 3 (Koszyk, Checkout, Sukces/Błąd).</p>
