@@ -1,9 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Baloo_2, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin", "latin-ext"] });
+const baloo2 = Baloo_2({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-baloo",
+  weight: ["400", "600", "700", "800"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-dm",
+  weight: ["400", "500", "600"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -32,8 +42,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pl">
-      <body className={inter.className}>
+    <html lang="pl" className={`${baloo2.variable} ${dmSans.variable}`}>
+      <body>
         {children}
         <Toaster />
       </body>

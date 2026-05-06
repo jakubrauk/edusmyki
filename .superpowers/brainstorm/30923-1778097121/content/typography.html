@@ -1,0 +1,161 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@400;600;700;800&family=Fredoka+One&family=Poppins:wght@400;500;600;700&family=Lato:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .font-preview {
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 28px 32px;
+    background: white;
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .font-preview:hover {
+    border-color: #4BBFCA;
+    box-shadow: 0 4px 20px rgba(75,191,202,0.15);
+  }
+  .fp-tag {
+    display: inline-block;
+    background: #FFF3DC;
+    color: #F5A623;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .fp-heading {
+    margin: 0 0 6px 0;
+    line-height: 1.2;
+  }
+  .fp-sub {
+    margin: 0 0 12px 0;
+    font-size: 15px;
+    color: #6b7280;
+    line-height: 1.5;
+  }
+  .fp-body {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.65;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 12px;
+    margin: 0 0 14px 0;
+  }
+  .fp-badge {
+    display: inline-block;
+    background: #EDF9E8;
+    color: #7BC44C;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .fp-price {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 800;
+    color: #F5A623;
+    margin-left: 8px;
+  }
+  .fp-btn {
+    display: inline-block;
+    background: #F5A623;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: auto;
+  }
+  .fp-meta {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 12px;
+    font-style: italic;
+  }
+  .fp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+
+<h2>Typografia — wybierz parę fontów</h2>
+<p class="subtitle">Obecny font (Inter) jest bardzo generyczny. Które z poniższych par lepiej pasuje do marki edusmyki.pl — ciepłej, przyjaznej, dla nauczycieli i opiekunów dzieci?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 20px 24px; background: #FFFBF5;">
+      <div style="font-family: 'Nunito', sans-serif;">
+        <div class="fp-tag">Opcja A</div>
+        <h3 class="fp-heading" style="font-size: 26px; font-weight: 800; color: #111827; font-family: 'Nunito', sans-serif;">Materiały dla żłobków i przedszkoli</h3>
+        <p class="fp-sub" style="font-family: 'Nunito', sans-serif;">Gotowe procedury, regulaminy i scenariusze zajęć</p>
+        <p class="fp-body" style="font-family: 'Nunito', sans-serif;">Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy, scenariusze zajęć oraz dokumentację. Pobierz i wdróż od razu.</p>
+        <div class="fp-row">
+          <span class="fp-badge">Żłobki</span>
+          <span class="fp-price" style="font-family: 'Nunito', sans-serif;">49,00 zł</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Nunito + Nunito</h3>
+      <p>Zaokrąglony, ciepły, bardzo czytelny. Idealny dla treści dla nauczycieli i opiekunów. Spójny w całym zakresie wag.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 20px 24px; background: #FFFBF5;">
+      <div>
+        <div class="fp-tag">Opcja B</div>
+        <h3 class="fp-heading" style="font-size: 26px; font-weight: 700; color: #111827; font-family: 'Baloo 2', cursive;">Materiały dla żłobków i przedszkoli</h3>
+        <p class="fp-sub" style="font-family: 'DM Sans', sans-serif;">Gotowe procedury, regulaminy i scenariusze zajęć</p>
+        <p class="fp-body" style="font-family: 'DM Sans', sans-serif;">Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy, scenariusze zajęć oraz dokumentację. Pobierz i wdróż od razu.</p>
+        <div class="fp-row">
+          <span class="fp-badge">Żłobki</span>
+          <span class="fp-price" style="font-family: 'Baloo 2', cursive;">49,00 zł</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Baloo 2 + DM Sans</h3>
+      <p>Energetyczny display + nowoczesny sans. Nagłówki przyciągają wzrok, treść jest czytelna i profesjonalna.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding: 20px 24px; background: #FFFBF5;">
+      <div>
+        <div class="fp-tag">Opcja C</div>
+        <h3 class="fp-heading" style="font-size: 26px; font-weight: 700; color: #111827; font-family: 'Poppins', sans-serif;">Materiały dla żłobków i przedszkoli</h3>
+        <p class="fp-sub" style="font-family: 'Poppins', sans-serif;">Gotowe procedury, regulaminy i scenariusze zajęć</p>
+        <p class="fp-body" style="font-family: 'Lato', sans-serif;">Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy, scenariusze zajęć oraz dokumentację. Pobierz i wdróż od razu.</p>
+        <div class="fp-row">
+          <span class="fp-badge">Żłobki</span>
+          <span class="fp-price" style="font-family: 'Poppins', sans-serif;">49,00 zł</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Poppins + Lato</h3>
+      <p>Geometryczny, zrównoważony. Bardziej "korporacyjny" ale wciąż przyjazny. Popularny w edukacji.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="fp-meta" style="text-align:center; margin-top: 16px;">Kliknij kartę, żeby wybrać. Możesz też powiedzieć wprost w terminalu.</p>

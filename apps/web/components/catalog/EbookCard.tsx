@@ -19,7 +19,7 @@ export function EbookCard({ ebook }: EbookCardProps) {
     : null;
 
   return (
-    <Card className="group flex flex-col overflow-hidden transition-shadow hover:shadow-lg border-gray-100">
+    <Card className="group flex flex-col overflow-hidden hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 border-gray-100">
       <Link href={`/katalog/${ebook.slug}`} className="relative block aspect-[3/4]" style={{ backgroundColor: "#FFF8F0" }}>
         {coverUrl ? (
           <Image
@@ -29,8 +29,8 @@ export function EbookCard({ ebook }: EbookCardProps) {
             className="object-cover transition-transform group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <BookOpen className="h-12 w-12" style={{ color: "#F5A623", opacity: 0.4 }} />
+          <div className="flex h-full items-center justify-center" style={{ background: "linear-gradient(135deg, #FFF3DC, #FFE4A0)" }}>
+            <BookOpen className="h-12 w-12" style={{ color: "#F5A623" }} />
           </div>
         )}
         {ebook.isFeatured && (
@@ -56,11 +56,11 @@ export function EbookCard({ ebook }: EbookCardProps) {
         </p>
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between border-t pt-4">
-        <span className="text-xl font-bold" style={{ color: "#F5A623" }}>
+      <CardFooter className="flex items-center justify-between border-t pt-4" style={{ borderTopColor: "#F0E8DC" }}>
+        <span className="font-extrabold font-display" style={{ color: "#F5A623" }}>
           {ebook.price.toFixed(2)} zł
         </span>
-        <Button asChild size="sm" className="text-white border-0" style={{ backgroundColor: "#4BBFCA" }}>
+        <Button asChild size="sm" className="text-white border-0 rounded-full" style={{ backgroundColor: "#4BBFCA" }}>
           <Link href={`/katalog/${ebook.slug}`}>Szczegóły</Link>
         </Button>
       </CardFooter>

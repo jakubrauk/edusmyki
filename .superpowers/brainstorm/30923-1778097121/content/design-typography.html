@@ -1,0 +1,123 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; }
+  .section { margin-bottom: 32px; }
+  .tag { display:inline-block; background:#F5A623; color:white; font-size:11px; font-weight:700; padding:2px 10px; border-radius:999px; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px; }
+  .tag.green { background:#7BC44C; }
+  .tag.teal { background:#4BBFCA; }
+  .tag.red { background:#ef4444; }
+
+  .side-by-side { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:600px){ .side-by-side{grid-template-columns:1fr;} }
+
+  .box { background:white; border:1.5px solid #e5e7eb; border-radius:12px; padding:20px; }
+  .box-label { font-size:11px; color:#9ca3af; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px; }
+
+  /* BEFORE */
+  .before-h1 { font-family: 'Inter', sans-serif; font-size:24px; font-weight:700; color:#111827; margin-bottom:6px; }
+  .before-sub { font-family: 'Inter', sans-serif; font-size:14px; color:#6b7280; margin-bottom:10px; }
+  .before-body { font-family: 'Inter', sans-serif; font-size:13px; color:#374151; line-height:1.6; margin-bottom:12px; }
+  .before-price { font-family: 'Inter', sans-serif; font-size:20px; font-weight:700; color:#2563eb; }
+  .before-badge { background:#f3f4f6; color:#6b7280; font-size:11px; padding:3px 8px; border-radius:6px; }
+
+  /* AFTER */
+  .after-h1 { font-family:'Baloo 2',cursive; font-size:26px; font-weight:800; color:#111827; margin-bottom:6px; }
+  .after-sub { font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:#6b7280; margin-bottom:10px; }
+  .after-body { font-family:'DM Sans',sans-serif; font-size:13px; color:#374151; line-height:1.65; margin-bottom:12px; }
+  .after-price { font-family:'Baloo 2',cursive; font-size:22px; font-weight:800; color:#F5A623; }
+  .after-badge { background:#E2F7FA; color:#4BBFCA; font-size:11px; padding:3px 10px; border-radius:999px; font-weight:600; }
+  .after-badge2 { background:#EDF9E8; color:#7BC44C; font-size:11px; padding:3px 10px; border-radius:999px; font-weight:600; }
+
+  .diff-arrow { display:flex; align-items:center; justify-content:center; font-size:24px; color:#9ca3af; }
+
+  .color-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .color-swatch { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .color-circle { width:40px; height:40px; border-radius:50%; border:2px solid rgba(0,0,0,0.08); }
+  .color-name { font-size:10px; color:#6b7280; text-align:center; }
+  .strike { text-decoration:line-through; color:#ef4444; }
+</style>
+
+<h2>Sekcja 1 — Typografia i kolory</h2>
+<p class="subtitle">Jak zmienia się wygląd tekstu i cen po wprowadzeniu nowych fontów i naprawie kolorów marki.</p>
+
+<div class="section">
+  <h3 style="margin-bottom:14px;">Typografia: przed → po</h3>
+  <div class="side-by-side" style="align-items:start;">
+    <div class="box">
+      <div class="box-label">❌ Przed (Inter)</div>
+      <div class="before-h1">Materiały dla żłobków i przedszkoli</div>
+      <div class="before-sub">Gotowe procedury, regulaminy i scenariusze zajęć</div>
+      <div class="before-body">Tworzymy praktyczne materiały dla żłobków i przedszkoli. Pobierz, wydrukuj i wdróż od razu w swojej placówce.</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="before-badge">Procedury</span>
+        <span class="before-price">49,00 zł</span>
+      </div>
+    </div>
+    <div class="box" style="border-color:#4BBFCA;">
+      <div class="box-label" style="color:#4BBFCA;">✅ Po (Baloo 2 + DM Sans)</div>
+      <div class="after-h1">Materiały dla żłobków i przedszkoli</div>
+      <div class="after-sub">Gotowe procedury, regulaminy i scenariusze zajęć</div>
+      <div class="after-body">Tworzymy praktyczne materiały dla żłobków i przedszkoli. Pobierz, wydrukuj i wdróż od razu w swojej placówce.</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="after-badge">Procedury</span>
+        <span class="after-price">49,00 zł</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3 style="margin-bottom:14px;">Naprawa kolorów — niespójności do usunięcia</h3>
+  <div class="box">
+    <p style="font-size:13px;color:#374151;margin-bottom:14px;">3 miejsca w kodzie używają <code style="background:#fee2e2;color:#ef4444;padding:1px 5px;border-radius:4px;">text-blue-600</code> (kolor domyślnego shadcn) zamiast kolorów marki:</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#fafafa;border-radius:8px;font-size:13px;">
+        <span style="font-family:monospace;font-size:11px;color:#6b7280;flex-shrink:0;">KoszykPage.tsx</span>
+        <span style="color:#2563eb;font-weight:700;">49,00 zł ← cena błękitna</span>
+        <span style="color:#9ca3af;">→</span>
+        <span style="color:#F5A623;font-weight:700;font-family:'Baloo 2',cursive;">49,00 zł ← cena pomarańczowa</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#fafafa;border-radius:8px;font-size:13px;">
+        <span style="font-family:monospace;font-size:11px;color:#6b7280;flex-shrink:0;">CheckoutForm.tsx</span>
+        <span style="color:#2563eb;font-weight:700;">Łącznie: 88,00 zł ← błękit</span>
+        <span style="color:#9ca3af;">→</span>
+        <span style="color:#F5A623;font-weight:700;font-family:'Baloo 2',cursive;">Łącznie: 88,00 zł ← marki</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#fafafa;border-radius:8px;font-size:13px;">
+        <span style="font-family:monospace;font-size:11px;color:#6b7280;flex-shrink:0;">EbookPage [slug]</span>
+        <span style="color:#2563eb;font-weight:700;">149,00 zł ← błękit</span>
+        <span style="color:#9ca3af;">→</span>
+        <span style="color:#F5A623;font-weight:700;font-family:'Baloo 2',cursive;">149,00 zł ← marki</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3 style="margin-bottom:14px;">Paleta marki — bez zmian</h3>
+  <div class="box">
+    <p style="font-size:12px;color:#6b7280;margin-bottom:14px;">Kolory pozostają identyczne, tylko używamy ich konsekwentnie w całej aplikacji:</p>
+    <div class="color-row">
+      <div class="color-swatch">
+        <div class="color-circle" style="background:#F5A623;"></div>
+        <div class="color-name">Pomarańczowy<br>#F5A623<br>Ceny, CTA, primary</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-circle" style="background:#4BBFCA;"></div>
+        <div class="color-name">Teal<br>#4BBFCA<br>Linki, akcent, secondary</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-circle" style="background:#7BC44C;"></div>
+        <div class="color-name">Zielony<br>#7BC44C<br>Success, zgodność</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-circle" style="background:#FFF8F0;"></div>
+        <div class="color-name">Kremowy<br>#FFF8F0<br>Tła stron</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:12px;color:#9ca3af;margin-top:8px;">Czy ta sekcja wygląda OK? Napisz "OK" żeby przejść do następnej (PageHeader + Katalog).</p>

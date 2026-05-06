@@ -102,7 +102,10 @@ export default async function EbookPage({ params }: Props) {
 
           {/* Price & CTA */}
           <div className="flex items-center gap-6">
-            <span className="text-4xl font-bold text-blue-600">
+            <span
+              className="text-4xl font-extrabold"
+              style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}
+            >
               {ebook.price.toFixed(2)} zł
             </span>
             <AddToCartButton ebook={ebook} />
