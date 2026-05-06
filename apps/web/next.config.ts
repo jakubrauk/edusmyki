@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
 
-const strapiInternalUrl = process.env.STRAPI_URL || "http://localhost:1337";
-const strapiPublicUrl = process.env.NEXT_PUBLIC_STRAPI_URL || strapiInternalUrl;
-const strapiInternalHost = new URL(strapiInternalUrl).hostname;
+// NEXT_PUBLIC_STRAPI_URL is the public Strapi URL — used for image remotePatterns
+// so that Next.js image optimization can fetch cover images.
+const strapiPublicUrl = process.env.NEXT_PUBLIC_STRAPI_URL || process.env.STRAPI_URL || "http://localhost:1337";
 const strapiPublicHost = new URL(strapiPublicUrl).hostname;
 
-const uniqueHosts = [...new Set([strapiInternalHost, strapiPublicHost])];
+const uniqueHosts = [strapiPublicHost];
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["bubbling-conical-charcoal.ngrok-free.dev"],

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Trash2, ShoppingBag, BookOpen } from "lucide-react";
-import { STRAPI_URL } from "@/lib/strapi";
+import { STRAPI_MEDIA_URL } from "@/lib/strapi";
 
 export function CartPageContent() {
   const { items, removeItem, totalPrice, totalItems } = useCartStore();
@@ -37,7 +37,7 @@ export function CartPageContent() {
           const coverUrl = item.coverImage?.url
             ? item.coverImage.url.startsWith("http")
               ? item.coverImage.url
-              : `${STRAPI_URL}${item.coverImage.url}`
+              : `${STRAPI_MEDIA_URL}${item.coverImage.url}`
             : null;
 
           return (

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getEbookBySlug, STRAPI_URL } from "@/lib/strapi";
+import { getEbookBySlug, STRAPI_MEDIA_URL } from "@/lib/strapi";
 import { AddToCartButton } from "@/components/catalog/AddToCartButton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             {
               url: ebook.coverImage.url.startsWith("http")
                 ? ebook.coverImage.url
-                : `${STRAPI_URL}${ebook.coverImage.url}`,
+                : `${STRAPI_MEDIA_URL}${ebook.coverImage.url}`,
             },
           ]
         : [],
@@ -44,7 +44,7 @@ export default async function EbookPage({ params }: Props) {
   const coverUrl = ebook.coverImage?.url
     ? ebook.coverImage.url.startsWith("http")
       ? ebook.coverImage.url
-      : `${STRAPI_URL}${ebook.coverImage.url}`
+      : `${STRAPI_MEDIA_URL}${ebook.coverImage.url}`
     : null;
 
   return (
