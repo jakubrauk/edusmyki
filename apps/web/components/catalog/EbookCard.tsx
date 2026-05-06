@@ -4,7 +4,7 @@ import { BookOpen } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { STRAPI_URL } from "@/lib/strapi";
+import { STRAPI_MEDIA_URL } from "@/lib/strapi";
 import type { Ebook } from "@/types";
 
 interface EbookCardProps {
@@ -15,7 +15,7 @@ export function EbookCard({ ebook }: EbookCardProps) {
   const coverUrl = ebook.coverImage?.url
     ? ebook.coverImage.url.startsWith("http")
       ? ebook.coverImage.url
-      : `${STRAPI_URL}${ebook.coverImage.url}`
+      : `${STRAPI_MEDIA_URL}${ebook.coverImage.url}`
     : null;
 
   return (
