@@ -2,7 +2,9 @@ import { Suspense } from "react";
 import { getEbooks, getCategories } from "@/lib/strapi";
 import { EbookGrid } from "@/components/catalog/EbookGrid";
 import { CategoryFilter } from "@/components/catalog/CategoryFilter";
+import { CategoryChips } from "@/components/catalog/CategoryChips";
 import { SearchBar } from "@/components/catalog/SearchBar";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 interface KatalogPageProps {
   searchParams: Promise<{
@@ -30,20 +32,34 @@ export default async function KatalogPage({ searchParams }: KatalogPageProps) {
   ]);
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="mb-8 text-3xl font-bold">Katalog ebooków</h1>
+    <div>
+      <PageHeader
+        pill="📚 Katalog"
+        title="Katalog materiałów"
+        description="50+ ebooków i dokumentów dla żłobków i przedszkoli"
+      />
 
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row">
-        <SearchBar defaultValue={search} />
-        <CategoryFilter categories={categories} selected={categorySlug} />
+      <div className="container mx-auto px-4 py-10">
+        <div className="sm:hidden mb-4">
+          <Suspense fallback={null}>
+            <CategoryChips categories={categories} selected={categorySlug} />
+          </Suspense>
+        </div>
+
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row">
+          <SearchBar defaultValue={search} />
+          <div className="hidden sm:block">
+            <CategoryFilter categories={categories} selected={categorySlug} />
+          </div>
+        </div>
+
+        <Suspense fallback={<div className="py-10 text-center">Ładowanie...</div>}>
+          <EbookGrid
+            ebooks={ebooksRes.data}
+            pagination={ebooksRes.meta.pagination}
+          />
+        </Suspense>
       </div>
-
-      <Suspense fallback={<div className="py-10 text-center">Ładowanie...</div>}>
-        <EbookGrid
-          ebooks={ebooksRes.data}
-          pagination={ebooksRes.meta.pagination}
-        />
-      </Suspense>
     </div>
   );
 }
