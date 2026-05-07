@@ -22,14 +22,14 @@ CheckoutForm (step="contact")
   → POST /api/checkout/create-payment-intent
       body: { ebookIds, email, firstName, lastName, invoiceRequested, invoiceData? }
       → getEbooksByIds() — walidacja cen po stronie serwera
-      → createOrder(Strapi, { status: "pending", paymentIntentId: "pending_pi" })
+      → generowanie orderNumber (EDU-YYYYMMDD-XXXX)
       → stripe.paymentIntents.create({
            amount,          // grosze (PLN * 100)
            currency: "pln",
            payment_method_types: ["card", "blik", "p24"],
-           metadata: { orderNumber, strapiDocumentId }
+           metadata: { orderNumber }
          })
-      → updateOrder(Strapi, { paymentIntentId: pi.id })
+      → createOrder(Strapi, { status: "pending", paymentIntentId: pi.id, orderNumber, ... })
       ← { clientSecret: pi.client_secret, orderNumber }
   → setState({ step: "payment", clientSecret, orderNumber })
 ```
