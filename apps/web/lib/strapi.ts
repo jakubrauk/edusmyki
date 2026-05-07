@@ -148,17 +148,6 @@ export async function getOrderByPaymentIntentId(paymentIntentId: string): Promis
   return res.data[0] ?? null;
 }
 
-export async function getOrdersByEmail(email: string): Promise<Order[]> {
-  const qs = new URLSearchParams({
-    "filters[guestEmail][$eq]": email,
-    "populate[items][populate][ebook][populate][coverImage]": "true",
-    "sort": "createdAt:desc",
-  });
-
-  const res = await strapiRequest<StrapiResponse<Order[]>>(`/orders?${qs}`);
-  return res.data;
-}
-
 // ── Download Tokens ───────────────────────────────────────────────────────────
 
 export async function createDownloadToken(data: {
