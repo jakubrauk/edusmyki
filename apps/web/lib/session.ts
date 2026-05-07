@@ -7,7 +7,8 @@ const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 function getSecret(): Uint8Array {
   const secret = process.env.SESSION_SECRET;
-  if (!secret) throw new Error("SESSION_SECRET is not set");
+  if (!secret) throw new Error("SESSION_SECRET is not set. Generate: openssl rand -base64 32");
+  if (secret.length < 32) throw new Error("SESSION_SECRET must be at least 32 characters");
   return new TextEncoder().encode(secret);
 }
 
@@ -25,6 +26,7 @@ async function signToken(payload: SessionPayload): Promise<string> {
 async function verifyToken(token: string): Promise<SessionPayload | null> {
   try {
     const { payload } = await jwtVerify(token, getSecret());
+    if (typeof payload.email !== "string" || !payload.email) return null;
     return payload as SessionPayload;
   } catch {
     return null;
