@@ -81,3 +81,32 @@ export async function sendWelcomeEmail(email: string, firstName: string): Promis
     `,
   });
 }
+
+export async function sendMagicLinkEmail(
+  email: string,
+  magicUrl: string
+): Promise<void> {
+  await resend.emails.send({
+    from: FROM,
+    to: email,
+    subject: "Zaloguj się do EduSmyki",
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
+        <h1 style="color:#F5A623;margin:0 0 4px;">edusmyki.pl</h1>
+        <h2 style="margin:0 0 16px;">Link do logowania</h2>
+        <p>Kliknij poniższy przycisk, aby zalogować się do swojego konta.</p>
+        <p style="margin:24px 0;">
+          <a href="${magicUrl}"
+             style="background:#F5A623;color:#fff;padding:12px 28px;border-radius:24px;
+                    text-decoration:none;font-weight:600;display:inline-block;">
+            Zaloguj się
+          </a>
+        </p>
+        <p style="color:#6b7280;font-size:12px;">
+          Link ważny 15 minut, jednorazowy.<br>
+          Jeśli to nie Ty prosiłeś/aś o link, zignoruj tę wiadomość.
+        </p>
+      </div>
+    `,
+  });
+}
