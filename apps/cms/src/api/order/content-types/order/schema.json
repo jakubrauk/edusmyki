@@ -41,10 +41,7 @@
     "guestLastName": {
       "type": "string"
     },
-    "p24TransactionId": {
-      "type": "string"
-    },
-    "p24OrderId": {
+    "paymentIntentId": {
       "type": "string"
     },
     "invoiceRequested": {
