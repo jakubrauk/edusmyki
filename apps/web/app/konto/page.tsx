@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { getSessionEmail } from "@/lib/session";
 import { getDownloadTokensByEmail, getOrdersByEmail, STRAPI_MEDIA_URL } from "@/lib/strapi";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout/PageHeader";
 
@@ -39,7 +38,7 @@ export default async function KontoPage() {
             </Link>
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-2">
             {tokens.map((dt) => {
               const expired = new Date(dt.expiresAt) < now;
               const limitReached = dt.downloadCount >= dt.maxDownloads;
@@ -52,46 +51,52 @@ export default async function KontoPage() {
                 : null;
 
               return (
-                <Card key={dt.id} className="overflow-hidden">
-                  <CardContent className="p-4 space-y-3">
-                    {coverUrl && (
-                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md">
-                        <Image
-                          src={coverUrl}
-                          alt={dt.ebook.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                    <p className="font-medium leading-tight">{dt.ebook.title}</p>
-                    <p className="text-xs text-gray-400">
+                <div
+                  key={dt.id}
+                  className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3"
+                >
+                  {coverUrl ? (
+                    <div className="relative h-16 w-11 flex-shrink-0 overflow-hidden rounded-lg">
+                      <Image
+                        src={coverUrl}
+                        alt={dt.ebook.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="flex h-16 w-11 flex-shrink-0 items-center justify-center rounded-lg"
+                      style={{ background: "linear-gradient(135deg, #FFF3DC, #FFE4A0)" }}
+                    />
+                  )}
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
+                    <p className="line-clamp-2 text-sm font-semibold leading-snug text-gray-900">
+                      {dt.ebook.title}
+                    </p>
+                    <p className="text-[11px] text-gray-400">
                       {dt.downloadCount}/{dt.maxDownloads} pobrań ·{" "}
                       {expired
                         ? "link wygasł"
                         : `ważny do ${new Date(dt.expiresAt).toLocaleDateString("pl-PL")}`}
                     </p>
+                  </div>
+                  <div className="flex-shrink-0">
                     {canDownload ? (
                       <Button
                         asChild
                         size="sm"
-                        className="w-full rounded-full bg-[#F5A623] hover:bg-[#e09410]"
+                        className="h-8 rounded-full px-4 text-xs text-white bg-[#F5A623] hover:bg-[#e09410]"
                       >
-                        <a href={`/api/download/${dt.token}`}>
-                          Pobierz PDF
-                        </a>
+                        <a href={`/api/download/${dt.token}`}>Pobierz</a>
                       </Button>
                     ) : (
-                      <Button
-                        size="sm"
-                        disabled
-                        className="w-full rounded-full"
-                      >
-                        {expired ? "Link wygasł" : "Limit pobrań wyczerpany"}
+                      <Button size="sm" disabled className="h-8 rounded-full px-4 text-xs">
+                        {expired ? "Wygasł" : "Limit"}
                       </Button>
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -104,35 +109,31 @@ export default async function KontoPage() {
         {orders.length === 0 ? (
           <p className="text-gray-500">Brak zamówień.</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {orders.map((order) => (
-              <Card key={order.id}>
-                <CardContent className="pt-4 pb-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="font-semibold">{order.orderNumber}</p>
-                      <p className="text-sm text-gray-500">
-                        {new Date(order.createdAt).toLocaleDateString("pl-PL", {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </p>
-                      <ul className="mt-1 space-y-0.5 text-sm text-gray-600">
-                        {order.items.map((item) => (
-                          <li key={item.id}>· {item.ebookTitle}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <span
-                      className="shrink-0 font-extrabold text-lg"
-                      style={{ color: "#F5A623" }}
-                    >
-                      {order.totalAmount.toFixed(2)} zł
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
+              <div
+                key={order.id}
+                className="flex items-start justify-between gap-4 rounded-xl border border-gray-100 bg-white px-4 py-3"
+              >
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">{order.orderNumber}</p>
+                  <p className="text-xs text-gray-400">
+                    {new Date(order.createdAt).toLocaleDateString("pl-PL", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <ul className="mt-1 space-y-0.5 text-xs text-gray-500">
+                    {order.items.map((item) => (
+                      <li key={item.id}>· {item.ebookTitle}</li>
+                    ))}
+                  </ul>
+                </div>
+                <span className="shrink-0 text-base font-bold" style={{ color: "#F5A623" }}>
+                  {order.totalAmount.toFixed(2)} zł
+                </span>
+              </div>
             ))}
           </div>
         )}
