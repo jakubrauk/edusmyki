@@ -86,7 +86,7 @@ export interface Order {
   guestEmail?: string;
   guestFirstName?: string;
   guestLastName?: string;
-  p24TransactionId?: string;
+  paymentIntentId?: string;
   invoiceRequested: boolean;
   invoiceData?: InvoiceData;
   paidAt?: string;
@@ -149,20 +149,3 @@ export interface CheckoutFormData {
   marketingConsent?: boolean;
 }
 
-// Przelewy24
-export interface P24RegisterResponse {
-  token: string;
-}
-
-export interface P24WebhookPayload {
-  merchantId: number;
-  posId: number;
-  sessionId: string;
-  amount: number;
-  originAmount: number;
-  currency: string;
-  orderId: number;
-  methodId: number;
-  statement: string;
-  sign: string;
-}
