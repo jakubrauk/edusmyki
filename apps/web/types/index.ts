@@ -149,3 +149,14 @@ export interface CheckoutFormData {
   marketingConsent?: boolean;
 }
 
+// Magic Token (auth)
+export interface MagicToken {
+  id: number;
+  documentId: string;
+  token: string;
+  email: string;
+  expiresAt: string;
+  used: boolean;
+  createdAt: string;
+}
+

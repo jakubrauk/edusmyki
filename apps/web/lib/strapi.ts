@@ -1,4 +1,4 @@
-import type { Ebook, Category, Order, DownloadToken, StrapiResponse } from "@/types";
+import type { Ebook, Category, Order, DownloadToken, MagicToken, StrapiResponse } from "@/types";
 
 // STRAPI_URL: internal Railway URL for server-side API calls (fast, private network)
 // STRAPI_MEDIA_URL: public URL for image/media URLs embedded in HTML (must be externally accessible)
@@ -221,6 +221,57 @@ export async function getDownloadTokensByEmail(email: string): Promise<DownloadT
 
   const res = await strapiRequest<StrapiResponse<DownloadToken[]>>(
     `/download-tokens?${qs}`
+  );
+  return res.data;
+}
+
+// ── Magic Tokens (auth) ──────────────────────────────────────────────────────
+
+export async function createMagicToken(
+  email: string,
+  token: string,
+  expiresAt: string
+): Promise<void> {
+  await strapiRequest("/magic-tokens", {
+    method: "POST",
+    body: JSON.stringify({ data: { token, email, expiresAt, used: false } }),
+    next: { revalidate: 0 },
+  });
+}
+
+export async function findMagicTokenByToken(
+  token: string
+): Promise<MagicToken | null> {
+  const qs = new URLSearchParams({
+    "filters[token][$eq]": token,
+  });
+  const res = await strapiRequest<StrapiResponse<MagicToken[]>>(
+    `/magic-tokens?${qs}`,
+    { next: { revalidate: 0 } }
+  );
+  return res.data[0] ?? null;
+}
+
+export async function markMagicTokenUsed(documentId: string): Promise<void> {
+  await strapiRequest(`/magic-tokens/${documentId}`, {
+    method: "PUT",
+    body: JSON.stringify({ data: { used: true } }),
+    next: { revalidate: 0 },
+  });
+}
+
+// ── Orders by email ───────────────────────────────────────────────────────────
+
+export async function getOrdersByEmail(email: string): Promise<Order[]> {
+  const qs = new URLSearchParams({
+    "filters[guestEmail][$eq]": email,
+    "filters[status][$eq]": "paid",
+    "populate[items]": "true",
+    "sort": "createdAt:desc",
+  });
+  const res = await strapiRequest<StrapiResponse<Order[]>>(
+    `/orders?${qs}`,
+    { next: { revalidate: 0 } }
   );
   return res.data;
 }
