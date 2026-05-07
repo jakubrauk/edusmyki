@@ -111,7 +111,7 @@ export async function createOrder(data: {
   guestLastName: string;
   invoiceRequested: boolean;
   invoiceData?: object;
-  p24TransactionId: string;
+  paymentIntentId: string;
 }): Promise<Order> {
   const res = await strapiRequest<{ data: Order }>("/orders", {
     method: "POST",
@@ -123,8 +123,7 @@ export async function createOrder(data: {
 
 export async function updateOrderStatus(
   documentId: string,
-  status: "paid" | "cancelled" | "refunded",
-  p24OrderId?: string
+  status: "paid" | "cancelled" | "refunded"
 ): Promise<Order> {
   const res = await strapiRequest<{ data: Order }>(`/orders/${documentId}`, {
     method: "PUT",
@@ -132,7 +131,6 @@ export async function updateOrderStatus(
       data: {
         status,
         ...(status === "paid" && { paidAt: new Date().toISOString() }),
-        ...(p24OrderId && { p24OrderId }),
       },
     }),
     next: { revalidate: 0 },
@@ -140,9 +138,9 @@ export async function updateOrderStatus(
   return res.data;
 }
 
-export async function getOrderByP24SessionId(sessionId: string): Promise<Order | null> {
+export async function getOrderByPaymentIntentId(paymentIntentId: string): Promise<Order | null> {
   const qs = new URLSearchParams({
-    "filters[p24TransactionId][$eq]": sessionId,
+    "filters[paymentIntentId][$eq]": paymentIntentId,
     "populate[items][populate][ebook]": "true",
   });
 

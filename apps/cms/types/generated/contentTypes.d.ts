@@ -617,9 +617,8 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
     orderNumber: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    p24OrderId: Schema.Attribute.String;
-    p24TransactionId: Schema.Attribute.String;
     paidAt: Schema.Attribute.DateTime;
+    paymentIntentId: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     status: Schema.Attribute.Enumeration<
       ['pending', 'paid', 'cancelled', 'refunded']

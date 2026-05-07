@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 import { useCartStore } from "@/lib/cart-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,11 @@ import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { StripePaymentForm } from "./StripePaymentForm";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const checkoutSchema = z.object({
   email: z.string().email("Podaj prawidłowy adres email"),
@@ -47,10 +51,15 @@ const checkoutSchema = z.object({
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
+interface PaymentState {
+  clientSecret: string;
+  orderNumber: string;
+}
+
 export function CheckoutForm() {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { items, totalPrice, clearCart } = useCartStore();
+  const [paymentState, setPaymentState] = useState<PaymentState | null>(null);
+  const { items, totalPrice } = useCartStore();
 
   const {
     register,
@@ -82,7 +91,7 @@ export function CheckoutForm() {
   async function onSubmit(data: CheckoutFormData) {
     setLoading(true);
     try {
-      const res = await fetch("/api/checkout/create-session", {
+      const res = await fetch("/api/checkout/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -110,8 +119,7 @@ export function CheckoutForm() {
         throw new Error(json.error || "Błąd serwera");
       }
 
-      clearCart();
-      router.push(json.paymentUrl);
+      setPaymentState({ clientSecret: json.clientSecret, orderNumber: json.orderNumber });
     } catch (error) {
       toast.error("Błąd podczas składania zamówienia", {
         description: error instanceof Error ? error.message : "Spróbuj ponownie",
@@ -121,12 +129,63 @@ export function CheckoutForm() {
     }
   }
 
+  if (paymentState) {
+    return (
+      <div className="grid gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>💳 Dane płatności</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Elements
+                stripe={stripePromise}
+                options={{ clientSecret: paymentState.clientSecret, locale: "pl" }}
+              >
+                <StripePaymentForm
+                  orderNumber={paymentState.orderNumber}
+                  totalAmount={totalPrice()}
+                />
+              </Elements>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div>
+          <Card style={{ background: "#FFFBF5", borderColor: "#FFE4A0" }}>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-lg font-semibold">Twoje zamówienie</h2>
+              {items.map((item) => (
+                <div key={item.ebookId} className="flex justify-between text-sm">
+                  <span className="text-gray-700 pr-4 line-clamp-2">{item.title}</span>
+                  <span className="shrink-0 font-medium">{item.price.toFixed(2)} zł</span>
+                </div>
+              ))}
+              <Separator />
+              <div className="flex justify-between font-bold">
+                <span>Łącznie:</span>
+                <span
+                  className="font-extrabold"
+                  style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}
+                >
+                  {totalPrice().toFixed(2)} zł
+                </span>
+              </div>
+              <p className="text-xs text-gray-500">
+                Płatność obsługiwana przez Stripe (BLIK, karta, przelew bankowy)
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-lg font-medium">Przekierowywanie do płatności...</p>
-        <p className="text-sm text-gray-500">Za chwilę zostaniesz przeniesiony na stronę Przelewy24.</p>
+        <p className="text-lg font-medium">Przygotowywanie płatności...</p>
       </div>
     );
   }
@@ -308,16 +367,21 @@ export function CheckoutForm() {
                 </span>
               </div>
               <p className="text-xs text-gray-500">
-                Płatność obsługiwana przez Przelewy24 (BLIK, karta, przelew)
+                Płatność obsługiwana przez Stripe (BLIK, karta, przelew bankowy)
               </p>
-              <Button type="submit" className="w-full rounded-full bg-[#F5A623] hover:bg-[#e09410]" size="lg" disabled={loading}>
+              <Button
+                type="submit"
+                className="w-full rounded-full bg-[#F5A623] hover:bg-[#e09410]"
+                size="lg"
+                disabled={loading}
+              >
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Przekierowywanie...
+                    Przetwarzanie...
                   </>
                 ) : (
-                  "Zapłać i pobierz"
+                  "Przejdź do płatności →"
                 )}
               </Button>
             </CardContent>

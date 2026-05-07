@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { v4 as uuidv4 } from "uuid";
 import { getEbooksByIds, createOrder } from "@/lib/strapi";
-import { registerTransaction, getPaymentUrl } from "@/lib/przelewy24";
-
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+import { stripe } from "@/lib/stripe";
 
 const checkoutSchema = z.object({
   ebookIds: z.array(z.number()).min(1),
@@ -29,7 +26,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = checkoutSchema.parse(body);
 
-    // Validate prices server-side from Strapi (never trust frontend prices)
     const ebooks = await getEbooksByIds(data.ebookIds);
 
     if (ebooks.length !== data.ebookIds.length) {
@@ -48,12 +44,16 @@ export async function POST(req: NextRequest) {
     const totalAmount = items.reduce((sum, i) => sum + i.price, 0);
     const amountInGrosze = Math.round(totalAmount * 100);
 
-    // Generate unique session ID and order number
-    const sessionId = uuidv4();
     const orderNumber = `EDU-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
 
-    // Create order in Strapi (status: pending)
-    const order = await createOrder({
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amountInGrosze,
+      currency: "pln",
+      payment_method_types: ["card", "blik", "p24"],
+      metadata: { orderNumber },
+    });
+
+    await createOrder({
       orderNumber,
       status: "pending",
       items,
@@ -63,27 +63,12 @@ export async function POST(req: NextRequest) {
       guestLastName: data.lastName,
       invoiceRequested: data.invoiceRequested,
       ...(data.invoiceData && { invoiceData: data.invoiceData }),
-      p24TransactionId: sessionId,
+      paymentIntentId: paymentIntent.id,
     });
-
-    // Register transaction with Przelewy24
-    const token = await registerTransaction({
-      sessionId,
-      amount: amountInGrosze,
-      description: `Zamówienie ${orderNumber} - edusmyki.pl`,
-      email: data.email,
-      client: `${data.firstName} ${data.lastName}`,
-      urlReturn: `${APP_URL}/checkout/sukces`,
-      urlStatus: `${APP_URL}/api/webhooks/przelewy24`,
-    });
-
-    const paymentUrl = getPaymentUrl(token);
 
     return NextResponse.json({
-      success: true,
-      orderId: order.id,
+      clientSecret: paymentIntent.client_secret,
       orderNumber,
-      paymentUrl,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
