@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "magic_tokens",
+  "info": {
+    "singularName": "magic-token",
+    "pluralName": "magic-tokens",
+    "displayName": "Magic Token",
+    "description": "Jednorazowe tokeny do logowania magic link"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "token": { "type": "uid", "required": true, "unique": true },
+    "email": { "type": "email", "required": true },
+    "expiresAt": { "type": "datetime", "required": true },
+    "used": { "type": "boolean", "default": false, "required": true }
+  }
+}

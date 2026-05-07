@@ -1,27 +1,32 @@
-import { redirect } from "next/navigation";
-import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { getSessionEmail } from "@/lib/session";
 
-// TODO: Add session check here when NextAuth is configured
-// For now, layout wraps protected pages
-export default function KontoLayout({ children }: { children: React.ReactNode }) {
+export default async function KontoLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const email = await getSessionEmail();
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-10">
-          <nav className="mb-8 flex gap-4 border-b pb-4 text-sm">
-            <Link href="/konto" className="font-medium hover:text-[#4BBFCA]">
-              Pulpit
-            </Link>
-            <Link href="/konto/zamowienia" className="hover:text-[#4BBFCA]">
-              Zamówienia
-            </Link>
-            <Link href="/konto/ebooki" className="hover:text-[#4BBFCA]">
-              Moje ebooki
-            </Link>
-          </nav>
+          {email && (
+            <div className="mb-8 flex items-center justify-between border-b pb-4">
+              <span className="text-sm text-gray-500">{email}</span>
+              <form action="/api/auth/logout" method="POST">
+                <button
+                  type="submit"
+                  className="text-sm text-[#4BBFCA] hover:underline"
+                >
+                  Wyloguj
+                </button>
+              </form>
+            </div>
+          )}
           {children}
         </div>
       </main>
