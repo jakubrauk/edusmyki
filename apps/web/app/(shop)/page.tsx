@@ -183,7 +183,7 @@ export default async function HomePage() {
               {
                 step: "02", icon: FileText,
                 title: "Zapłać bezpiecznie",
-                desc: "BLIK, przelew lub karta przez Przelewy24. Bez zakładania konta.",
+                desc: "BLIK, przelew lub karta przez Stripe. Bez zakładania konta.",
                 bg: "linear-gradient(135deg, #E2F7FA, #B2EBF2)",
                 color: "#4BBFCA", border: "#81D4DA",
               },

@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
       if (!order) {
         console.error(`Stripe webhook: order not found for paymentIntent ${paymentIntent.id}`);
-        return NextResponse.json({ error: "Order not found" }, { status: 404 });
+        return NextResponse.json({ received: true, warning: "order_not_found" });
       }
 
       if (order.status === "paid") {
