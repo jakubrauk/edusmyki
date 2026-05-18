@@ -624,6 +624,68 @@ export interface ApiMagicTokenMagicToken extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiReviewReview extends Struct.CollectionTypeSchema {
+  collectionName: 'reviews';
+  info: {
+    singularName: 'review';
+    pluralName: 'reviews';
+    displayName: 'Opinia';
+    description: 'Opinie klientów o ebook-ach';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    rating: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<{ min: 1; max: 5 }, number>;
+    content: Schema.Attribute.Text & Schema.Attribute.Required;
+    authorName: Schema.Attribute.String & Schema.Attribute.Required;
+    authorRole: Schema.Attribute.String;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    ebook: Schema.Attribute.Relation<'manyToOne', 'api::ebook.ebook'>;
+    order: Schema.Attribute.Relation<'manyToOne', 'api::order.order'>;
+    featuredOnHomepage: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::review.review'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSettingSetting extends Struct.SingleTypeSchema {
+  collectionName: 'settings';
+  info: {
+    singularName: 'setting';
+    pluralName: 'settings';
+    displayName: 'Ustawienia';
+    description: 'Globalne ustawienia sklepu';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    adminEmail: Schema.Attribute.Email;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::setting.setting'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
   collectionName: 'orders';
   info: {
@@ -1184,6 +1246,8 @@ declare module '@strapi/strapi' {
       'api::ebook.ebook': ApiEbookEbook;
       'api::magic-token.magic-token': ApiMagicTokenMagicToken;
       'api::order.order': ApiOrderOrder;
+      'api::review.review': ApiReviewReview;
+      'api::setting.setting': ApiSettingSetting;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
