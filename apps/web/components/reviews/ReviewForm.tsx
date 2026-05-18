@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Star } from "lucide-react";
 import {
   Dialog,
@@ -175,6 +175,7 @@ function ReviewFormFields({
 
 export function ReviewForm(props: ReviewFormProps) {
   const [open, setOpen] = useState(false);
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   if (props.inline) {
     return <ReviewFormFields {...props} />;
@@ -191,7 +192,13 @@ export function ReviewForm(props: ReviewFormProps) {
         <Star className="mr-2 h-4 w-4" />
         Dodaj opinię
       </Button>
-      <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
+      <Dialog open={open} onOpenChange={(open) => {
+        if (!open && successTimerRef.current) {
+          clearTimeout(successTimerRef.current);
+          successTimerRef.current = null;
+        }
+        setOpen(open);
+      }}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="text-base font-bold leading-snug">
@@ -200,7 +207,9 @@ export function ReviewForm(props: ReviewFormProps) {
           </DialogHeader>
           <ReviewFormFields
             {...props}
-            onSuccess={() => setTimeout(() => setOpen(false), 2000)}
+            onSuccess={() => {
+              successTimerRef.current = setTimeout(() => setOpen(false), 2000);
+            }}
           />
         </DialogContent>
       </Dialog>
