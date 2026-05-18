@@ -18,24 +18,26 @@ export function StarRating({ value, onChange, max = 5, size = "md" }: StarRating
       {Array.from({ length: max }).map((_, i) => {
         const starValue = i + 1;
         const filled = starValue <= value;
-        return (
+        return isInteractive ? (
           <button
             key={i}
             type="button"
-            disabled={!isInteractive}
             onClick={() => onChange?.(starValue)}
-            className={
-              isInteractive
-                ? "cursor-pointer transition-transform hover:scale-110"
-                : "cursor-default"
-            }
-            aria-label={isInteractive ? `Ocena ${starValue} z ${max}` : undefined}
+            className="cursor-pointer transition-transform hover:scale-110"
+            aria-label={`Ocena ${starValue} z ${max}`}
           >
             <Star
               className={`${iconClass} ${filled ? "fill-current" : ""}`}
               style={{ color: "#F5A623" }}
             />
           </button>
+        ) : (
+          <span key={i}>
+            <Star
+              className={`${iconClass} ${filled ? "fill-current" : ""}`}
+              style={{ color: "#F5A623" }}
+            />
+          </span>
         );
       })}
     </div>
