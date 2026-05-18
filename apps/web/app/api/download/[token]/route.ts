@@ -42,7 +42,7 @@ export async function GET(
     // Log download
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-    await incrementDownloadCount(downloadToken.documentId, ip);
+    await incrementDownloadCount(downloadToken.documentId, downloadToken.downloadCount, ip);
 
     // Build internal file URL — never exposed to the browser
     const fileUrl = pdfFile.url.startsWith("http")

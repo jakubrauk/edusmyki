@@ -185,13 +185,9 @@ export async function getDownloadToken(token: string): Promise<DownloadToken | n
 
 export async function incrementDownloadCount(
   documentId: string,
+  currentCount: number,
   ipAddress: string
 ): Promise<void> {
-  const token = await strapiRequest<{ data: DownloadToken }>(
-    `/download-tokens/${documentId}`
-  );
-  const currentCount = (token.data as DownloadToken).downloadCount ?? 0;
-
   await strapiRequest(`/download-tokens/${documentId}`, {
     method: "PUT",
     body: JSON.stringify({
@@ -201,7 +197,7 @@ export async function incrementDownloadCount(
         ipAddress,
       },
     }),
-    next: { revalidate: 0 },
+    cache: "no-store",
   });
 }
 
