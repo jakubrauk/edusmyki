@@ -67,11 +67,17 @@ export async function POST(req: NextRequest) {
   if (!content || typeof content !== "string" || content.trim().length === 0) {
     return NextResponse.json({ error: "Content is required" }, { status: 400 });
   }
-  if (content.length > 500) {
+  if (content.trim().length > 500) {
     return NextResponse.json({ error: "Content too long (max 500)" }, { status: 400 });
   }
   if (!authorName || typeof authorName !== "string" || authorName.trim().length === 0) {
     return NextResponse.json({ error: "Author name is required" }, { status: 400 });
+  }
+  if (authorName.trim().length > 100) {
+    return NextResponse.json({ error: "Author name too long (max 100)" }, { status: 400 });
+  }
+  if (typeof authorRole === "string" && authorRole.trim().length > 150) {
+    return NextResponse.json({ error: "Author role too long (max 150)" }, { status: 400 });
   }
 
   // Determine email — guest flow or session flow
