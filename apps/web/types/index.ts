@@ -161,3 +161,23 @@ export interface MagicToken {
   createdAt: string;
 }
 
+// Review
+export interface Review {
+  id: number;
+  documentId: string;
+  rating: number;
+  content: string;
+  authorName: string;
+  authorRole?: string;
+  email: string;
+  ebook: Ebook;
+  order?: Order;
+  featuredOnHomepage: boolean;
+  publishedAt: string | null;
+  createdAt: string;
+}
+
+// Settings (singleton)
+export interface Settings {
+  adminEmail?: string;
+}

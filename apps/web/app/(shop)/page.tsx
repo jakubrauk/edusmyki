@@ -1,23 +1,25 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getEbooks, getCategories } from "@/lib/strapi";
+import { getEbooks, getCategories, getFeaturedReviews } from "@/lib/strapi";
 import { EbookCard } from "@/components/catalog/EbookCard";
 import { Button } from "@/components/ui/button";
 import { HeroDecorations } from "@/components/HeroDecorations";
+import { StarRating } from "@/components/reviews/StarRating";
 import {
-  ArrowRight, BookOpen, Download, Star,
+  ArrowRight, BookOpen, Download,
   CheckCircle2, Clock, Users, Sparkles, FileText,
   GraduationCap, Heart, Zap, Trophy,
 } from "lucide-react";
-import type { Ebook, Category } from "@/types";
+import type { Ebook, Category, Review } from "@/types";
 
 export default async function HomePage() {
-  const [ebooksRes, categories] = await Promise.all([
+  const [ebooksRes, categories, featuredReviews] = await Promise.all([
     getEbooks({ featured: true, pageSize: 3 }).catch(() => ({
       data: [] as Ebook[],
       meta: { pagination: { total: 0, page: 1, pageSize: 3, pageCount: 0 } },
     })),
     getCategories().catch(() => [] as Category[]),
+    getFeaturedReviews(3).catch(() => [] as Review[]),
   ]);
 
   const featuredEbooks = ebooksRes.data;
@@ -363,61 +365,56 @@ export default async function HomePage() {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="py-24" style={{ background: "linear-gradient(160deg, #FFF3DC 0%, #E2F7FA 100%)" }}>
-        <div className="container mx-auto px-4">
-          <div className="mb-16 text-center">
-            <span
-              className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold text-white"
-              style={{ backgroundColor: "#F5A623" }}
-            >
-              ❤️ Opinie
-            </span>
-            <h2 className="text-4xl font-bold text-gray-900">Co mówią dyrektorzy i właściciele placówek?</h2>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                quote: "Zaoszczędziłam kilkanaście godzin pracy. Procedury są profesjonalne, gotowe do druku i zgodne z przepisami — dokładnie to, czego potrzebowałam.",
-                author: "Anna K.", role: "Właścicielka żłobka, Warszawa", color: "#F5A623",
-              },
-              {
-                quote: "Otwierałam żłobek i nie wiedziałam od czego zacząć. Ebooki EduSmyk prowadziły mnie krok po kroku. Polecam każdej nowej placówce!",
-                author: "Marta W.", role: "Właścicielka żłobka, Kraków", color: "#4BBFCA",
-              },
-              {
-                quote: "Regularnie wracam po kolejne dokumenty. Przepisy w żłobkach często się zmieniają, a tu zawsze mam pewność, że materiały są aktualne.",
-                author: "Joanna P.", role: "Kierownik żłobka, Gdańsk", color: "#7BC44C",
-              },
-            ].map(({ quote, author, role, color }) => (
-              <div
-                key={author}
-                className="rounded-3xl bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
-                style={{ borderTop: `4px solid ${color}` }}
+      {featuredReviews.length > 0 && (
+        <section className="py-24" style={{ background: "linear-gradient(160deg, #FFF3DC 0%, #E2F7FA 100%)" }}>
+          <div className="container mx-auto px-4">
+            <div className="mb-16 text-center">
+              <span
+                className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold text-white"
+                style={{ backgroundColor: "#F5A623" }}
               >
-                <div className="mb-4 flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" style={{ color: "#F5A623" }} />
-                  ))}
-                </div>
-                <p className="mb-6 text-gray-600 leading-relaxed italic">"{quote}"</p>
-                <div className="flex items-center gap-3">
+                ❤️ Opinie
+              </span>
+              <h2 className="text-4xl font-bold text-gray-900">Co mówią dyrektorzy i właściciele placówek?</h2>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {featuredReviews.map((review, i) => {
+                const colors = ["#F5A623", "#4BBFCA", "#7BC44C"];
+                const color = colors[i % colors.length];
+                return (
                   <div
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold text-white"
-                    style={{ backgroundColor: color }}
+                    key={review.id}
+                    className="rounded-3xl bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                    style={{ borderTop: `4px solid ${color}` }}
                   >
-                    {author[0]}
+                    <StarRating value={review.rating} size="sm" />
+                    <p className="mb-6 mt-4 text-gray-600 leading-relaxed italic">
+                      &ldquo;{review.content}&rdquo;
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+                        style={{ backgroundColor: color }}
+                      >
+                        {review.authorName[0].toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {review.authorName}
+                        </p>
+                        {review.authorRole && (
+                          <p className="text-xs text-gray-400">{review.authorRole}</p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">{author}</p>
-                    <p className="text-xs text-gray-400">{role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ─── CTA ─── */}
       <section

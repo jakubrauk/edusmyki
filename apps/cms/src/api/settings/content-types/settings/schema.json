@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "settings",
+  "info": {
+    "singularName": "setting",
+    "pluralName": "settings",
+    "displayName": "Ustawienia",
+    "description": "Globalne ustawienia sklepu"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "adminEmail": {
+      "type": "email"
+    }
+  }
+}

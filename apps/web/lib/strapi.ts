@@ -1,4 +1,4 @@
-import type { Ebook, Category, Order, DownloadToken, MagicToken, StrapiResponse } from "@/types";
+import type { Ebook, Category, Order, DownloadToken, MagicToken, Review, Settings, StrapiResponse } from "@/types";
 
 // STRAPI_URL: internal Railway URL for server-side API calls (fast, private network)
 // STRAPI_MEDIA_URL: public URL for image/media URLs embedded in HTML (must be externally accessible)
@@ -91,6 +91,17 @@ export async function getEbooksByIds(ids: number[]): Promise<Ebook[]> {
 
   const res = await strapiRequest<StrapiResponse<Ebook[]>>(`/ebooks?${qs}`);
   return res.data;
+}
+
+export async function getEbookByDocumentId(documentId: string): Promise<Ebook | null> {
+  try {
+    const res = await strapiRequest<{ data: Ebook }>(
+      `/ebooks/${documentId}?populate[coverImage]=true&populate[categories]=true`
+    );
+    return res.data;
+  } catch {
+    return null;
+  }
 }
 
 // ── Categories ───────────────────────────────────────────────────────────────
@@ -263,6 +274,89 @@ export async function getOrdersByEmail(email: string): Promise<Order[]> {
     { next: { revalidate: 0 } }
   );
   return res.data;
+}
+
+// ── Reviews ───────────────────────────────────────────────────────────────────
+
+export async function getReviewsByEbook(ebookDocumentId: string): Promise<Review[]> {
+  const qs = new URLSearchParams({
+    "filters[ebook][documentId][$eq]": ebookDocumentId,
+    "sort": "createdAt:desc",
+    "pagination[pageSize]": "20",
+  });
+  const res = await strapiRequest<StrapiResponse<Review[]>>(`/reviews?${qs}`);
+  return res.data;
+}
+
+export async function getFeaturedReviews(limit = 3): Promise<Review[]> {
+  const qs = new URLSearchParams({
+    "filters[featuredOnHomepage][$eq]": "true",
+    "sort": "createdAt:desc",
+    "pagination[pageSize]": String(limit),
+  });
+  const res = await strapiRequest<StrapiResponse<Review[]>>(`/reviews?${qs}`);
+  return res.data;
+}
+
+export async function getReviewByEmailAndEbook(
+  email: string,
+  ebookDocumentId: string
+): Promise<Review | null> {
+  const baseParams = new URLSearchParams({
+    "filters[email][$eq]": email,
+    "filters[ebook][documentId][$eq]": ebookDocumentId,
+    "pagination[pageSize]": "1",
+  });
+
+  const published = await strapiRequest<StrapiResponse<Review[]>>(
+    `/reviews?${baseParams}`,
+    { cache: "no-store" }
+  ).catch(() => ({ data: [] as Review[] }));
+  if (published.data.length > 0) return published.data[0];
+
+  const draftParams = new URLSearchParams(baseParams);
+  draftParams.set("status", "draft");
+  const draft = await strapiRequest<StrapiResponse<Review[]>>(
+    `/reviews?${draftParams}`,
+    { cache: "no-store" }
+  ).catch(() => ({ data: [] as Review[] }));
+  return draft.data[0] ?? null;
+}
+
+export async function createReview(data: {
+  rating: number;
+  content: string;
+  authorName: string;
+  authorRole?: string;
+  email: string;
+  ebookId: number;
+}): Promise<Review> {
+  const body: Record<string, unknown> = {
+    rating: data.rating,
+    content: data.content,
+    authorName: data.authorName,
+    email: data.email,
+    ebook: data.ebookId,
+  };
+  if (data.authorRole) body.authorRole = data.authorRole;
+
+  const res = await strapiRequest<{ data: Review }>("/reviews", {
+    method: "POST",
+    body: JSON.stringify({ data: body }),
+    cache: "no-store",
+  });
+  return res.data;
+}
+
+// ── Settings ──────────────────────────────────────────────────────────────────
+
+export async function getSettings(): Promise<Settings | null> {
+  try {
+    const res = await strapiRequest<{ data: Settings }>("/setting");
+    return res.data;
+  } catch {
+    return null;
+  }
 }
 
 export { STRAPI_URL };

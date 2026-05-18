@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import type { Order, DownloadToken } from "@/types";
+import { buildReviewUrl } from "./review-token";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.EMAIL_FROM || "zamowienia@edusmyki.pl";
@@ -14,6 +15,7 @@ export async function sendOrderConfirmationEmail(
     url: `${APP_URL}/api/download/${dt.token}`,
     expiresAt: dt.expiresAt,
     maxDownloads: dt.maxDownloads,
+    reviewUrl: buildReviewUrl(order.guestEmail!, dt.ebook.documentId, APP_URL),
   }));
 
   await resend.emails.send({
@@ -26,7 +28,7 @@ export async function sendOrderConfirmationEmail(
 
 function buildOrderEmailHtml(
   order: Order,
-  links: Array<{ title: string; url: string; expiresAt: string; maxDownloads: number }>
+  links: Array<{ title: string; url: string; expiresAt: string; maxDownloads: number; reviewUrl: string }>
 ): string {
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString("pl-PL", {
@@ -45,6 +47,11 @@ function buildOrderEmailHtml(
       </a>
       <p style="color:#6b7280;font-size:12px;margin:8px 0 0;">
         Link ważny do ${formatDate(l.expiresAt)} · max ${l.maxDownloads} pobrań
+      </p>
+      <p style="margin:8px 0 0;">
+        <a href="${l.reviewUrl}" style="color:#4BBFCA;font-size:12px;text-decoration:underline;">
+          Oceń ten materiał ★
+        </a>
       </p>
     </div>`
     )
@@ -105,6 +112,42 @@ export async function sendMagicLinkEmail(
         <p style="color:#6b7280;font-size:12px;">
           Link ważny 15 minut, jednorazowy.<br>
           Jeśli to nie Ty prosiłeś/aś o link, zignoruj tę wiadomość.
+        </p>
+      </div>
+    `,
+  });
+}
+
+export async function sendAdminReviewNotification(data: {
+  adminEmail: string;
+  ebookTitle: string;
+  authorName: string;
+  rating: number;
+}): Promise<void> {
+  const strapiAdminUrl =
+    process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+  const stars = "★".repeat(data.rating) + "☆".repeat(5 - data.rating);
+
+  await resend.emails.send({
+    from: FROM,
+    to: data.adminEmail,
+    subject: `Nowa opinia do moderacji — ${data.ebookTitle}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;">
+        <h1 style="color:#F5A623;margin:0 0 4px;">edusmyki.pl</h1>
+        <h2 style="margin:0 0 16px;">Nowa opinia czeka na moderację</h2>
+        <p><strong>Ebook:</strong> ${data.ebookTitle}</p>
+        <p><strong>Autor:</strong> ${data.authorName}</p>
+        <p><strong>Ocena:</strong> ${stars} (${data.rating}/5)</p>
+        <p style="margin:24px 0;">
+          <a href="${strapiAdminUrl}/admin/content-manager/collection-types/api::review.review"
+             style="background:#F5A623;color:#fff;padding:12px 28px;border-radius:24px;
+                    text-decoration:none;font-weight:600;display:inline-block;">
+            Otwórz panel Strapi
+          </a>
+        </p>
+        <p style="color:#6b7280;font-size:12px;">
+          Zatwierdź lub odrzuć opinię w panelu Strapi (Opinie → Opublikuj).
         </p>
       </div>
     `,
