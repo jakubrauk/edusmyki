@@ -44,13 +44,28 @@ export async function GET(
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     await incrementDownloadCount(downloadToken.documentId, ip);
 
-    // Build file URL — for Strapi local uploads, prepend STRAPI_MEDIA_URL (public URL)
+    // Build internal file URL — never exposed to the browser
     const fileUrl = pdfFile.url.startsWith("http")
       ? pdfFile.url
       : `${STRAPI_MEDIA_URL}${pdfFile.url}`;
 
-    // Redirect to the file (Strapi serves it, or R2 presigned URL)
-    return NextResponse.redirect(fileUrl);
+    const fileRes = await fetch(fileUrl);
+    if (!fileRes.ok || !fileRes.body) {
+      return new NextResponse("Nie można pobrać pliku.", { status: 502 });
+    }
+
+    const fileName = pdfFile.name
+      ? `${pdfFile.name}`
+      : `${downloadToken.ebook.title}.pdf`;
+
+    const headers = new Headers({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename*=UTF-8''${encodeURIComponent(fileName)}`,
+    });
+    const contentLength = fileRes.headers.get("Content-Length");
+    if (contentLength) headers.set("Content-Length", contentLength);
+
+    return new NextResponse(fileRes.body, { headers });
   } catch (error) {
     console.error("Download error:", error);
     return new NextResponse("Wystąpił błąd podczas pobierania.", {
