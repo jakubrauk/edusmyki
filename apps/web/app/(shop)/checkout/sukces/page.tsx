@@ -41,7 +41,7 @@ export default async function SukcesPage({ searchParams }: Props) {
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Button asChild className="rounded-full bg-[#F5A623] text-white hover:bg-[#e09510]">
-            <Link href="/konto/ebooki">Moje ebooki</Link>
+            <Link href="/konto">Moje ebooki</Link>
           </Button>
           <Button
             asChild
