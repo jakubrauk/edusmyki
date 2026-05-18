@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDownloadToken, incrementDownloadCount } from "@/lib/strapi";
-import { STRAPI_URL } from "@/lib/strapi";
+import { STRAPI_MEDIA_URL } from "@/lib/strapi";
 
 export async function GET(
   req: NextRequest,
@@ -42,12 +42,12 @@ export async function GET(
     // Log download
     const ip =
       req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-    await incrementDownloadCount(String(downloadToken.id), ip);
+    await incrementDownloadCount(downloadToken.documentId, ip);
 
-    // Build file URL — for Strapi local uploads, prepend STRAPI_URL
+    // Build file URL — for Strapi local uploads, prepend STRAPI_MEDIA_URL (public URL)
     const fileUrl = pdfFile.url.startsWith("http")
       ? pdfFile.url
-      : `${STRAPI_URL}${pdfFile.url}`;
+      : `${STRAPI_MEDIA_URL}${pdfFile.url}`;
 
     // Redirect to the file (Strapi serves it, or R2 presigned URL)
     return NextResponse.redirect(fileUrl);

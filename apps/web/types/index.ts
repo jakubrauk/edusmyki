@@ -112,6 +112,7 @@ export interface InvoiceData {
 // Download Token
 export interface DownloadToken {
   id: number;
+  documentId: string;
   token: string;
   ebook: Ebook;
   order: Order;
