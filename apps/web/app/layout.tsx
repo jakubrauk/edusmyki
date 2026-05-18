@@ -33,6 +33,11 @@ export const metadata: Metadata = {
     siteName: "edusmyki.pl",
     locale: "pl_PL",
     type: "website",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "edusmyki.pl" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/logo.png"],
   },
 };
 

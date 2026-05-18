@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getEbookBySlug, getReviewsByEbook, getDownloadTokensByEmail, STRAPI_MEDIA_URL } from "@/lib/strapi";
+import { getEbookBySlug, getEbooks, getReviewsByEbook, getDownloadTokensByEmail, STRAPI_MEDIA_URL } from "@/lib/strapi";
 import { getSessionEmail } from "@/lib/session";
 import { AddToCartButton } from "@/components/catalog/AddToCartButton";
 import { ReviewList } from "@/components/reviews/ReviewList";
@@ -13,6 +13,11 @@ import type { Review } from "@/types";
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const res = await getEbooks({ pageSize: 200 }).catch(() => ({ data: [] as Awaited<ReturnType<typeof getEbooks>>["data"] }));
+  return res.data.map((ebook) => ({ slug: ebook.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -69,7 +74,39 @@ export default async function EbookPage({ params }: Props) {
       : `${STRAPI_MEDIA_URL}${ebook.coverImage.url}`
     : null;
 
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://edusmyki.pl";
+
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: ebook.title,
+    description: ebook.shortDescription,
+    url: `${BASE_URL}/katalog/${ebook.slug}`,
+    ...(coverUrl && { image: coverUrl }),
+    offers: {
+      "@type": "Offer",
+      price: ebook.price.toFixed(2),
+      priceCurrency: "PLN",
+      availability: "https://schema.org/InStock",
+      url: `${BASE_URL}/katalog/${ebook.slug}`,
+    },
+    ...(avgRating !== null && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: avgRating,
+        reviewCount: reviews.length,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    }),
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     <div className="container mx-auto px-4 py-10">
       <div className="grid gap-10 lg:grid-cols-2">
         {/* Cover */}
@@ -179,5 +216,6 @@ export default async function EbookPage({ params }: Props) {
         <ReviewList reviews={reviews} />
       </div>
     </div>
+    </>
   );
 }
