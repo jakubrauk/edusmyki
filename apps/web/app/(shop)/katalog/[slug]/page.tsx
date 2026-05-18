@@ -43,7 +43,7 @@ export default async function EbookPage({ params }: Props) {
   const { slug } = await params;
   const [ebook, sessionEmail] = await Promise.all([
     getEbookBySlug(slug),
-    getSessionEmail(),
+    getSessionEmail().catch(() => null),
   ]);
   if (!ebook) notFound();
 
@@ -160,7 +160,12 @@ export default async function EbookPage({ params }: Props) {
                 <span className="font-semibold" style={{ color: "#F5A623" }}>
                   {avgRating} / 5
                 </span>{" "}
-                ({reviews.length} {reviews.length === 1 ? "opinia" : reviews.length < 5 ? "opinie" : "opinii"})
+                ({reviews.length}{" "}
+                {reviews.length === 1
+                  ? "opinia"
+                  : reviews.length % 10 >= 2 && reviews.length % 10 <= 4 && (reviews.length % 100 < 10 || reviews.length % 100 >= 20)
+                  ? "opinie"
+                  : "opinii"})
               </p>
             )}
           </div>
