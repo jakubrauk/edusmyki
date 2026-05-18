@@ -18,10 +18,13 @@ async function strapiRequest<T>(
     ...options.headers,
   };
 
+  const { next: nextOpts, cache, ...restOptions } = options as RequestInit & {
+    next?: { revalidate?: number; tags?: string[] };
+  };
   const res = await fetch(url, {
-    ...options,
+    ...restOptions,
     headers,
-    next: { revalidate: 60 },
+    ...(cache ? { cache } : { next: { revalidate: 60, ...nextOpts } }),
   });
 
   if (!res.ok) {
@@ -174,7 +177,8 @@ export async function getDownloadToken(token: string): Promise<DownloadToken | n
   });
 
   const res = await strapiRequest<StrapiResponse<DownloadToken[]>>(
-    `/download-tokens?${qs}`
+    `/download-tokens?${qs}`,
+    { cache: "no-store" }
   );
   return res.data[0] ?? null;
 }
