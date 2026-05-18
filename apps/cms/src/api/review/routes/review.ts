@@ -1,3 +1,3 @@
 import { factories } from '@strapi/strapi';
-
-export default factories.createCoreRouter('api::review.review');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default factories.createCoreRouter('api::review.review' as any);

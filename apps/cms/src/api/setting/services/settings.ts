@@ -1,3 +1,3 @@
 import { factories } from '@strapi/strapi';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default factories.createCoreController('api::review.review' as any);
+export default factories.createCoreService('api::setting.setting' as any);
