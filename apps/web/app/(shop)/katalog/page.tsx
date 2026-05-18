@@ -14,11 +14,21 @@ interface KatalogPageProps {
   }>;
 }
 
-export const metadata = {
-  title: "Katalog ebooków",
-  description:
-    "Przeglądaj nasze ebooki z instrukcjami dla przedszkoli i żłobków.",
-};
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://edusmyki.pl";
+
+export async function generateMetadata({ searchParams }: KatalogPageProps) {
+  const params = await searchParams;
+  const canonical = params.kategoria
+    ? `${BASE_URL}/katalog?kategoria=${params.kategoria}`
+    : `${BASE_URL}/katalog`;
+
+  return {
+    title: "Katalog ebooków",
+    description:
+      "Przeglądaj nasze ebooki z instrukcjami dla przedszkoli i żłobków.",
+    alternates: { canonical },
+  };
+}
 
 export default async function KatalogPage({ searchParams }: KatalogPageProps) {
   const params = await searchParams;
