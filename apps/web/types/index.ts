@@ -181,3 +181,59 @@ export interface Review {
 export interface Settings {
   adminEmail?: string;
 }
+
+// Homepage
+export interface HomepageTrustItem {
+  id: number;
+  text: string;
+}
+
+export interface HomepageStat {
+  id: number;
+  value: string;
+  label: string;
+}
+
+export interface HomepageStep {
+  id: number;
+  title: string;
+  desc: string;
+}
+
+export interface HomepageFeatureCard {
+  id: number;
+  title: string;
+  desc: string;
+  tag: string;
+}
+
+export interface Homepage {
+  heroBadge: string;
+  heroTitleBefore: string;
+  heroTitleHighlight: string;
+  heroTitleAfter: string;
+  heroSubtitle: string;
+  heroDescription: string;
+  heroCta1: string;
+  heroCta2: string;
+  trustBar: HomepageTrustItem[];
+  stats: HomepageStat[];
+  howItWorksBadge: string;
+  howItWorksTitle: string;
+  howItWorksSteps: HomepageStep[];
+  featuredBadge: string;
+  featuredTitle: string;
+  featuredLinkText: string;
+  categoriesTitle: string;
+  categoriesSubtitle: string;
+  whyUsBadge: string;
+  whyUsTitle: string;
+  whyUsCards: HomepageFeatureCard[];
+  testimonialsBadge: string;
+  testimonialsTitle: string;
+  ctaTitle: string;
+  ctaSubtitle: string;
+  ctaButton: string;
+  seoText1: string;
+  seoText2: string;
+}
