@@ -180,7 +180,18 @@ Klucze R2 (Cloudflare) są wymagane na produkcji — bez nich pobieranie PDF nie
 - [ ] Strona z polityką prywatności i regulaminem (placeholder)
 - [ ] Testy automatyczne (brak unit/e2e testów)
 - [ ] Monitoring błędów (brak Sentry lub podobnego)
-- [ ] Analytics (brak GA/Plausible)
+- [x] Analytics: Google Analytics 4 (wymaga ustawienia `NEXT_PUBLIC_GA_ID`)
+
+### Google Analytics
+
+1. Wejdź na [analytics.google.com](https://analytics.google.com) i utwórz konto lub zaloguj się
+2. **Admin → Create → Property** → wpisz nazwę (np. `edusmyki.pl`), strefa czasowa `Poland`, waluta `PLN`
+3. W sekcji **Data collection** wybierz **Web** → wpisz URL `https://edusmyki.pl` i nazwę strumienia
+4. Skopiuj **Measurement ID** (format `G-XXXXXXXXXX`)
+5. Wklej do zmiennych środowiskowych Railway (Next.js): `NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX`
+6. Po redeploy dane pojawią się w GA w ciągu 24–48h
+
+Lokalnie GA jest wyłączone gdy `NEXT_PUBLIC_GA_ID` jest puste — brak przypadkowego śledzenia ruchu deweloperskiego.
 
 ### Kluczowe gotchas
 
