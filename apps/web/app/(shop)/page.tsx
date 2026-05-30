@@ -1,26 +1,77 @@
 import Link from "next/link";
-import Image from "next/image";
-import { getEbooks, getCategories, getFeaturedReviews } from "@/lib/strapi";
+import { getEbooks, getCategories, getFeaturedReviews, getHomepage } from "@/lib/strapi";
 import { EbookCard } from "@/components/catalog/EbookCard";
 import { Button } from "@/components/ui/button";
 import { HeroDecorations } from "@/components/HeroDecorations";
 import { StarRating } from "@/components/reviews/StarRating";
 import {
   ArrowRight, BookOpen, Download,
-  CheckCircle2, Clock, Users, Sparkles, FileText,
+  CheckCircle2, Clock, Users, FileText,
   GraduationCap, Heart, Zap, Trophy,
 } from "lucide-react";
-import type { Ebook, Category, Review } from "@/types";
+import type { Ebook, Category, Review, Homepage } from "@/types";
 
 export default async function HomePage() {
-  const [ebooksRes, categories, featuredReviews] = await Promise.all([
+  const [ebooksRes, categories, featuredReviews, hp] = await Promise.all([
     getEbooks({ featured: true, pageSize: 3 }).catch(() => ({
       data: [] as Ebook[],
       meta: { pagination: { total: 0, page: 1, pageSize: 3, pageCount: 0 } },
     })),
     getCategories().catch(() => [] as Category[]),
     getFeaturedReviews(3).catch(() => [] as Review[]),
+    getHomepage().catch(() => null),
   ]);
+
+  const h: Homepage = {
+    heroBadge: hp?.heroBadge ?? "mądrze, prosto i z sercem",
+    heroTitleBefore: hp?.heroTitleBefore ?? "Materiały dla",
+    heroTitleHighlight: hp?.heroTitleHighlight ?? "żłobków i przedszkoli",
+    heroTitleAfter: hp?.heroTitleAfter ?? "– dokumentacja, scenariusze i pomoce dydaktyczne",
+    heroSubtitle: hp?.heroSubtitle ?? "Gotowe materiały dla dyrektorów, nauczycieli i opiekunów dzieci",
+    heroDescription: hp?.heroDescription ?? "Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy, scenariusze zajęć oraz dokumentację dla opiekunów i nauczycieli. Pobierz gotowe materiały, wydrukuj i wykorzystaj od razu w swojej placówce.",
+    heroCta1: hp?.heroCta1 ?? "Przeglądaj katalog",
+    heroCta2: hp?.heroCta2 ?? "Jak to działa?",
+    trustBar: hp?.trustBar?.length ? hp.trustBar : [
+      { id: 1, text: "500+ dyrektorów i właścicieli" },
+      { id: 2, text: "Zgodne z przepisami" },
+      { id: 3, text: "Dostęp w kilka sekund" },
+    ],
+    stats: hp?.stats?.length ? hp.stats : [
+      { id: 1, value: "500+", label: "dyrektorów i właścicieli" },
+      { id: 2, value: "50+",  label: "dostępnych ebooków" },
+      { id: 3, value: "30",   label: "dni dostępu po zakupie" },
+      { id: 4, value: "100%", label: "zgodność z przepisami" },
+    ],
+    howItWorksBadge: hp?.howItWorksBadge ?? "Prosty proces",
+    howItWorksTitle: hp?.howItWorksTitle ?? "Jak to działa?",
+    howItWorksSteps: hp?.howItWorksSteps?.length ? hp.howItWorksSteps : [
+      { id: 1, title: "Wybierz materiały", desc: "Przeglądaj katalog i znajdź dokumenty dopasowane do Twojej placówki — procedury, regulaminy, scenariusze zajęć." },
+      { id: 2, title: "Zapłać bezpiecznie", desc: "BLIK, przelew lub karta przez Przelewy24. Bez zakładania konta." },
+      { id: 3, title: "Pobierz i wdróż", desc: "Link do PDF trafia na e-mail w kilka sekund. Uzupełnij dane placówki i gotowe." },
+    ],
+    featuredBadge: hp?.featuredBadge ?? "⭐ Bestsellery",
+    featuredTitle: hp?.featuredTitle ?? "Polecane ebooki",
+    featuredLinkText: hp?.featuredLinkText ?? "Zobacz wszystkie",
+    categoriesTitle: hp?.categoriesTitle ?? "Kategorie",
+    categoriesSubtitle: hp?.categoriesSubtitle ?? "Znajdź dokumenty dla swojego żłobka",
+    whyUsBadge: hp?.whyUsBadge ?? "Dlaczego my?",
+    whyUsTitle: hp?.whyUsTitle ?? "Materiały do żłobka i przedszkola – gotowe rozwiązania",
+    whyUsCards: hp?.whyUsCards?.length ? hp.whyUsCards : [
+      { id: 1, title: "Materiały dla żłobków", desc: "Procedury, regulaminy i dokumentacja dostosowana do specyfiki żłobka — gotowe do uzupełnienia i druku.", tag: "Żłobki" },
+      { id: 2, title: "Materiały dla przedszkoli", desc: "Scenariusze zajęć, pomoce dydaktyczne i dokumentacja dla nauczycieli wychowania przedszkolnego.", tag: "Przedszkola" },
+      { id: 3, title: "Dokumentacja placówki", desc: "Gotowe wzory dokumentów dla żłobków i przedszkoli — procedury, regulaminy i formularze w jednym miejscu.", tag: "Dokumentacja" },
+      { id: 4, title: "Dla każdej roli", desc: "Scenariusze zajęć dla najmłodszych, dokumentacja dla opiekunek oraz gotowe procedury dla dyrektorów placówek.", tag: "Dla zespołu" },
+      { id: 5, title: "Codzienna praca", desc: "Nasze materiały pomagają w codziennej pracy, oszczędzają czas i pozwalają skupić się na tym, co ważne — dzieciach.", tag: "Praktyczne" },
+      { id: 6, title: "Gotowe do wdrożenia", desc: "Materiały w PDF do pobrania i druku — możesz wdrożyć je od razu w swojej placówce bez dodatkowego przygotowania.", tag: "PDF" },
+    ],
+    testimonialsBadge: hp?.testimonialsBadge ?? "❤️ Opinie",
+    testimonialsTitle: hp?.testimonialsTitle ?? "Co mówią dyrektorzy i właściciele placówek?",
+    ctaTitle: hp?.ctaTitle ?? "Nasze materiały wspierają pracę żłobków i przedszkoli",
+    ctaSubtitle: hp?.ctaSubtitle ?? "Scenariusze zajęć, dokumentacja dla opiekunek i gotowe procedury dla dyrektorów — przygotowane w PDF do pobrania i druku.",
+    ctaButton: hp?.ctaButton ?? "Przeglądaj katalog",
+    seoText1: hp?.seoText1 ?? "gotowe procedury, regulaminy, scenariusze zajęć i dokumentacja w formacie PDF. Pobierz, wydrukuj i wdróż od razu w swojej placówce.",
+    seoText2: hp?.seoText2 ?? "Nasze materiały wspierają dyrektorów, właścicieli i opiekunów w codziennej pracy — zgodne z aktualnymi przepisami, tworzone przez praktyków.",
+  };
 
   const featuredEbooks = ebooksRes.data;
 
@@ -46,7 +97,7 @@ export default async function HomePage() {
                 style={{ backgroundColor: "#7BC44C" }}
               >
                 <Zap className="h-3.5 w-3.5" />
-                mądrze, prosto i z sercem
+                {h.heroBadge}
               </span>
             </div>
 
@@ -54,30 +105,28 @@ export default async function HomePage() {
               className="animate-slide-up mb-5 text-4xl font-bold leading-tight tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
               style={{ animationDelay: "0.1s" }}
             >
-              Materiały dla{" "}
+              {h.heroTitleBefore}{" "}
               <span className="relative inline-block whitespace-nowrap" style={{ color: "#F5A623" }}>
-                żłobków i przedszkoli
+                {h.heroTitleHighlight}
                 <svg className="absolute -bottom-1 left-0 w-full" height="5" viewBox="0 0 300 5" fill="none">
                   <path d="M0 2.5 Q75 0 150 2.5 Q225 5 300 2.5" stroke="#F5A623" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.6"/>
                 </svg>
               </span>
-              {" "}– dokumentacja, scenariusze i pomoce dydaktyczne
+              {" "}{h.heroTitleAfter}
             </h1>
 
             <p
               className="animate-slide-up mb-2 max-w-lg text-xl font-semibold text-gray-700 leading-snug"
               style={{ animationDelay: "0.15s" }}
             >
-              Gotowe materiały dla dyrektorów, nauczycieli i opiekunów dzieci
+              {h.heroSubtitle}
             </p>
 
             <p
               className="animate-slide-up mb-8 max-w-lg text-base text-gray-600 leading-relaxed"
               style={{ animationDelay: "0.2s" }}
             >
-              Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy,
-              scenariusze zajęć oraz dokumentację dla opiekunów i nauczycieli.
-              Pobierz gotowe materiały, wydrukuj i wykorzystaj od razu w swojej placówce.
+              {h.heroDescription}
             </p>
 
             <div
@@ -91,7 +140,7 @@ export default async function HomePage() {
                 style={{ backgroundColor: "#F5A623", boxShadow: "0 8px 30px rgba(245,166,35,0.35)" }}
               >
                 <Link href="/katalog">
-                  Przeglądaj katalog
+                  {h.heroCta1}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -102,7 +151,7 @@ export default async function HomePage() {
                 className="h-14 rounded-full px-8 text-base font-semibold border-2 transition-all hover:scale-105"
                 style={{ borderColor: "#4BBFCA", color: "#4BBFCA" }}
               >
-                <Link href="#jak-to-dziala">Jak to działa?</Link>
+                <Link href="#jak-to-dziala">{h.heroCta2}</Link>
               </Button>
             </div>
 
@@ -111,13 +160,9 @@ export default async function HomePage() {
               className="animate-fade-in mt-10 flex flex-wrap gap-5 text-sm text-gray-500"
               style={{ animationDelay: "0.5s" }}
             >
-              {[
-                { icon: Users,        text: "500+ dyrektorów i właścicieli" },
-                { icon: CheckCircle2, text: "Zgodne z przepisami" },
-                { icon: Zap,          text: "Dostęp w kilka sekund" },
-              ].map(({ icon: Icon, text }) => (
-                <span key={text} className="flex items-center gap-1.5 font-medium">
-                  <Icon className="h-4 w-4" style={{ color: "#7BC44C" }} />
+              {h.trustBar.map(({ id, text }) => (
+                <span key={id} className="flex items-center gap-1.5 font-medium">
+                  <CheckCircle2 className="h-4 w-4" style={{ color: "#7BC44C" }} />
                   {text}
                 </span>
               ))}
@@ -142,20 +187,19 @@ export default async function HomePage() {
       >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {[
-              { value: "500+", label: "dyrektorów i właścicieli",    icon: Users },
-              { value: "50+",  label: "dostępnych ebooków",     icon: BookOpen },
-              { value: "30",   label: "dni dostępu po zakupie", icon: Clock },
-              { value: "100%", label: "zgodność z przepisami",  icon: Trophy },
-            ].map(({ value, label, icon: Icon }) => (
-              <div key={label} className="flex flex-col items-center gap-2 text-center text-white">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm mb-1">
-                  <Icon className="h-6 w-6 text-white" />
+            {h.stats.map(({ id, value, label }, i) => {
+              const icons = [Users, BookOpen, Clock, Trophy];
+              const Icon = icons[i % icons.length];
+              return (
+                <div key={id} className="flex flex-col items-center gap-2 text-center text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm mb-1">
+                    <Icon className="h-6 w-6 text-white" />
+                  </div>
+                  <p className="text-4xl font-bold drop-shadow-sm">{value}</p>
+                  <p className="text-sm text-white/80 leading-snug">{label}</p>
                 </div>
-                <p className="text-4xl font-bold drop-shadow-sm">{value}</p>
-                <p className="text-sm text-white/80 leading-snug">{label}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -168,56 +212,31 @@ export default async function HomePage() {
               className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold text-white"
               style={{ backgroundColor: "#4BBFCA" }}
             >
-              Prosty proces
+              {h.howItWorksBadge}
             </span>
-            <h2 className="text-4xl font-bold text-gray-900">Jak to działa?</h2>
+            <h2 className="text-4xl font-bold text-gray-900">{h.howItWorksTitle}</h2>
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                step: "01", icon: BookOpen,
-                title: "Wybierz materiały",
-                desc: "Przeglądaj katalog i znajdź dokumenty dopasowane do Twojej placówki — procedury, regulaminy, scenariusze zajęć.",
-                bg: "linear-gradient(135deg, #FFF3DC, #FFE4A0)",
-                color: "#F5A623", border: "#FFD875",
-              },
-              {
-                step: "02", icon: FileText,
-                title: "Zapłać bezpiecznie",
-                desc: "BLIK, przelew lub karta przez Stripe. Bez zakładania konta.",
-                bg: "linear-gradient(135deg, #E2F7FA, #B2EBF2)",
-                color: "#4BBFCA", border: "#81D4DA",
-              },
-              {
-                step: "03", icon: Download,
-                title: "Pobierz i wdróż",
-                desc: "Link do PDF trafia na e-mail w kilka sekund. Uzupełnij dane placówki i gotowe.",
-                bg: "linear-gradient(135deg, #EDF9E8, #C8F0BC)",
-                color: "#7BC44C", border: "#A5D99B",
-              },
-            ].map(({ step, icon: Icon, title, desc, bg, color, border }) => (
-              <div
-                key={step}
-                className="relative rounded-3xl p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
-                style={{ background: bg, border: `1.5px solid ${border}` }}
-              >
-                <div
-                  className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-md"
-                  style={{ backgroundColor: color }}
-                >
-                  <Icon className="h-7 w-7" />
+            {h.howItWorksSteps.map(({ id, title, desc }, i) => {
+              const stepStyles = [
+                { icon: BookOpen, bg: "linear-gradient(135deg, #FFF3DC, #FFE4A0)", color: "#F5A623", border: "#FFD875" },
+                { icon: FileText, bg: "linear-gradient(135deg, #E2F7FA, #B2EBF2)", color: "#4BBFCA", border: "#81D4DA" },
+                { icon: Download, bg: "linear-gradient(135deg, #EDF9E8, #C8F0BC)", color: "#7BC44C", border: "#A5D99B" },
+              ];
+              const { icon: Icon, bg, color, border } = stepStyles[i % stepStyles.length];
+              const step = String(i + 1).padStart(2, "0");
+              return (
+                <div key={id} className="relative rounded-3xl p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg" style={{ background: bg, border: `1.5px solid ${border}` }}>
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-md" style={{ backgroundColor: color }}>
+                    <Icon className="h-7 w-7" />
+                  </div>
+                  <span className="absolute right-6 top-6 text-5xl font-black opacity-15" style={{ color }}>{step}</span>
+                  <h3 className="mb-2 text-xl font-bold text-gray-900">{title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{desc}</p>
                 </div>
-                <span
-                  className="absolute right-6 top-6 text-5xl font-black opacity-15"
-                  style={{ color }}
-                >
-                  {step}
-                </span>
-                <h3 className="mb-2 text-xl font-bold text-gray-900">{title}</h3>
-                <p className="text-gray-600 leading-relaxed">{desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -232,16 +251,16 @@ export default async function HomePage() {
                   className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold text-white"
                   style={{ backgroundColor: "#F5A623" }}
                 >
-                  ⭐ Bestsellery
+                  {h.featuredBadge}
                 </span>
-                <h2 className="text-4xl font-bold text-gray-900">Polecane ebooki</h2>
+                <h2 className="text-4xl font-bold text-gray-900">{h.featuredTitle}</h2>
               </div>
               <Link
                 href="/katalog"
                 className="group flex items-center gap-1 rounded-full border-2 px-5 py-2 text-sm font-semibold transition-all hover:text-white"
                 style={{ borderColor: "#F5A623", color: "#F5A623" }}
               >
-                Zobacz wszystkie
+                {h.featuredLinkText}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
@@ -260,8 +279,8 @@ export default async function HomePage() {
         <section className="py-20" style={{ background: "linear-gradient(135deg, #4BBFCA 0%, #2EADB8 100%)" }}>
           <div className="container mx-auto px-4">
             <div className="mb-10 text-center">
-              <h2 className="text-4xl font-bold text-white">Kategorie</h2>
-              <p className="mt-2 text-white/70">Znajdź dokumenty dla swojego żłobka</p>
+              <h2 className="text-4xl font-bold text-white">{h.categoriesTitle}</h2>
+              <p className="mt-2 text-white/70">{h.categoriesSubtitle}</p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {categories.map((cat, i) => {
@@ -291,75 +310,37 @@ export default async function HomePage() {
               className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold text-white"
               style={{ backgroundColor: "#7BC44C" }}
             >
-              Dlaczego my?
+              {h.whyUsBadge}
             </span>
-            <h2 className="text-4xl font-bold text-gray-900">Materiały do żłobka i przedszkola – gotowe rozwiązania</h2>
+            <h2 className="text-4xl font-bold text-gray-900">{h.whyUsTitle}</h2>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                icon: BookOpen, color: "#F5A623", bg: "#FFF3DC",
-                title: "Materiały dla żłobków",
-                desc: "Procedury, regulaminy i dokumentacja dostosowana do specyfiki żłobka — gotowe do uzupełnienia i druku.",
-                tag: "Żłobki",
-              },
-              {
-                icon: GraduationCap, color: "#4BBFCA", bg: "#E2F7FA",
-                title: "Materiały dla przedszkoli",
-                desc: "Scenariusze zajęć, pomoce dydaktyczne i dokumentacja dla nauczycieli wychowania przedszkolnego.",
-                tag: "Przedszkola",
-              },
-              {
-                icon: FileText, color: "#7BC44C", bg: "#EDF9E8",
-                title: "Dokumentacja placówki",
-                desc: "Gotowe wzory dokumentów dla żłobków i przedszkoli — procedury, regulaminy i formularze w jednym miejscu.",
-                tag: "Dokumentacja",
-              },
-              {
-                icon: Users, color: "#F5A623", bg: "#FFF3DC",
-                title: "Dla każdej roli",
-                desc: "Scenariusze zajęć dla najmłodszych, dokumentacja dla opiekunek oraz gotowe procedury dla dyrektorów placówek.",
-                tag: "Dla zespołu",
-              },
-              {
-                icon: Heart, color: "#4BBFCA", bg: "#E2F7FA",
-                title: "Codzienna praca",
-                desc: "Nasze materiały pomagają w codziennej pracy, oszczędzają czas i pozwalają skupić się na tym, co ważne — dzieciach.",
-                tag: "Praktyczne",
-              },
-              {
-                icon: Download, color: "#7BC44C", bg: "#EDF9E8",
-                title: "Gotowe do wdrożenia",
-                desc: "Materiały w PDF do pobrania i druku — możesz wdrożyć je od razu w swojej placówce bez dodatkowego przygotowania.",
-                tag: "PDF",
-              },
-            ].map(({ icon: Icon, color, bg, title, desc, tag }) => (
-              <div
-                key={title}
-                className="flex flex-col gap-4 rounded-3xl p-7 transition-all hover:-translate-y-1 hover:shadow-md"
-                style={{ backgroundColor: bg }}
-              >
-                <div className="flex items-start justify-between">
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm"
-                    style={{ backgroundColor: color }}
-                  >
-                    <Icon className="h-6 w-6" />
+            {h.whyUsCards.map(({ id, title, desc, tag }, i) => {
+              const cardStyles = [
+                { icon: BookOpen,      color: "#F5A623", bg: "#FFF3DC" },
+                { icon: GraduationCap, color: "#4BBFCA", bg: "#E2F7FA" },
+                { icon: FileText,      color: "#7BC44C", bg: "#EDF9E8" },
+                { icon: Users,         color: "#F5A623", bg: "#FFF3DC" },
+                { icon: Heart,         color: "#4BBFCA", bg: "#E2F7FA" },
+                { icon: Download,      color: "#7BC44C", bg: "#EDF9E8" },
+              ];
+              const { icon: Icon, color, bg } = cardStyles[i % cardStyles.length];
+              return (
+                <div key={id} className="flex flex-col gap-4 rounded-3xl p-7 transition-all hover:-translate-y-1 hover:shadow-md" style={{ backgroundColor: bg }}>
+                  <div className="flex items-start justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm" style={{ backgroundColor: color }}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <span className="rounded-full px-3 py-1 text-xs font-semibold text-white" style={{ backgroundColor: color }}>{tag}</span>
                   </div>
-                  <span
-                    className="rounded-full px-3 py-1 text-xs font-semibold text-white"
-                    style={{ backgroundColor: color }}
-                  >
-                    {tag}
-                  </span>
+                  <div>
+                    <h3 className="mb-1.5 text-lg font-bold text-gray-900">{title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="mb-1.5 text-lg font-bold text-gray-900">{title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -373,9 +354,9 @@ export default async function HomePage() {
                 className="mb-3 inline-block rounded-full px-4 py-1 text-sm font-semibold text-white"
                 style={{ backgroundColor: "#F5A623" }}
               >
-                ❤️ Opinie
+                {h.testimonialsBadge}
               </span>
-              <h2 className="text-4xl font-bold text-gray-900">Co mówią dyrektorzy i właściciele placówek?</h2>
+              <h2 className="text-4xl font-bold text-gray-900">{h.testimonialsTitle}</h2>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
@@ -431,10 +412,10 @@ export default async function HomePage() {
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
           <h2 className="mx-auto mb-4 max-w-2xl text-4xl font-bold text-white leading-tight md:text-5xl">
-            Nasze materiały wspierają pracę żłobków i przedszkoli
+            {h.ctaTitle}
           </h2>
           <p className="mb-10 text-lg text-white/80">
-            Scenariusze zajęć, dokumentacja dla opiekunek i gotowe procedury dla dyrektorów — przygotowane w PDF do pobrania i druku.
+            {h.ctaSubtitle}
           </p>
           <Button
             asChild
@@ -443,7 +424,7 @@ export default async function HomePage() {
             style={{ backgroundColor: "white", boxShadow: "0 10px 40px rgba(0,0,0,0.2)" }}
           >
             <Link href="/katalog">
-              Przeglądaj katalog
+              {h.ctaButton}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
@@ -455,13 +436,9 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center text-sm text-gray-400 leading-relaxed space-y-2">
             <p>
-              <strong className="text-gray-500">Materiały dla żłobków i przedszkoli</strong> — gotowe procedury, regulaminy,
-              scenariusze zajęć i dokumentacja w formacie PDF. Pobierz, wydrukuj i wdróż od razu w swojej placówce.
+              <strong className="text-gray-500">Materiały dla żłobków i przedszkoli</strong> — {h.seoText1}
             </p>
-            <p>
-              Nasze materiały wspierają dyrektorów, właścicieli i opiekunów w codziennej pracy —
-              zgodne z aktualnymi przepisami, tworzone przez praktyków.
-            </p>
+            <p>{h.seoText2}</p>
           </div>
         </div>
       </section>
