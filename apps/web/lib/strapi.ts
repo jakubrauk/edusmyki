@@ -21,14 +21,21 @@ async function strapiRequest<T>(
   const { next: nextOpts, cache, ...restOptions } = options as RequestInit & {
     next?: { revalidate?: number; tags?: string[] };
   };
-  const res = await fetch(url, {
-    ...restOptions,
-    headers,
-    ...(cache ? { cache } : { next: { revalidate: 60, ...nextOpts } }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      ...restOptions,
+      headers,
+      ...(cache ? { cache } : { next: { revalidate: 60, ...nextOpts } }),
+    });
+  } catch (err) {
+    console.error(`[strapi] network error — ${url}:`, err);
+    throw err;
+  }
 
   if (!res.ok) {
     const error = await res.text();
+    console.error(`[strapi] ${res.status} — ${url}:`, error);
     throw new Error(`Strapi API error ${res.status}: ${error}`);
   }
 
