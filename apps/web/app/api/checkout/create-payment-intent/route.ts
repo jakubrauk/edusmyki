@@ -8,17 +8,6 @@ const checkoutSchema = z.object({
   email: z.string().email(),
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
-  invoiceRequested: z.boolean().default(false),
-  invoiceData: z
-    .object({
-      companyName: z.string(),
-      nip: z.string().regex(/^\d{10}$/, "NIP musi mieć 10 cyfr"),
-      address: z.string(),
-      city: z.string(),
-      postalCode: z.string().regex(/^\d{2}-\d{3}$/, "Nieprawidłowy kod pocztowy"),
-      country: z.string().default("PL"),
-    })
-    .optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -61,8 +50,7 @@ export async function POST(req: NextRequest) {
       guestEmail: data.email,
       guestFirstName: data.firstName,
       guestLastName: data.lastName,
-      invoiceRequested: data.invoiceRequested,
-      ...(data.invoiceData && { invoiceData: data.invoiceData }),
+      invoiceRequested: false,
       paymentIntentId: paymentIntent.id,
     });
 

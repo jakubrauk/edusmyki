@@ -23,7 +23,6 @@ export default function PolitykaPrywatnosciPage() {
         <ul className="list-disc list-inside space-y-2 text-gray-600 text-sm leading-relaxed">
           <li><strong>Adres e-mail</strong> — niezbędny do realizacji zamówienia i dostarczenia plików.</li>
           <li><strong>Imię i nazwisko</strong> — podawane dobrowolnie przy składaniu zamówienia.</li>
-          <li><strong>Dane do faktury</strong> — jeśli Klient wnioskuje o fakturę (NIP, adres firmy).</li>
           <li><strong>Adres IP</strong> — rejestrowany przy każdym pobraniu pliku w celach bezpieczeństwa.</li>
         </ul>
       </section>
