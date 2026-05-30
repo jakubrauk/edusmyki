@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountInGrosze,
       currency: "pln",
-      payment_method_types: ["card", "blik", "p24"],
+      automatic_payment_methods: { enabled: true },
       metadata: { orderNumber },
     });
 
