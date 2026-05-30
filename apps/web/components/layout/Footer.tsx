@@ -28,7 +28,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link href="/regulamin" className="hover:text-[#4BBFCA] transition-colors">Regulamin</Link></li>
               <li><Link href="/polityka-prywatnosci" className="hover:text-[#4BBFCA] transition-colors">Polityka prywatności</Link></li>
-              <li><a href="mailto:kontakt@edusmyki.pl" className="hover:text-[#4BBFCA] transition-colors">kontakt@edusmyki.pl</a></li>
+              <li><a href="mailto:smyk1977@wp.pl" className="hover:text-[#4BBFCA] transition-colors">smyk1977@wp.pl</a></li>
             </ul>
           </div>
         </div>

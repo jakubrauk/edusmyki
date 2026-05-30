@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getEbookBySlug, getEbooks, getReviewsByEbook, getDownloadTokensByEmail, STRAPI_MEDIA_URL } from "@/lib/strapi";
-import { getSessionEmail } from "@/lib/session";
+import { getEbookBySlug, getEbooks, getReviewsByEbook, STRAPI_MEDIA_URL } from "@/lib/strapi";
 import { AddToCartButton } from "@/components/catalog/AddToCartButton";
 import { ReviewList } from "@/components/reviews/ReviewList";
-import { ReviewForm } from "@/components/reviews/ReviewForm";
+import { ReviewFormWrapper } from "@/components/reviews/ReviewFormWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { BookOpen, FileText, Tag } from "lucide-react";
@@ -46,22 +45,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EbookPage({ params }: Props) {
   const { slug } = await params;
-  const [ebook, sessionEmail] = await Promise.all([
-    getEbookBySlug(slug),
-    getSessionEmail().catch(() => null),
-  ]);
+  const ebook = await getEbookBySlug(slug);
   if (!ebook) notFound();
 
-  const [reviews, userTokens] = await Promise.all([
-    getReviewsByEbook(ebook.documentId).catch(() => [] as Review[]),
-    sessionEmail
-      ? getDownloadTokensByEmail(sessionEmail).catch(() => [])
-      : Promise.resolve([]),
-  ]);
-
-  const hasPurchased = userTokens.some(
-    (t) => t.ebook.documentId === ebook.documentId
-  );
+  const reviews = await getReviewsByEbook(ebook.documentId).catch(() => [] as Review[]);
 
   const avgRating =
     reviews.length > 0
@@ -206,12 +193,10 @@ export default async function EbookPage({ params }: Props) {
               </p>
             )}
           </div>
-          {hasPurchased && (
-            <ReviewForm
-              ebookDocumentId={ebook.documentId}
-              ebookTitle={ebook.title}
-            />
-          )}
+          <ReviewFormWrapper
+            ebookDocumentId={ebook.documentId}
+            ebookTitle={ebook.title}
+          />
         </div>
         <ReviewList reviews={reviews} />
       </div>

@@ -23,20 +23,6 @@ const checkoutSchema = z.object({
   email: z.string().email("Podaj prawidłowy adres email"),
   firstName: z.string().min(2, "Imię jest za krótkie").max(50),
   lastName: z.string().min(2, "Nazwisko jest za krótkie").max(50),
-  invoiceRequested: z.boolean(),
-  companyName: z.string().optional(),
-  nip: z
-    .string()
-    .regex(/^\d{10}$/, "NIP musi mieć 10 cyfr")
-    .optional()
-    .or(z.literal("")),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  postalCode: z
-    .string()
-    .regex(/^\d{2}-\d{3}$/, "Format: XX-XXX")
-    .optional()
-    .or(z.literal("")),
   termsAccepted: z
     .boolean()
     .refine((val) => val === true, "Musisz zaakceptować regulamin"),
@@ -64,18 +50,14 @@ export function CheckoutForm() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      invoiceRequested: false,
       termsAccepted: undefined,
       digitalDeliveryConsent: undefined,
     },
   });
-
-  const invoiceRequested = watch("invoiceRequested");
 
   if (items.length === 0) {
     return (
@@ -99,17 +81,6 @@ export function CheckoutForm() {
           email: data.email,
           firstName: data.firstName,
           lastName: data.lastName,
-          invoiceRequested: data.invoiceRequested,
-          ...(data.invoiceRequested && {
-            invoiceData: {
-              companyName: data.companyName,
-              nip: data.nip,
-              address: data.address,
-              city: data.city,
-              postalCode: data.postalCode,
-              country: "PL",
-            },
-          }),
         }),
       });
 
@@ -228,59 +199,6 @@ export function CheckoutForm() {
                   )}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Invoice */}
-          <Card>
-            <CardHeader>
-              <CardTitle>🧾 Faktura VAT</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="invoiceRequested"
-                  {...register("invoiceRequested")}
-                  className="h-4 w-4"
-                />
-                <Label htmlFor="invoiceRequested" className="cursor-pointer">
-                  Chcę otrzymać fakturę VAT
-                </Label>
-              </div>
-
-              {invoiceRequested && (
-                <div className="space-y-4 pt-2">
-                  <div>
-                    <Label htmlFor="companyName">Nazwa firmy</Label>
-                    <Input id="companyName" {...register("companyName")} />
-                  </div>
-                  <div>
-                    <Label htmlFor="nip">NIP (10 cyfr)</Label>
-                    <Input id="nip" placeholder="1234567890" {...register("nip")} />
-                    {errors.nip && (
-                      <p className="mt-1 text-sm text-red-500">{errors.nip.message}</p>
-                    )}
-                  </div>
-                  <div>
-                    <Label htmlFor="address">Adres</Label>
-                    <Input id="address" {...register("address")} />
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <Label htmlFor="postalCode">Kod pocztowy</Label>
-                      <Input id="postalCode" placeholder="00-000" {...register("postalCode")} />
-                      {errors.postalCode && (
-                        <p className="mt-1 text-sm text-red-500">{errors.postalCode.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <Label htmlFor="city">Miasto</Label>
-                      <Input id="city" {...register("city")} />
-                    </div>
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
 

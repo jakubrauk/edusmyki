@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_homepage_steps",
+  "info": {
+    "displayName": "Step",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "desc": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

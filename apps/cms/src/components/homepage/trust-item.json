@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_homepage_trust_items",
+  "info": {
+    "displayName": "Trust Item",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
