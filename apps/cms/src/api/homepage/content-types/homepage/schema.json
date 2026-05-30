@@ -1,0 +1,132 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepage",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Strona główna",
+    "description": "Treści strony głównej"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroBadge": {
+      "type": "string",
+      "default": "mądrze, prosto i z sercem"
+    },
+    "heroTitleBefore": {
+      "type": "string",
+      "default": "Materiały dla"
+    },
+    "heroTitleHighlight": {
+      "type": "string",
+      "default": "żłobków i przedszkoli"
+    },
+    "heroTitleAfter": {
+      "type": "string",
+      "default": "– dokumentacja, scenariusze i pomoce dydaktyczne"
+    },
+    "heroSubtitle": {
+      "type": "string",
+      "default": "Gotowe materiały dla dyrektorów, nauczycieli i opiekunów dzieci"
+    },
+    "heroDescription": {
+      "type": "text",
+      "default": "Tworzymy praktyczne materiały dla żłobków i przedszkoli: procedury, regulaminy, scenariusze zajęć oraz dokumentację dla opiekunów i nauczycieli. Pobierz gotowe materiały, wydrukuj i wykorzystaj od razu w swojej placówce."
+    },
+    "heroCta1": {
+      "type": "string",
+      "default": "Przeglądaj katalog"
+    },
+    "heroCta2": {
+      "type": "string",
+      "default": "Jak to działa?"
+    },
+    "trustBar": {
+      "type": "component",
+      "repeatable": true,
+      "component": "homepage.trust-item"
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "homepage.stat"
+    },
+    "howItWorksBadge": {
+      "type": "string",
+      "default": "Prosty proces"
+    },
+    "howItWorksTitle": {
+      "type": "string",
+      "default": "Jak to działa?"
+    },
+    "howItWorksSteps": {
+      "type": "component",
+      "repeatable": true,
+      "component": "homepage.step"
+    },
+    "featuredBadge": {
+      "type": "string",
+      "default": "⭐ Bestsellery"
+    },
+    "featuredTitle": {
+      "type": "string",
+      "default": "Polecane ebooki"
+    },
+    "featuredLinkText": {
+      "type": "string",
+      "default": "Zobacz wszystkie"
+    },
+    "categoriesTitle": {
+      "type": "string",
+      "default": "Kategorie"
+    },
+    "categoriesSubtitle": {
+      "type": "string",
+      "default": "Znajdź dokumenty dla swojego żłobka"
+    },
+    "whyUsBadge": {
+      "type": "string",
+      "default": "Dlaczego my?"
+    },
+    "whyUsTitle": {
+      "type": "string",
+      "default": "Materiały do żłobka i przedszkola – gotowe rozwiązania"
+    },
+    "whyUsCards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "homepage.feature-card"
+    },
+    "testimonialsBadge": {
+      "type": "string",
+      "default": "❤️ Opinie"
+    },
+    "testimonialsTitle": {
+      "type": "string",
+      "default": "Co mówią dyrektorzy i właściciele placówek?"
+    },
+    "ctaTitle": {
+      "type": "string",
+      "default": "Nasze materiały wspierają pracę żłobków i przedszkoli"
+    },
+    "ctaSubtitle": {
+      "type": "string",
+      "default": "Scenariusze zajęć, dokumentacja dla opiekunek i gotowe procedury dla dyrektorów — przygotowane w PDF do pobrania i druku."
+    },
+    "ctaButton": {
+      "type": "string",
+      "default": "Przeglądaj katalog"
+    },
+    "seoText1": {
+      "type": "text",
+      "default": "Materiały dla żłobków i przedszkoli — gotowe procedury, regulaminy, scenariusze zajęć i dokumentacja w formacie PDF. Pobierz, wydrukuj i wdróż od razu w swojej placówce."
+    },
+    "seoText2": {
+      "type": "text",
+      "default": "Nasze materiały wspierają dyrektorów, właścicieli i opiekunów w codziennej pracy — zgodne z aktualnymi przepisami, tworzone przez praktyków."
+    }
+  }
+}
