@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_homepage_feature_cards",
+  "info": {
+    "displayName": "Feature Card",
+    "icon": "layout"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "desc": {
+      "type": "text",
+      "required": true
+    },
+    "tag": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
