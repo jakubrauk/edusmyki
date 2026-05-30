@@ -67,7 +67,7 @@ function buildOrderEmailHtml(
       ${linksHtml}
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
       <p style="color:#6b7280;font-size:12px;">
-        Problemy z pobieraniem? Napisz do nas: kontakt@edusmyki.pl
+        Problemy z pobieraniem? Napisz do nas: smyk1977@wp.pl
       </p>
     </div>
   `;

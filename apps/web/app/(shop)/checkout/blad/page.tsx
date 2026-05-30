@@ -23,7 +23,7 @@ export default function BladPage() {
             <Link href="/koszyk">Wróć do koszyka</Link>
           </Button>
           <Button asChild variant="outline" className="rounded-full border-2 border-[#4BBFCA] text-[#4BBFCA] hover:bg-[#4BBFCA]/10">
-            <a href="mailto:kontakt@edusmyki.pl">Skontaktuj się z nami</a>
+            <a href="mailto:smyk1977@wp.pl">Skontaktuj się z nami</a>
           </Button>
         </div>
       </div>
