@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import {
-  getOrderByPaymentIntentId,
-  updateOrderStatus,
-  getDownloadTokensByEmail,
-} from "@/lib/strapi";
+import { getOrderByPaymentIntentId, updateOrderStatus } from "@/lib/strapi";
 import { generateDownloadTokensForOrder } from "@/lib/download-tokens";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import type Stripe from "stripe";
@@ -46,14 +42,9 @@ export async function POST(req: NextRequest) {
 
       await updateOrderStatus(order.documentId, "paid");
 
-      await generateDownloadTokensForOrder(order);
+      const tokens = await generateDownloadTokensForOrder(order);
 
-      const tokens = await getDownloadTokensByEmail(order.guestEmail!);
-      const newTokens = tokens.filter((t) =>
-        order.items.some((i) => i.ebook.id === t.ebook.id)
-      );
-
-      await sendOrderConfirmationEmail(order, newTokens);
+      await sendOrderConfirmationEmail(order, tokens);
     } catch (err) {
       console.error("Stripe webhook processing error:", err);
       return NextResponse.json({ error: "Processing error" }, { status: 500 });
