@@ -124,14 +124,14 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function createOrder(data: {
   orderNumber: string;
-  status: "pending";
+  status: "pending" | "paid";
   items: Array<{ ebook: number; ebookTitle: string; price: number }>;
   totalAmount: number;
   guestEmail: string;
   guestFirstName: string;
   guestLastName: string;
   invoiceRequested: false;
-  paymentIntentId: string;
+  paymentIntentId?: string;
 }): Promise<Order> {
   const res = await strapiRequest<{ data: Order }>("/orders", {
     method: "POST",

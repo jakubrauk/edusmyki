@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -46,6 +47,8 @@ export function CheckoutForm() {
   const [loading, setLoading] = useState(false);
   const [paymentState, setPaymentState] = useState<PaymentState | null>(null);
   const { items, totalPrice } = useCartStore();
+  const router = useRouter();
+  const isFree = totalPrice() === 0;
 
   const {
     register,
@@ -73,23 +76,32 @@ export function CheckoutForm() {
   async function onSubmit(data: CheckoutFormData) {
     setLoading(true);
     try {
+      const payload = {
+        ebookIds: items.map((i) => i.ebookId),
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      };
+
+      if (isFree) {
+        const res = await fetch("/api/checkout/free-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || "Błąd serwera");
+        router.push("/checkout/sukces");
+        return;
+      }
+
       const res = await fetch("/api/checkout/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ebookIds: items.map((i) => i.ebookId),
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-        }),
+        body: JSON.stringify(payload),
       });
-
       const json = await res.json();
-
-      if (!res.ok) {
-        throw new Error(json.error || "Błąd serwera");
-      }
-
+      if (!res.ok) throw new Error(json.error || "Błąd serwera");
       setPaymentState({ clientSecret: json.clientSecret, orderNumber: json.orderNumber });
     } catch (error) {
       toast.error("Błąd podczas składania zamówienia", {
@@ -156,7 +168,9 @@ export function CheckoutForm() {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-lg font-medium">Przygotowywanie płatności...</p>
+        <p className="text-lg font-medium">
+          {isFree ? "Wysyłamy Twoje ebooki..." : "Przygotowywanie płatności..."}
+        </p>
       </div>
     );
   }
@@ -279,14 +293,16 @@ export function CheckoutForm() {
                 <span>Łącznie:</span>
                 <span
                   className="font-extrabold"
-                  style={{ color: "#F5A623", fontFamily: "var(--font-baloo)" }}
+                  style={{ color: isFree ? "#7BC44C" : "#F5A623", fontFamily: "var(--font-baloo)" }}
                 >
-                  {totalPrice().toFixed(2)} zł
+                  {isFree ? "Bezpłatnie" : `${totalPrice().toFixed(2)} zł`}
                 </span>
               </div>
-              <p className="text-xs text-gray-500">
-                Płatność obsługiwana przez Stripe (BLIK, karta, przelew bankowy)
-              </p>
+              {!isFree && (
+                <p className="text-xs text-gray-500">
+                  Płatność obsługiwana przez Stripe (BLIK, karta, przelew bankowy)
+                </p>
+              )}
               <Button
                 type="submit"
                 className="w-full rounded-full bg-[#F5A623] hover:bg-[#e09410]"
@@ -298,6 +314,8 @@ export function CheckoutForm() {
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Przetwarzanie...
                   </>
+                ) : isFree ? (
+                  "Pobierz bezpłatnie →"
                 ) : (
                   "Przejdź do płatności →"
                 )}
