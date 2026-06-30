@@ -44,22 +44,35 @@ async function strapiRequest<T>(
 
 // ── Ebooks ──────────────────────────────────────────────────────────────────
 
+const SORT_MAP: Record<string, string> = {
+  "najnowsze": "createdAt:desc",
+  "cena-rosnaco": "price:asc",
+  "cena-malejaco": "price:desc",
+  "alfabetycznie": "title:asc",
+};
+
 export async function getEbooks(params?: {
   page?: number;
   pageSize?: number;
   categorySlug?: string;
+  categoryIds?: number[];
   search?: string;
   featured?: boolean;
+  sort?: string;
 }): Promise<StrapiResponse<Ebook[]>> {
   const qs = new URLSearchParams({
     "populate[coverImage]": "true",
     "populate[categories]": "true",
     "pagination[page]": String(params?.page ?? 1),
     "pagination[pageSize]": String(params?.pageSize ?? 12),
-    "sort": "createdAt:desc",
+    "sort": SORT_MAP[params?.sort ?? ""] ?? "createdAt:desc",
   });
 
-  if (params?.categorySlug) {
+  if (params?.categoryIds && params.categoryIds.length > 0) {
+    params.categoryIds.forEach((id, i) => {
+      qs.set(`filters[categories][id][$in][${i}]`, String(id));
+    });
+  } else if (params?.categorySlug) {
     qs.set("filters[categories][slug][$eq]", params.categorySlug);
   }
 
@@ -115,7 +128,7 @@ export async function getEbookByDocumentId(documentId: string): Promise<Ebook | 
 
 export async function getCategories(): Promise<Category[]> {
   const res = await strapiRequest<StrapiResponse<Category[]>>(
-    "/categories?sort=name:asc"
+    "/categories?sort=name:asc&populate[parent]=true"
   );
   return res.data;
 }
