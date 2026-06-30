@@ -40,19 +40,26 @@ export default async function KatalogPage({ searchParams }: KatalogPageProps) {
   const search = params.szukaj;
   const sort = params.sortowanie;
 
-  const categories = await getCategories();
+  let categories: Awaited<ReturnType<typeof getCategories>>;
+  let ebooksRes: Awaited<ReturnType<typeof getEbooks>>;
 
-  const categoryIds = categorySlug
-    ? getCategorySubtreeIds(categories, categorySlug)
-    : undefined;
-
-  const ebooksRes = await getEbooks({
-    page,
-    pageSize: 12,
-    categoryIds,
-    search,
-    sort,
-  });
+  if (categorySlug) {
+    categories = await getCategories();
+    const categoryIds = getCategorySubtreeIds(categories, categorySlug);
+    if (categoryIds.length === 0) {
+      ebooksRes = {
+        data: [],
+        meta: { pagination: { page: 1, pageSize: 12, pageCount: 0, total: 0 } },
+      };
+    } else {
+      ebooksRes = await getEbooks({ page, pageSize: 12, categoryIds, search, sort });
+    }
+  } else {
+    [categories, ebooksRes] = await Promise.all([
+      getCategories(),
+      getEbooks({ page, pageSize: 12, search, sort }),
+    ]);
+  }
 
   return (
     <div>

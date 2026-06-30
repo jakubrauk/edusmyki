@@ -38,6 +38,7 @@ export function CategoryMobilePanel({ categories, selected }: CategoryMobilePane
     <div>
       <button
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
         className="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700"
       >
         <span>
