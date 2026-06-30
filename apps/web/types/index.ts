@@ -49,6 +49,8 @@ export interface Category {
   slug: string;
   description?: string;
   ebooks?: Ebook[];
+  parent?: Category | null;
+  children?: Category[];
 }
 
 // Strapi Media
