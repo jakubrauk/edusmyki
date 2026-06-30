@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import { getEbooks, getCategories } from "@/lib/strapi";
+import { getCategorySubtreeIds } from "@/lib/category-utils";
 import { EbookGrid } from "@/components/catalog/EbookGrid";
-import { CategoryFilter } from "@/components/catalog/CategoryFilter";
-import { CategoryChips } from "@/components/catalog/CategoryChips";
+import { CategorySidebar } from "@/components/catalog/CategorySidebar";
+import { CategoryMobilePanel } from "@/components/catalog/CategoryMobilePanel";
+import { SortSelect } from "@/components/catalog/SortSelect";
 import { SearchBar } from "@/components/catalog/SearchBar";
 import { PageHeader } from "@/components/layout/PageHeader";
 
@@ -11,6 +13,7 @@ interface KatalogPageProps {
     strona?: string;
     kategoria?: string;
     szukaj?: string;
+    sortowanie?: string;
   }>;
 }
 
@@ -35,11 +38,21 @@ export default async function KatalogPage({ searchParams }: KatalogPageProps) {
   const page = Number(params.strona ?? 1);
   const categorySlug = params.kategoria;
   const search = params.szukaj;
+  const sort = params.sortowanie;
 
-  const [ebooksRes, categories] = await Promise.all([
-    getEbooks({ page, pageSize: 12, categorySlug, search }),
-    getCategories(),
-  ]);
+  const categories = await getCategories();
+
+  const categoryIds = categorySlug
+    ? getCategorySubtreeIds(categories, categorySlug)
+    : undefined;
+
+  const ebooksRes = await getEbooks({
+    page,
+    pageSize: 12,
+    categoryIds,
+    search,
+    sort,
+  });
 
   return (
     <div>
@@ -50,25 +63,37 @@ export default async function KatalogPage({ searchParams }: KatalogPageProps) {
       />
 
       <div className="container mx-auto px-4 py-10">
+        {/* Mobile: collapsible category panel */}
         <div className="sm:hidden mb-4">
           <Suspense fallback={null}>
-            <CategoryChips categories={categories} selected={categorySlug} />
+            <CategoryMobilePanel categories={categories} selected={categorySlug} />
           </Suspense>
         </div>
 
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row">
+        {/* Toolbar: search + sort */}
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row">
           <SearchBar defaultValue={search} />
-          <div className="hidden sm:block">
-            <CategoryFilter categories={categories} selected={categorySlug} />
-          </div>
+          <Suspense fallback={null}>
+            <SortSelect value={sort} />
+          </Suspense>
         </div>
 
-        <Suspense fallback={<div className="py-10 text-center">Ładowanie...</div>}>
-          <EbookGrid
-            ebooks={ebooksRes.data}
-            pagination={ebooksRes.meta.pagination}
-          />
-        </Suspense>
+        {/* Desktop: sidebar + grid */}
+        <div className="flex gap-8">
+          <aside className="hidden sm:block w-52 shrink-0">
+            <Suspense fallback={null}>
+              <CategorySidebar categories={categories} selected={categorySlug} />
+            </Suspense>
+          </aside>
+          <main className="flex-1 min-w-0">
+            <Suspense fallback={<div className="py-10 text-center">Ładowanie...</div>}>
+              <EbookGrid
+                ebooks={ebooksRes.data}
+                pagination={ebooksRes.meta.pagination}
+              />
+            </Suspense>
+          </main>
+        </div>
       </div>
     </div>
   );
