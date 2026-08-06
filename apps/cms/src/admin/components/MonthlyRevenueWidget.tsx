@@ -26,7 +26,7 @@ const MonthlyRevenueWidget = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    get('/orders/monthly-report')
+    get('/reports/orders/monthly-report')
       .then(({ data }) => setRows(data.data.slice(0, 12)))
       .catch(() => setError(true));
   }, [get]);
