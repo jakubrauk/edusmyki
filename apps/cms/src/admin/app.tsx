@@ -1,6 +1,18 @@
 import type { StrapiApp } from '@strapi/strapi/admin';
+import { Feather } from '@strapi/icons';
 
 export default {
+  register(app: StrapiApp) {
+    app.widgets.register({
+      icon: Feather,
+      title: { id: 'widget.monthly-revenue.title', defaultMessage: 'Miesięczny przychód' },
+      component: async () => {
+        const component = await import('./components/MonthlyRevenueWidget');
+        return component.default;
+      },
+      id: 'monthly-revenue',
+    });
+  },
   config: {
     locales: [
       // 'ar',
