@@ -128,7 +128,7 @@ export async function getEbookByDocumentId(documentId: string): Promise<Ebook | 
 
 export async function getCategories(): Promise<Category[]> {
   const res = await strapiRequest<StrapiResponse<Category[]>>(
-    "/categories?sort=name:asc&populate[parent]=true"
+    "/categories?sort=name:asc&populate[parent]=true&pagination[pageSize]=100"
   );
   return res.data;
 }
