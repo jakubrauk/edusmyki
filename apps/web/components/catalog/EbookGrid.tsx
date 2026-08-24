@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { EbookCard } from "./EbookCard";
 import { Button } from "@/components/ui/button";
 import type { Ebook } from "@/types";
@@ -13,6 +16,15 @@ interface EbookGridProps {
 }
 
 export function EbookGrid({ ebooks, pagination }: EbookGridProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  function hrefForPage(page: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("strona", String(page));
+    return `${pathname}?${params.toString()}`;
+  }
+
   if (ebooks.length === 0) {
     return (
       <div className="py-20 text-center text-gray-500">
@@ -35,7 +47,7 @@ export function EbookGrid({ ebooks, pagination }: EbookGridProps) {
         <div className="mt-10 flex justify-center gap-2">
           {pagination.page > 1 && (
             <Button asChild variant="outline">
-              <Link href={`?strona=${pagination.page - 1}`}>Poprzednia</Link>
+              <Link href={hrefForPage(pagination.page - 1)}>Poprzednia</Link>
             </Button>
           )}
           <span className="flex items-center px-4 text-sm text-gray-600">
@@ -43,7 +55,7 @@ export function EbookGrid({ ebooks, pagination }: EbookGridProps) {
           </span>
           {pagination.page < pagination.pageCount && (
             <Button asChild variant="outline">
-              <Link href={`?strona=${pagination.page + 1}`}>Następna</Link>
+              <Link href={hrefForPage(pagination.page + 1)}>Następna</Link>
             </Button>
           )}
         </div>
