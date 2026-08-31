@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { buildDisplayOrder } from "@/lib/category-utils";
+import { CategoryTree } from "@/components/catalog/CategoryTree";
 import type { Category } from "@/types";
 
 interface CategorySidebarProps {
@@ -26,14 +26,12 @@ export function CategorySidebar({ categories, selected }: CategorySidebarProps) 
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  const items = buildDisplayOrder(categories);
-
   return (
     <nav aria-label="Kategorie">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
         Kategorie
       </p>
-      <ul className="space-y-0.5">
+      <ul className="space-y-0.5 mb-1">
         <li>
           <button
             onClick={() => handleSelect(null)}
@@ -47,23 +45,8 @@ export function CategorySidebar({ categories, selected }: CategorySidebarProps) 
             Wszystkie kategorie
           </button>
         </li>
-        {items.map(({ category, depth }) => (
-          <li key={category.id}>
-            <button
-              onClick={() => handleSelect(category.slug)}
-              className="w-full rounded px-2 py-1.5 text-left text-sm transition-colors"
-              style={{
-                paddingLeft: `${8 + depth * 12}px`,
-                ...(activeSlug === category.slug
-                  ? { backgroundColor: "#E2F7FA", color: "#4BBFCA", fontWeight: 600 }
-                  : { color: "#374151" }),
-              }}
-            >
-              {category.name}
-            </button>
-          </li>
-        ))}
       </ul>
+      <CategoryTree categories={categories} selected={selected} onSelect={handleSelect} />
     </nav>
   );
 }

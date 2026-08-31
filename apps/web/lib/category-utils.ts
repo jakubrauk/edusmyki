@@ -32,29 +32,42 @@ export function getCategorySubtreeIds(
   return result;
 }
 
-export function buildDisplayOrder(
-  categories: Category[]
-): Array<{ category: Category; depth: number }> {
+export interface CategoryTreeNode {
+  category: Category;
+  depth: number;
+  children: CategoryTreeNode[];
+}
+
+export function buildCategoryTree(categories: Category[]): CategoryTreeNode[] {
   const childrenMap = buildChildrenMap(categories);
   const roots = categories
     .filter((c) => !c.parent)
     .sort((a, b) => a.name.localeCompare(b.name, "pl"));
 
-  const result: Array<{ category: Category; depth: number }> = [];
-
-  function dfs(cat: Category, depth: number) {
-    result.push({ category: cat, depth });
+  function build(cat: Category, depth: number): CategoryTreeNode {
     const children = (childrenMap.get(cat.id) ?? []).sort((a, b) =>
       a.name.localeCompare(b.name, "pl")
     );
-    for (const child of children) {
-      dfs(child, depth + 1);
-    }
+    return {
+      category: cat,
+      depth,
+      children: children.map((child) => build(child, depth + 1)),
+    };
   }
 
-  for (const root of roots) {
-    dfs(root, 0);
-  }
+  return roots.map((root) => build(root, 0));
+}
 
+export function getAncestorIds(categories: Category[], slug: string): number[] {
+  const byId = new Map(categories.map((c) => [c.id, c]));
+  const start = categories.find((c) => c.slug === slug);
+  if (!start) return [];
+
+  const result: number[] = [];
+  let current = start.parent?.id != null ? byId.get(start.parent.id) : undefined;
+  while (current) {
+    result.push(current.id);
+    current = current.parent?.id != null ? byId.get(current.parent.id) : undefined;
+  }
   return result;
 }

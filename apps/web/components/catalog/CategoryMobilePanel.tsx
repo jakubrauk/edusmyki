@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { buildDisplayOrder } from "@/lib/category-utils";
+import { CategoryTree } from "@/components/catalog/CategoryTree";
 import type { Category } from "@/types";
 
 interface CategoryMobilePanelProps {
@@ -32,8 +32,6 @@ export function CategoryMobilePanel({ categories, selected }: CategoryMobilePane
     router.push(`${pathname}?${params.toString()}`);
   }
 
-  const items = buildDisplayOrder(categories);
-
   return (
     <div>
       <button
@@ -52,7 +50,7 @@ export function CategoryMobilePanel({ categories, selected }: CategoryMobilePane
 
       {open && (
         <div className="mt-1 rounded-lg border border-gray-200 bg-white p-2 shadow-md">
-          <ul className="space-y-0.5">
+          <ul className="space-y-0.5 mb-1">
             <li>
               <button
                 onClick={() => handleSelect(null)}
@@ -66,24 +64,8 @@ export function CategoryMobilePanel({ categories, selected }: CategoryMobilePane
                 Wszystkie kategorie
               </button>
             </li>
-            {items.map(({ category, depth }) => (
-              <li key={category.id}>
-                <button
-                  onClick={() => handleSelect(category.slug)}
-                  className="w-full rounded py-2 text-left text-sm transition-colors"
-                  style={{
-                    paddingLeft: `${12 + depth * 12}px`,
-                    paddingRight: "12px",
-                    ...(selected === category.slug
-                      ? { backgroundColor: "#E2F7FA", color: "#4BBFCA", fontWeight: 600 }
-                      : { color: "#374151" }),
-                  }}
-                >
-                  {category.name}
-                </button>
-              </li>
-            ))}
           </ul>
+          <CategoryTree categories={categories} selected={selected} onSelect={handleSelect} />
         </div>
       )}
     </div>
