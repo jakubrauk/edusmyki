@@ -23,7 +23,7 @@ export function CategorySidebar({ categories, selected }: CategorySidebarProps) 
       params.set("kategoria", slug);
     }
     params.delete("strona");
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
