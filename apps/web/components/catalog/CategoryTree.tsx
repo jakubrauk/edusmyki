@@ -71,7 +71,10 @@ function CategoryTreeItem({ node, activeSlug, expanded, onToggle, onSelect }: Ca
         }}
       >
         <button
-          onClick={() => onSelect(category.slug)}
+          onClick={() => {
+            onSelect(category.slug);
+            if (hasChildren && !isOpen) onToggle(category.id);
+          }}
           className="flex-1 py-1.5 text-left text-sm"
           style={{
             color: isActive ? "#4BBFCA" : depth === 0 ? "#111827" : "#374151",

@@ -29,7 +29,7 @@ export function CategoryMobilePanel({ categories, selected }: CategoryMobilePane
     }
     params.delete("strona");
     setOpen(false);
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   }
 
   return (
