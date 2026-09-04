@@ -9,12 +9,12 @@ export default function PolitykaPrywatnosciPage() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <h1 className="text-3xl font-bold mb-2" style={{ color: "#F5A623" }}>Polityka prywatności</h1>
-      <p className="text-sm text-gray-500 mb-10">Obowiązuje od 1 czerwca 2025 r.</p>
+      <p className="text-sm text-gray-500 mb-10">Obowiązuje od 4 września 2026 r.</p>
 
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-3 text-gray-800">§1. Administrator danych</h2>
         <p className="text-gray-600 text-sm leading-relaxed">
-          Administratorem danych osobowych Klientów sklepu edusmyki.pl jest właściciel serwisu. Kontakt w sprawach dotyczących danych osobowych: <a href="mailto:smyk1977@wp.pl" className="text-[#4BBFCA] underline">smyk1977@wp.pl</a>.
+          Administratorem danych osobowych Klientów sklepu edusmyki.pl jest Edusmyki Małgorzata Smyk, NIP 8981546948, ul. Wrocławska 29 lok. 7, 57-160 Borów. Kontakt w sprawach dotyczących danych osobowych: <a href="mailto:kontakt@edusmyki.pl" className="text-[#4BBFCA] underline">kontakt@edusmyki.pl</a>.
         </p>
       </section>
 
@@ -68,7 +68,7 @@ export default function PolitykaPrywatnosciPage() {
           <li><strong>Prawo do sprzeciwu</strong> — możesz wnieść sprzeciw wobec przetwarzania opartego na prawnie uzasadnionym interesie.</li>
         </ul>
         <p className="text-gray-600 text-sm leading-relaxed mt-3">
-          Wnioski dotyczące praw kieruj na: <a href="mailto:smyk1977@wp.pl" className="text-[#4BBFCA] underline">smyk1977@wp.pl</a>. Masz też prawo wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych (uodo.gov.pl).
+          Wnioski dotyczące praw kieruj na: <a href="mailto:kontakt@edusmyki.pl" className="text-[#4BBFCA] underline">kontakt@edusmyki.pl</a>. Masz też prawo wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych (uodo.gov.pl).
         </p>
       </section>
 
