@@ -42,7 +42,7 @@ export async function GET() {
   lines.push(
     `## Informacje`,
     ``,
-    `- Płatności: Przelewy24 (BLIK, karta, przelew)`,
+    `- Płatności: Stripe (BLIK, karta, przelew)`,
     `- Format plików: PDF do pobrania`,
     `- Dostęp po zakupie: link do pobrania wysyłany na email`,
   );

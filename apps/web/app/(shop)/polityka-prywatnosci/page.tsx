@@ -40,10 +40,9 @@ export default function PolitykaPrywatnosciPage() {
         <h2 className="text-xl font-semibold mb-3 text-gray-800">§4. Odbiorcy danych</h2>
         <p className="text-gray-600 text-sm leading-relaxed mb-3">Dane osobowe mogą być przekazywane następującym podmiotom:</p>
         <ul className="list-disc list-inside space-y-2 text-gray-600 text-sm leading-relaxed">
-          <li><strong>Przelewy24 (DialCom24 Sp. z o.o.)</strong> — operator płatności, przetwarza dane niezbędne do realizacji transakcji.</li>
+          <li><strong>Stripe Payments Europe, Ltd.</strong> — operator płatności, przetwarza dane niezbędne do realizacji transakcji.</li>
           <li><strong>Resend Inc.</strong> — dostawca usługi wysyłki e-mail (potwierdzenia zamówień, linki do pobrania).</li>
-          <li><strong>Railway Corp.</strong> — hosting serwisu (serwery w UE lub USA z odpowiednimi zabezpieczeniami).</li>
-          <li><strong>Cloudflare Inc.</strong> — przechowywanie plików PDF (Cloudflare R2).</li>
+          <li><strong>Railway Corp.</strong> — hosting serwisu, w tym przechowywanie plików PDF (serwery w UE lub USA z odpowiednimi zabezpieczeniami).</li>
         </ul>
       </section>
 

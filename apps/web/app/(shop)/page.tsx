@@ -46,7 +46,7 @@ export default async function HomePage() {
     howItWorksTitle: hp?.howItWorksTitle ?? "Jak to działa?",
     howItWorksSteps: hp?.howItWorksSteps?.length ? hp.howItWorksSteps : [
       { id: 1, title: "Wybierz materiały", desc: "Przeglądaj katalog i znajdź dokumenty dopasowane do Twojej placówki — procedury, regulaminy, scenariusze zajęć." },
-      { id: 2, title: "Zapłać bezpiecznie", desc: "BLIK, przelew lub karta przez Przelewy24. Bez zakładania konta." },
+      { id: 2, title: "Zapłać bezpiecznie", desc: "BLIK, przelew lub karta przez Stripe. Bez zakładania konta." },
       { id: 3, title: "Pobierz i wdróż", desc: "Link do PDF trafia na e-mail w kilka sekund. Uzupełnij dane placówki i gotowe." },
     ],
     featuredBadge: hp?.featuredBadge ?? "⭐ Bestsellery",
