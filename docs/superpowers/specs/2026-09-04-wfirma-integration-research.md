@@ -229,18 +229,18 @@ Rejestracja płatności w wFirma (moduł "Płatności") — **ustalone jako niep
 
 Założenie: otwarte pytania z §8 rozwiązane (klient chce integracji, konto wFirma założone,
 status VAT znany). Jeden developer, kod + integracja, bez ustaleń prawnych/księgowych i bez
-UI do wyświetlania faktury klientowi w koncie.
+UI do wyświetlania faktury klientowi w koncie. Stawka: **200 zł/h**.
 
-| Etap | Godziny |
-|---|---|
-| Setup konta wFirma, klucze API, autoryzacja KSeF dla usera API (głównie panel, nie kod) | 1–2h |
-| Klient REST `lib/wfirma.ts` (auth, `invoices/add`, error handling) | 3–4h |
-| Hook w `webhooks/stripe/route.ts` po `updateOrderStatus` (rozszerzenie istniejącego handlera) | 1–2h |
-| Pobranie PDF faktury + wysyłka mailem przez Resend (§4a-b) | 2–3h |
-| Zapis numeru faktury/statusu KSeF z powrotem do `order` (webhook lub polling) | 2–3h |
-| Testy end-to-end (środowisko testowe wFirma, brak NIP, zwolnienie VAT, draft vs live) | 2–3h |
-| Bufor na niespodzianki API (XML/JSON quirki, błędy autoryzacji KSeF, `auto_send` bugi — §3, §4, §4a) | 2–3h |
-| **Razem** | **~13–19h** |
+| Etap | Godziny | Koszt |
+|---|---|---|
+| Setup konta wFirma, klucze API, autoryzacja KSeF dla usera API (głównie panel, nie kod) | 1–2h | 200–400 zł |
+| Klient REST `lib/wfirma.ts` (auth, `invoices/add`, error handling) | 3–4h | 600–800 zł |
+| Hook w `webhooks/stripe/route.ts` po `updateOrderStatus` (rozszerzenie istniejącego handlera) | 1–2h | 200–400 zł |
+| Pobranie PDF faktury + wysyłka mailem przez Resend (§4a-b) | 2–3h | 400–600 zł |
+| Zapis numeru faktury/statusu KSeF z powrotem do `order` (webhook lub polling) | 2–3h | 400–600 zł |
+| Testy end-to-end (środowisko testowe wFirma, brak NIP, zwolnienie VAT, draft vs live) | 2–3h | 400–600 zł |
+| Bufor na niespodzianki API (XML/JSON quirki, błędy autoryzacji KSeF, `auto_send` bugi — §3, §4, §4a) | 2–3h | 400–600 zł |
+| **Razem** | **~13–19h** | **~2600–3800 zł** |
 
 Widełki szerokie — REST API samo w sobie proste, ale autoryzacja KSeF i quirki XML/JSON
 (widoczne w zgłoszeniach na forum wFirma, patrz §4) to typowe miejsce na niespodziewane dłubanie.
