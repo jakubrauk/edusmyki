@@ -247,6 +247,23 @@ Widełki szerokie — REST API samo w sobie proste, ale autoryzacja KSeF i quirk
 
 ---
 
+## 11. Wycena dla klienta
+
+Ta sama wycena, bez żargonu technicznego — do przesłania klientowi.
+
+| Etap | Godziny | Koszt |
+|---|---|---|
+| Założenie i skonfigurowanie konta w systemie księgowym wFirma, w tym rejestracja do elektronicznego systemu faktur wymaganego przez urząd skarbowy (KSeF) | 1–2h | 200–400 zł |
+| Zbudowanie mechanizmu łączącego stronę z systemem księgowym — to on automatycznie tworzy fakturę | 3–4h | 600–800 zł |
+| Podpięcie automatycznego wystawiania faktury do momentu, w którym płatność klienta zostaje potwierdzona | 1–2h | 200–400 zł |
+| Automatyczne tworzenie faktury w formacie PDF i wysyłka jej mailem do klienta | 2–3h | 400–600 zł |
+| Zapisywanie numeru faktury i statusu jej wysyłki do urzędu skarbowego (Ksef) przy każdym zamówieniu | 2–3h | 400–600 zł |
+| Testowanie całego procesu na próbnych zamówieniach (różne przypadki: klient bez numeru NIP, firma zwolniona z VAT itd.) | 2–3h | 400–600 zł |
+| Zapas czasu na nieprzewidziane trudności techniczne po stronie systemu wFirma | 2–3h | 400–600 zł |
+| **Razem** | **~13–19h** | **~2600–3800 zł** |
+
+---
+
 ## Źródła
 
 - https://doc.wfirma.pl — pełna dokumentacja API
