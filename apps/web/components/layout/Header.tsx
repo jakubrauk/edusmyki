@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingCart, User, Menu } from "lucide-react";
+import { ShoppingCart, User, Menu, LayoutGrid, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/lib/cart-store";
@@ -76,22 +76,50 @@ export function Header() {
             <SheetTrigger className="rounded-lg p-2 hover:bg-muted">
               <Menu className="h-5 w-5" />
             </SheetTrigger>
-            <SheetContent>
-              <div className="flex items-center gap-2 mb-8">
-                <Image src="/logo_noback.png" alt="EduSmyk" width={110} height={110} className="object-contain" />
+            <SheetContent className="flex flex-col p-0">
+              <div className="flex items-center gap-2 px-6 pt-6 pb-4 border-b">
+                <Image src="/logo_noback.png" alt="EduSmyk" width={44} height={44} className="object-contain" />
                 <span className="font-bold text-lg" style={{ color: "#F5A623" }}>edusmyki.pl</span>
               </div>
-              <nav className="flex flex-col gap-4">
-                <Link href="/katalog" className="text-lg font-medium hover:text-[#4BBFCA]">
+              <nav className="flex flex-col gap-1 px-3 py-4">
+                <Link
+                  href="/katalog"
+                  className="group flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-gray-800 transition-colors hover:bg-[#4BBFCA]/10 hover:text-[#4BBFCA]"
+                >
+                  <LayoutGrid className="h-5 w-5 text-gray-400 transition-colors group-hover:text-[#4BBFCA]" />
                   Katalog
                 </Link>
-                <Link href="/konto" className="text-lg font-medium hover:text-[#4BBFCA]">
+                <Link
+                  href="/konto"
+                  className="group flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-gray-800 transition-colors hover:bg-[#4BBFCA]/10 hover:text-[#4BBFCA]"
+                >
+                  <User className="h-5 w-5 text-gray-400 transition-colors group-hover:text-[#4BBFCA]" />
                   Konto
                 </Link>
-                <Link href="/koszyk" className="text-lg font-medium hover:text-[#4BBFCA]">
-                  Koszyk {totalItems > 0 && `(${totalItems})`}
+                <Link
+                  href="/koszyk"
+                  className="group flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-gray-800 transition-colors hover:bg-[#4BBFCA]/10 hover:text-[#4BBFCA]"
+                >
+                  <ShoppingCart className="h-5 w-5 text-gray-400 transition-colors group-hover:text-[#4BBFCA]" />
+                  Koszyk
+                  {mounted && totalItems > 0 && (
+                    <Badge className="ml-auto h-5 min-w-5 rounded-full p-0 flex items-center justify-center text-xs bg-[#F5A623] text-white border-0">
+                      {totalItems}
+                    </Badge>
+                  )}
                 </Link>
               </nav>
+              <div className="mt-auto p-4 border-t">
+                <Button
+                  asChild
+                  className="w-full gap-2 bg-[#F5A623] hover:bg-[#e0951d] text-white"
+                >
+                  <Link href="/katalog">
+                    Przeglądaj katalog
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
