@@ -1,7 +1,7 @@
 # Dopasowanie strony do zarejestrowanej firmy (Edusmyki Małgorzata Smyk)
 
 **Data:** 2026-09-04
-**Branch:** TBD
+**Branch:** feature/company-alignment
 **Status:** Do akceptacji
 
 ---
@@ -32,9 +32,11 @@ oświadczenia klienta.
 ### 2.1. Wymiana adresu e-mail
 
 Stary prywatny adres `smyk1977@wp.pl` zastąpiony przez `kontakt@edusmyki.pl` we wszystkich
-miejscach kontaktowych/reklamacyjnych. Adres wysyłkowy transakcyjny `zamowienia@edusmyki.pl`
+miejscach kontaktowych/reklamacyjnych — potwierdzone, `kontakt@edusmyki.pl` obsługuje też
+zgłoszenia reklamacyjne. Adres wysyłkowy transakcyjny `zamowienia@edusmyki.pl`
 (`EMAIL_FROM` w Resend, `apps/web/lib/email.ts`) **zostaje bez zmian** — jest już poprawny i
-zgodny z domeną.
+zgodny z domeną. Skrzynka `kontakt@edusmyki.pl` jest już skonfigurowana i odbiera pocztę
+(patrz `docs/email-setup.md`).
 
 Pliki do zmiany:
 - `apps/web/components/layout/Footer.tsx` — link mailto w sekcji "Informacje"
@@ -74,6 +76,8 @@ Resend, Railway, Cloudflare, okresy przechowywania, prawa użytkownika, cookies,
 **zostaje bez zmian treściowych** — infrastruktura techniczna się nie zmieniła, zmienia się tylko
 tożsamość administratora i adres kontaktowy.
 
+REGON pominięty — dla JDG NIP wystarcza w standardowych klauzulach, potwierdzone przez klienta.
+
 Data "Obowiązuje od" — do ustalenia, czy aktualizujemy na dzień publikacji zmiany czy zostawiamy
 historyczną datę (patrz Otwarte pytania).
 
@@ -93,11 +97,12 @@ Plus wymiana maila w sekcji "Informacje" (patrz 2.1).
 - Zmiana marki/nazwy widocznej publicznie (`edusmyki.pl`, logo, kolory) — nazwa firmy
   "Edusmyki Małgorzata Smyk" pokrywa się z marką, nie ma potrzeby rebrandingu wizualnego.
 - Konfiguracja skrzynki `kontakt@edusmyki.pl` (DNS, MX, Zoho/Cloudflare) — opisana osobno w
-  `docs/email-setup.md`, status: do wdrożenia przez klienta.
+  `docs/email-setup.md`. Status: **skonfigurowana**, skrzynka już odbiera pocztę.
 - Treść merytoryczna regulaminu — dostarcza klient, nie tworzymy jej w tym zadaniu.
 - Dane do faktur VAT / integracja fakturowania — nie zidentyfikowano istniejącego mechanizmu
   wystawiania faktur w kodzie (`InvoiceData` w `types/index.ts` to tylko formularz danych klienta
-  do faktury, nie generator faktur sprzedawcy) — poza zakresem.
+  do faktury, nie generator faktur sprzedawcy) — poza zakresem tego zadania. Możliwa przyszła
+  integracja z wFirma — osobny temat do wyceny w kolejnym zadaniu, nie część tej specyfikacji.
 
 ---
 
@@ -105,12 +110,6 @@ Plus wymiana maila w sekcji "Informacje" (patrz 2.1).
 
 1. Data "Obowiązuje od" w regulaminie (ustala klient razem z treścią PDF) i w polityce
    prywatności (proponowana: data wdrożenia tej zmiany) — do potwierdzenia przed wdrożeniem.
-2. Czy `kontakt@edusmyki.pl` ma być też adresem do zgłoszeń reklamacyjnych (obecnie w regulaminie
-   wskazany był `smyk1977@wp.pl` do reklamacji) — zakładamy tak, bo to teraz jedyny publiczny
-   adres firmowy; wymaga potwierdzenia po dostarczeniu PDF od klienta (może PDF wskaże inny adres
-   do reklamacji).
-3. Czy potrzebny jest REGON w polityce/regulaminie — JDG bez REGON-u w standardowych klauzulach
-   nie jest wymagany (NIP wystarcza), pomijamy, chyba że klient dostarczy inaczej w PDF.
 
 ---
 
