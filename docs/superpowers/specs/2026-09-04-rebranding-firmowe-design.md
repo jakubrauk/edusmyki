@@ -2,7 +2,7 @@
 
 **Data:** 2026-09-04
 **Branch:** feature/company-alignment
-**Status:** Do akceptacji
+**Status:** Zaakceptowany
 
 ---
 
@@ -106,10 +106,10 @@ Plus wymiana maila w sekcji "Informacje" (patrz 2.1).
 
 ---
 
-## 4. Otwarte pytania
+## 4. Ustalenia
 
-1. Data "Obowiązuje od" w regulaminie (ustala klient razem z treścią PDF) i w polityce
-   prywatności (proponowana: data wdrożenia tej zmiany) — do potwierdzenia przed wdrożeniem.
+Data "Obowiązuje od" w polityce prywatności — zmieniona na dzień wdrożenia tej zmiany (nie
+historyczna data 1 czerwca 2025). Data regulaminu ustala klient razem z treścią PDF.
 
 ---
 
